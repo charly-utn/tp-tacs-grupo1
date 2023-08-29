@@ -1,0 +1,29 @@
+package org.tptacs.infraestructure.repositories;
+
+import org.springframework.stereotype.Repository;
+import org.tptacs.domain.entities.Order;
+import org.tptacs.domain.exceptions.NotFoundException;
+import org.tptacs.infraestructure.repositories.interfaces.IOrderRepository;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@Repository
+public class OrderRepository implements IOrderRepository {
+    private final Map<String, Order> repository = new HashMap<>();
+
+    public void save(Order order) {
+        this.repository.put(order.getId(), order);
+    }
+
+    public Order get(String id) {
+        var item = this.repository.get(id);
+        if (item == null) throw new NotFoundException(id, "pedido");
+        return this.repository.get(id);
+    }
+
+    @Override
+    public void exists(String id) {
+        if (!this.repository.containsKey(id)) throw new NotFoundException(id, "pedido");
+    }
+}
