@@ -6,7 +6,10 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.tptacs.domain.exceptions.NotFoundException;
+import org.tptacs.domain.exceptions.ValidationException;
 import org.tptacs.exceptionHandler.ErrorResponse;
+
+import java.util.Set;
 
 @ControllerAdvice
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
@@ -21,4 +24,18 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         System.out.println("error: " + ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage()));
     }
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<ErrorResponse> handleValidationException(ValidationException ex) {
+        System.out.println("error: " + ex.getMessage());
+        var error = new ErrorResponse(getHttpStatus(ex.getCodes()), ex.getMessage());
+        return ResponseEntity.status(error.getHttpCode()).body(error);
+    }
+
+    private HttpStatus getHttpStatus(Set<String> codes) {
+        if (codes.contains(HttpStatus.UNPROCESSABLE_ENTITY.name())) return HttpStatus.UNPROCESSABLE_ENTITY;
+        if (codes.contains(HttpStatus.CONFLICT.name())) return HttpStatus.CONFLICT;
+        return HttpStatus.BAD_REQUEST;
+    }
+
 }
