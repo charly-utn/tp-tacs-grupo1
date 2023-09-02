@@ -6,6 +6,8 @@ import org.tptacs.infraestructure.repositories.interfaces.IItemsRepository;
 import org.tptacs.infraestructure.repositories.interfaces.IOrderRepository;
 import org.tptacs.presentation.requestModels.ItemOrderRequest;
 
+import java.util.List;
+
 @Service
 public class AddItemToOrderUC {
     private final IItemsRepository itemsRepository;
@@ -16,7 +18,7 @@ public class AddItemToOrderUC {
         this.orderRepository = orderRepository;
     }
 
-    public void AddItemToOrder(String orderId, ItemOrderRequest orderRequest) {
+    public void addItemToOrder(String orderId, ItemOrderRequest orderRequest) {
         var order = this.orderRepository.get(orderId);
 
         var item = this.itemsRepository.get(orderRequest.getId());
@@ -26,5 +28,10 @@ public class AddItemToOrderUC {
         order.addItem(itemOrder);
 
         this.orderRepository.update(order);
+    }
+
+    public List<ItemOrder> getItemsFromOrder(String orderId) {
+        var order = this.orderRepository.get(orderId);
+        return order.getItems();
     }
 }
