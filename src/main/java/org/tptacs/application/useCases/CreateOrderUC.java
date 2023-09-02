@@ -9,6 +9,7 @@ import org.tptacs.infraestructure.repositories.interfaces.IOrderRepository;
 import org.tptacs.presentation.requestModels.OrderRequest;
 
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class CreateOrderUC {
@@ -24,7 +25,7 @@ public class CreateOrderUC {
         var items = orderRequest.getItems().stream().map(ior -> {
             var item = this.itemsRepository.get(ior.getId());
             return new ItemOrder(item, ior.getQuantity());
-        }).toList();
+        }).collect(Collectors.toList());
 
         var order = new Order(UUID.randomUUID().toString(), orderRequest.getUserId(), items, OrderStatus.NEW);
         this.orderRepository.save(order);

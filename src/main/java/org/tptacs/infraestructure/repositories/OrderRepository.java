@@ -22,6 +22,10 @@ public class OrderRepository implements IOrderRepository {
         return this.repository.get(id);
     }
 
+    public void update(Order order){
+        repository.replace(order.getId(), order);
+    }
+
     @Override
     public void exists(String id) {
         if (!this.repository.containsKey(id)) throw new NotFoundException(id, "pedido");

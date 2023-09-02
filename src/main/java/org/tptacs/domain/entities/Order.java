@@ -9,7 +9,7 @@ import java.util.List;
 public class Order {
     private String id;
     private Long userId;
-    private List<ItemOrder> item;
+    private List<ItemOrder> items;
     private OrderStatus status;
     private LocalDateTime creationDate;
     private LocalDateTime lastUpdate;
@@ -17,9 +17,14 @@ public class Order {
     public Order(String id, Long userId, List<ItemOrder> item, OrderStatus status) {
         this.id = id;
         this.userId = userId;
-        this.item = item;
+        this.items = item;
         this.status = status;
         this.creationDate = LocalDateTime.now();
         this.lastUpdate = LocalDateTime.now();
+    }
+
+    public void addItem(ItemOrder itemOrder){
+        this.lastUpdate = LocalDateTime.now();
+        items.add(itemOrder);
     }
 }
