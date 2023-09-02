@@ -6,4 +6,5 @@ public interface IOrderRepository {
     void save(Order order);
     Order get(String id);
     void exists(String id);
+    void update(Order order);
 }
