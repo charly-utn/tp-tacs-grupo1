@@ -1,5 +1,7 @@
 package org.tptacs.domain.entities;
 
+import java.math.BigDecimal;
+
 import org.tptacs.presentation.dto.ItemOrderDto;
 
 import lombok.Getter;
@@ -14,8 +16,8 @@ public class ItemOrder {
         this.quantity = quantity;
     }
 
-    public Double getPrice() {
-        return this.item.getPrice() * this.quantity;
+    public BigDecimal getPrice() {
+        return this.item.getPrice().multiply(new BigDecimal(this.quantity));
     }
     
     public ItemOrderDto toDto() {

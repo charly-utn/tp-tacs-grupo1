@@ -59,29 +59,6 @@ public class OrderControllerTests {
     }
 
     @Test
-    @Disabled
-    public void testCreateOrderFailureEmptyField() throws Exception {
-        OrderRequest request = new OrderRequest(1L, Collections.emptyList());
-
-        mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/orders")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().is(422)); // Espera un 422 debido a campo vacío
-    }
-    
-    @Test
-    @Disabled
-    public void testCreateItemFailureEmptyField() throws Exception {
-        ItemOrderRequest request = new ItemOrderRequest(null, 1L);
-        mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/orders/123/items")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().is(422)); // Espera un 422 debido a campo vacío
-    }
-
-    @Test
     public void testGetItemsSuccess() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                 .get("/api/orders/123/items")

@@ -1,5 +1,7 @@
 package org.tptacs.domain.entities;
 
+import java.math.BigDecimal;
+
 import org.tptacs.presentation.dto.ItemDto;
 
 import lombok.Getter;
@@ -8,9 +10,9 @@ import lombok.Getter;
 public class Item {
     private String id;
     private String name;
-    private Double price;
+    private BigDecimal price;
 
-    public Item(String id, String name, Double price) {
+    public Item(String id, String name, BigDecimal price) {
         this.id = id;
         this.name = name;
         this.price = price;

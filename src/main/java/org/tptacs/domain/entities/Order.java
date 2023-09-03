@@ -1,11 +1,14 @@
 package org.tptacs.domain.entities;
 
 import lombok.Getter;
+import lombok.Setter;
+
 import org.tptacs.domain.enums.OrderStatus;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
+@Setter
 public class Order {
     private String id;
     private Long userId;
