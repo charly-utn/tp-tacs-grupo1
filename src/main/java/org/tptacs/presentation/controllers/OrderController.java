@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import org.tptacs.application.useCases.AddItemToOrderUC;
 import org.tptacs.application.useCases.CreateOrderUC;
 import org.tptacs.application.useCases.GetItemsFromOrderUC;
+import org.tptacs.application.useCases.RemoveItemFromOrderUC;
 import org.tptacs.domain.entities.ItemOrder;
 import org.tptacs.presentation.requestModels.ItemOrderRequest;
 import org.tptacs.presentation.requestModels.OrderRequest;
@@ -17,14 +18,17 @@ public class OrderController {
 
     private final CreateOrderUC createOrderUC;
     private final AddItemToOrderUC addItemToOrderUC;
+    private final RemoveItemFromOrderUC removeItemFromOrderUC;
     private final GetItemsFromOrderUC getItemsFromOrderUC;
 
     public OrderController(CreateOrderUC createOrderUC,
                            AddItemToOrderUC addItemToOrderUC,
-                           GetItemsFromOrderUC getItemsFromOrderUC) {
+                           GetItemsFromOrderUC getItemsFromOrderUC,
+                           RemoveItemFromOrderUC removeItemFromOrderUC) {
         this.createOrderUC = createOrderUC;
         this.addItemToOrderUC = addItemToOrderUC;
         this.getItemsFromOrderUC = getItemsFromOrderUC;
+        this.removeItemFromOrderUC = removeItemFromOrderUC;
     }
 
     @PostMapping
@@ -40,5 +44,10 @@ public class OrderController {
     @GetMapping("/{orderId}/items")
     public @ResponseBody List<ItemOrder> getItems(@PathVariable("orderId") String orderId) {
         return getItemsFromOrderUC.getItemsFromOrder(orderId);
+    }
+
+    @DeleteMapping("/{orderId}/items/{itemId}")
+    public void removeItem(@PathVariable("orderId") String orderID, @PathVariable("itemId") String itemID) {
+        removeItemFromOrderUC.removeItemFromOrder(orderID, itemID);
     }
 }
