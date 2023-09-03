@@ -24,6 +24,7 @@ public class Order {
     }
 
     public void addItem(ItemOrder itemOrder){
+        this.lastUpdate = LocalDateTime.now();
         items.add(itemOrder);
     }
 }
