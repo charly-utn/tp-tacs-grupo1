@@ -43,9 +43,8 @@ public class OrderControllerTests {
 
     @BeforeEach
     void setUp() {
-        // Configura comportamiento de los mocks según sea necesario
         Mockito.when(createOrderUC.createOrder(Mockito.any(OrderRequest.class)))
-               .thenReturn("123"); // Simula una respuesta exitosa
+               .thenReturn("123"); 
     }
 
     @Test
