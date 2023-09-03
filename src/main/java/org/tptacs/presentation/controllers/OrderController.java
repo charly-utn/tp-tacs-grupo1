@@ -1,18 +1,25 @@
 package org.tptacs.presentation.controllers;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.tptacs.application.useCases.AddItemToOrderUC;
 import org.tptacs.application.useCases.CreateOrderUC;
 import org.tptacs.application.useCases.GetItemsFromOrderUC;
-import org.tptacs.domain.entities.ItemOrder;
 import org.tptacs.presentation.requestModels.ItemOrderRequest;
 import org.tptacs.presentation.requestModels.OrderRequest;
+import org.tptacs.presentation.responseModels.ResponseItem;
+import org.tptacs.presentation.responseModels.ResponseOrder;
 
-import java.util.List;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping("/api/order")
+@Tag(name = "Orders")
+@RequestMapping(value = "/api/orders", produces = "application/json", consumes = "application/json"  )
 public class OrderController {
 
     private final CreateOrderUC createOrderUC;
@@ -28,17 +35,19 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createOrder(@RequestBody OrderRequest orderRequest) {
-        return ResponseEntity.ok(createOrderUC.createOrder(orderRequest));
+    public ResponseEntity<ResponseOrder> createOrder(@RequestBody OrderRequest orderRequest) {
+        String orderId = createOrderUC.createOrder(orderRequest);
+		return ResponseEntity.ok().body(new ResponseOrder(orderId));
     }
 
     @PostMapping("/{orderId}/items")
-    public void createItem(@RequestBody ItemOrderRequest itemOrderRequest, @PathVariable("orderId") String orderID) {
+    public ResponseEntity<ResponseItem> createItem(@RequestBody ItemOrderRequest itemOrderRequest, @PathVariable("orderId") String orderID) {
         addItemToOrderUC.addItemToOrder(orderID, itemOrderRequest);
+        return ResponseEntity.ok().body(new ResponseItem(itemOrderRequest.getId()));
     }
 
     @GetMapping("/{orderId}/items")
-    public @ResponseBody List<ItemOrder> getItems(@PathVariable("orderId") String orderId) {
-        return getItemsFromOrderUC.getItemsFromOrder(orderId);
+    public ResponseEntity<ResponseItems> getItems(@PathVariable("orderId") String orderId) {
+        return ResponseEntity.ok().body(new ResponseItems(getItemsFromOrderUC.getItemsFromOrder(orderId)));
     }
 }

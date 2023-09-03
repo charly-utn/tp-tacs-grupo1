@@ -1,5 +1,7 @@
 package org.tptacs.domain.entities;
 
+import org.tptacs.presentation.dto.ItemDto;
+
 import lombok.Getter;
 
 @Getter
@@ -13,4 +15,9 @@ public class Item {
         this.name = name;
         this.price = price;
     }
+
+	public ItemDto toDto() {
+		ItemDto itemDto = new ItemDto(id,name,price);
+		return itemDto;
+	}
 }
