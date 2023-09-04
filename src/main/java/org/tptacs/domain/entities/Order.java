@@ -1,12 +1,12 @@
 package org.tptacs.domain.entities;
 
+
+import lombok.Getter;
+import org.tptacs.domain.enums.OrderStatus;
+import org.tptacs.domain.exceptions.NotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
-
-import org.tptacs.domain.enums.OrderStatus;
-
 import jakarta.validation.ValidationException;
-import lombok.Getter;
 
 @Getter
 public class Order {
@@ -39,4 +39,12 @@ public class Order {
 		this.status = status;
 		
 	}
+
+
+    public void removeItem(Item item){
+        var result = this.items.removeIf(io -> io.getItem().getId().equals(item.getId()));
+        this.lastUpdate = LocalDateTime.now();
+        if(!result) throw new NotFoundException(item.getId(), "item");
+    }
+
 }
