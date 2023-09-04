@@ -2,10 +2,12 @@ package org.tptacs.application;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.tptacs.domain.exceptions.NotFoundException;
+import org.tptacs.domain.exceptions.RegistrationException;
 import org.tptacs.domain.exceptions.ValidationException;
 import org.tptacs.exceptionHandler.ErrorResponse;
 
@@ -29,6 +31,20 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorResponse> handleValidationException(ValidationException ex) {
         System.out.println("error: " + ex.getMessage());
         var error = new ErrorResponse(getHttpStatus(ex.getCodes()), ex.getMessage());
+        return ResponseEntity.status(error.getHttpCode()).body(error);
+    }
+
+    @ExceptionHandler(RegistrationException.class)
+    public ResponseEntity<ErrorResponse> handlRegistrationException(RegistrationException ex) {
+        System.out.println("error: " + ex.getMessage());
+        var error = new ErrorResponse(HttpStatus.CONFLICT, ex.getMessage());
+        return ResponseEntity.status(error.getHttpCode()).body(error);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException ex) {
+        System.out.println("error: " + ex.getMessage());
+        var error = new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
         return ResponseEntity.status(error.getHttpCode()).body(error);
     }
 
