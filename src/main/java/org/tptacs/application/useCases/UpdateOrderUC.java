@@ -5,6 +5,8 @@ import org.tptacs.domain.entities.Order;
 import org.tptacs.domain.enums.OrderStatus;
 import org.tptacs.infraestructure.repositories.interfaces.IOrderRepository;
 
+import jakarta.validation.ValidationException;
+
 @Service
 public class UpdateOrderUC {
     private final IOrderRepository orderRepository;
@@ -13,14 +15,11 @@ public class UpdateOrderUC {
 		this.orderRepository = orderRepository;
 	}
 
-	public Boolean updateStatusOrder(String orderId, Long userId, OrderStatus status) {
+	public void updateStatusOrder(String orderId, Long userId, OrderStatus status) {
 		Order orderDB = orderRepository.get(orderId);
-		if(orderDB != null && orderDB.getUserId().equals(userId) && !orderDB.getStatus().equals(status)) {
-			orderDB.setStatus(status);
-			orderRepository.save(orderDB);
-			return true;
-		}
-		return false;
+		if(orderDB.getUserId().equals(userId)) throw new ValidationException("El usuario no esta autorizado");
+		orderDB.upateStatus(status);
+		orderRepository.save(orderDB);
 	}
 	
 }

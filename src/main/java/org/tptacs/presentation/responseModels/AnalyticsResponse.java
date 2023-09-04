@@ -5,17 +5,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-public class ResponseOrder extends ResponseGeneric{
-
+public class AnalyticsResponse extends Response {
 	
-	@Schema(description = "idientifier of order")
-	@JsonProperty("OrderId")
-	private String id;
+	
+	@Schema(description = "Response internal code")
+	@JsonProperty("quantity")
+	private Long quantity;
 
 	@JsonCreator
-    public ResponseOrder(String orderId) {
-		super();
-		this.id = orderId;
-    }
+	public AnalyticsResponse(Long quantity) {
+		this.quantity = quantity;
+	}
+		
 
 }

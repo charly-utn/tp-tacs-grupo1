@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-public abstract class ResponseGeneric {
+public class Response {
 	
 	@Schema(description = "Response internal code")
 	@JsonProperty("code")
@@ -22,14 +22,14 @@ public abstract class ResponseGeneric {
 	private LocalDateTime date;
 
 	@JsonCreator
-	public ResponseGeneric(String code,String message,LocalDateTime date) {
+	public Response(String code,String message,LocalDateTime date) {
 		this.code = code;
 		this.message = message;
 		this.date = date;
 	}
 	
 	@JsonCreator
-	public ResponseGeneric() {
+	public Response() {
 		this("200", "Request processed successfully", LocalDateTime.now());
 	}
 	

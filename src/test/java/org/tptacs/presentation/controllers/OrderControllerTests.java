@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.tptacs.application.useCases.AddItemToOrderUC;
 import org.tptacs.application.useCases.CreateOrderUC;
 import org.tptacs.application.useCases.GetItemsFromOrderUC;
+import org.tptacs.application.useCases.UpdateOrderUC;
 import org.tptacs.presentation.requestModels.ItemOrderRequest;
 import org.tptacs.presentation.requestModels.OrderRequest;
 
@@ -40,6 +41,9 @@ public class OrderControllerTests {
 
     @MockBean
     private GetItemsFromOrderUC getItemsFromOrderUC;
+    
+    @MockBean
+    private UpdateOrderUC updateOrderUC;
 
     @BeforeEach
     void setUp() {
@@ -65,5 +69,17 @@ public class OrderControllerTests {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
+    
+    @Test
+    public void testUpdateOrderFail() throws Exception {
+        String orderId = "order123";
+        Long userId = 1L;
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .patch("/api/orders/{orderId}/close/{userId}", orderId, userId)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(404));
+    }
+
 
 }

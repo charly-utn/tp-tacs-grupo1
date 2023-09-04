@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import org.tptacs.domain.entities.ItemOrder;
 import org.tptacs.presentation.dto.ItemOrderDto;
-import org.tptacs.presentation.responseModels.ResponseGeneric;
+import org.tptacs.presentation.responseModels.Response;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class ResponseItems extends ResponseGeneric{
+public class ResponseItems extends Response{
 	@JsonProperty("Items")
 	private List<ItemOrderDto> items;
 

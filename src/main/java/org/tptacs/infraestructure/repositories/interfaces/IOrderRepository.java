@@ -7,4 +7,5 @@ public interface IOrderRepository {
     Order get(String id);
     void exists(String id);
     void update(Order order);
+    Long count();
 }
