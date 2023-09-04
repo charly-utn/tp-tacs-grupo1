@@ -24,4 +24,9 @@ public class ItemOrder {
     	ItemOrderDto resItem = new ItemOrderDto(item.toDto(),quantity);
     	return resItem;
     }
+
+	public void updateQuantity(Long quantity) {
+		this.quantity = quantity;
+		
+	}
 }

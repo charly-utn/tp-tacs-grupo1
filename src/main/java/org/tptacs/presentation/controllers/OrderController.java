@@ -13,6 +13,7 @@ import org.tptacs.application.useCases.AddItemToOrderUC;
 import org.tptacs.application.useCases.CreateOrderUC;
 import org.tptacs.application.useCases.GetItemsFromOrderUC;
 import org.tptacs.application.useCases.RemoveItemFromOrderUC;
+import org.tptacs.application.useCases.UpdateItemOrderUC;
 import org.tptacs.application.useCases.UpdateOrderUC;
 import org.tptacs.domain.enums.OrderStatus;
 import org.tptacs.presentation.requestModels.ItemOrderRequest;
@@ -33,18 +34,22 @@ public class OrderController {
     private final RemoveItemFromOrderUC removeItemFromOrderUC;
     private final GetItemsFromOrderUC getItemsFromOrderUC;
     private final UpdateOrderUC updateOrderUC;
+    private final UpdateItemOrderUC updateItemOrderUC;
 
 
     public OrderController(CreateOrderUC createOrderUC,
                            AddItemToOrderUC addItemToOrderUC,
                            GetItemsFromOrderUC getItemsFromOrderUC,
                            UpdateOrderUC updateOrderUC,
-                           RemoveItemFromOrderUC removeItemFromOrderUC) {
+                           RemoveItemFromOrderUC removeItemFromOrderUC,
+                           UpdateItemOrderUC updateItemOrderUC) {
         this.createOrderUC = createOrderUC;
         this.addItemToOrderUC = addItemToOrderUC;
         this.getItemsFromOrderUC = getItemsFromOrderUC;
         this.updateOrderUC = updateOrderUC;
         this.removeItemFromOrderUC = removeItemFromOrderUC;
+        this.updateItemOrderUC = updateItemOrderUC;
+        
     }
 
     @PostMapping
@@ -72,15 +77,16 @@ public class OrderController {
     }
 	
 	@PatchMapping("/{orderId}/items/{itemId}")
-    public ResponseEntity<Response> updateItemOrder(@RequestBody int quantity, @PathVariable("orderId") String orderId, @PathVariable("itemId") String itemId) {
-		
+    public ResponseEntity<Response> updateItemOrder(@RequestBody Long quantity, @PathVariable("orderId") String orderId, @PathVariable("itemId") String itemId) {
+		updateItemOrderUC.updateItemOrder(orderId, itemId, quantity);
 		return ResponseEntity.ok().body(new Response());
     }
 
 
     @DeleteMapping("/{orderId}/items/{itemId}")
-    public void removeItem(@PathVariable("orderId") String orderID, @PathVariable("itemId") String itemID) {
+    public ResponseEntity<Response> removeItem(@PathVariable("orderId") String orderID, @PathVariable("itemId") String itemID) {
         removeItemFromOrderUC.removeItemFromOrder(orderID, itemID);
+		return ResponseEntity.ok().body(new Response());
     }
 
 }

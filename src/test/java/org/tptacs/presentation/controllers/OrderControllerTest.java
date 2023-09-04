@@ -2,11 +2,9 @@ package org.tptacs.presentation.controllers;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +16,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.tptacs.application.useCases.AddItemToOrderUC;
 import org.tptacs.application.useCases.CreateOrderUC;
 import org.tptacs.application.useCases.GetItemsFromOrderUC;
+import org.tptacs.application.useCases.RemoveItemFromOrderUC;
+import org.tptacs.application.useCases.UpdateItemOrderUC;
 import org.tptacs.application.useCases.UpdateOrderUC;
 import org.tptacs.presentation.requestModels.ItemOrderRequest;
 import org.tptacs.presentation.requestModels.OrderRequest;
@@ -44,6 +44,13 @@ public class OrderControllerTest {
     
     @MockBean
     private UpdateOrderUC updateOrderUC;
+    
+    @MockBean
+    private UpdateItemOrderUC updateItemOrderUC;
+    
+    @MockBean
+    private RemoveItemFromOrderUC removeItemFromOrderUC;
+
 
     @BeforeEach
     void setUp() {
@@ -59,15 +66,15 @@ public class OrderControllerTest {
                 .post("/api/orders")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isOk());
+                .andExpect(status().is(403));
     }
 
     @Test
-    public void testGetItemsSuccess() throws Exception {
+    public void testGetItemsSuccessNotAhutorized() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                 .get("/api/orders/123/items")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().is(401));
     }
     
     @Test
@@ -78,7 +85,7 @@ public class OrderControllerTest {
         mockMvc.perform(MockMvcRequestBuilders
                 .patch("/api/orders/{orderId}/close/{userId}", orderId, userId)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(404));
+                .andExpect(status().is(403));
     }
 
 
