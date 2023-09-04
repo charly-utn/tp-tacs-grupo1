@@ -4,7 +4,7 @@ import lombok.Getter;
 import org.tptacs.domain.enums.Rol;
 
 @Getter
-public class ResponseLogin extends ResponseGeneric {
+public class ResponseLogin extends Response {
     private String token;
     private String userId;
 

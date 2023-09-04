@@ -25,7 +25,7 @@ import org.tptacs.presentation.requestModels.OrderRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebMvcTest(OrderController.class)
-public class OrderControllerTests {
+public class OrderControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
