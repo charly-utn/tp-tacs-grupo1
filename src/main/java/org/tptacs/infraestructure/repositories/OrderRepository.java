@@ -30,4 +30,9 @@ public class OrderRepository implements IOrderRepository {
     public void exists(String id) {
         if (!this.repository.containsKey(id)) throw new NotFoundException(id, "pedido");
     }
+    
+    public Long count() {
+    	return Long.valueOf(repository.values().size());
+    }
+    
 }
