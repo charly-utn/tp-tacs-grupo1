@@ -1,9 +1,12 @@
 package org.tptacs.domain.entities;
 
-import lombok.Getter;
-import org.tptacs.domain.enums.OrderStatus;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import org.tptacs.domain.enums.OrderStatus;
+
+import jakarta.validation.ValidationException;
+import lombok.Getter;
 
 @Getter
 public class Order {
@@ -27,4 +30,13 @@ public class Order {
         this.lastUpdate = LocalDateTime.now();
         items.add(itemOrder);
     }
+
+	public void upateStatus(OrderStatus status) {
+		if(this.getStatus().equals(status)) {
+			throw new ValidationException("El pedido no se puede cambiar al mismo estado");
+		}
+		this.lastUpdate = LocalDateTime.now();
+		this.status = status;
+		
+	}
 }
