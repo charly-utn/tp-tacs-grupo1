@@ -2,6 +2,8 @@ package org.tptacs.domain.entities;
 
 import lombok.Getter;
 import org.tptacs.domain.enums.OrderStatus;
+import org.tptacs.domain.exceptions.NotFoundException;
+
 import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.List;
@@ -30,16 +32,8 @@ public class Order {
     }
 
     public void removeItem(Item item){
+        var result = this.items.removeIf(io -> io.getItem().getId().equals(item.getId()));
         this.lastUpdate = LocalDateTime.now();
-
-        Iterator<ItemOrder> iterator = items.iterator();
-        while (iterator.hasNext()) {
-            ItemOrder itemOrder = iterator.next();
-            if (itemOrder.getItem().equals(item)) {
-                // Found a matching ItemOrder, remove it from the list
-                iterator.remove();
-                return; // Item found and removed, exit the loop
-            }
-        }
+        if(!result) throw new NotFoundException(item.getId(), "item");
     }
 }
