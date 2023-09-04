@@ -16,7 +16,6 @@ public class UpdateItemOrderUC {
     
 	public void updateItemOrder(String orderId, String itemId, Long quantity) {
 		ItemOrder item = getItemsFromOrderUC.getItemFromOrder(orderId, itemId);
-		if(quantity <= 0) throw new ValidationException("La cantidad debe ser mayor a 0");
 		item.updateQuantity(quantity);
 	}
 	
