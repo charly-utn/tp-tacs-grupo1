@@ -17,7 +17,7 @@ public class UpdateOrderUC {
 
 	public void updateStatusOrder(String orderId, String userId, OrderStatus status) {
 		Order orderDB = orderRepository.get(orderId);
-		if(orderDB.getUserId().equals(userId)) throw new ValidationException("El usuario no esta autorizado");
+		if(!orderDB.getUserId().equals(userId)) throw new ValidationException("El usuario no esta autorizado");
 		orderDB.upateStatus(status);
 		orderRepository.save(orderDB);
 	}
