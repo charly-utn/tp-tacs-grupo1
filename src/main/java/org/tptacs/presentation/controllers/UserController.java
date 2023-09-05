@@ -8,7 +8,7 @@ import org.tptacs.application.useCases.users.LoginUserUC;
 import org.tptacs.presentation.requestModels.CreateUserRequest;
 import org.tptacs.presentation.requestModels.LoginRequest;
 import org.tptacs.presentation.responseModels.ResponseCreateUser;
-import org.tptacs.presentation.responseModels.ResponseLogin;
+import org.tptacs.presentation.responseModels.LoginResponse;
 
 @RestController
 @Tag(name = "Users")
@@ -28,7 +28,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ResponseLogin> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
         return ResponseEntity.ok(this.loginUserUC.login(loginRequest));
     }
 }

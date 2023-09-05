@@ -23,11 +23,12 @@ import org.tptacs.presentation.responseModels.OrderResponse;
 import org.tptacs.presentation.responseModels.Response;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.tptacs.presentation.responseModels.ItemsResponse;
 
 @RestController
 @Tag(name = "Orders")
 @RequestMapping(value = "/api/orders", produces = "application/json", consumes = "application/json"  )
-public class OrderController extends BaseController{
+public class OrderController extends BaseController {
 
     private final CreateOrderUC createOrderUC;
     private final AddItemToOrderUC addItemToOrderUC;
@@ -42,8 +43,7 @@ public class OrderController extends BaseController{
                            GetItemsFromOrderUC getItemsFromOrderUC,
                            UpdateOrderUC updateOrderUC,
                            RemoveItemFromOrderUC removeItemFromOrderUC,
-                           UpdateItemOrderUC updateItemOrderUC,
-                           BaseController baseController) {
+                           UpdateItemOrderUC updateItemOrderUC) {
         this.createOrderUC = createOrderUC;
         this.addItemToOrderUC = addItemToOrderUC;
         this.getItemsFromOrderUC = getItemsFromOrderUC;
@@ -66,8 +66,8 @@ public class OrderController extends BaseController{
     }
 
     @GetMapping("/{orderId}/items")
-    public ResponseEntity<ResponseItems> getItems(@PathVariable("orderId") String orderId) {
-        return ResponseEntity.ok().body(new ResponseItems(getItemsFromOrderUC.getItemsFromOrder(orderId)));
+    public ResponseEntity<ItemsResponse> getItems(@PathVariable("orderId") String orderId) {
+        return ResponseEntity.ok().body(new ItemsResponse(getItemsFromOrderUC.getItemsFromOrder(orderId)));
     }
     
 	@PatchMapping("/{orderId}")
