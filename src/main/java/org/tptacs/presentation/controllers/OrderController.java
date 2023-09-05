@@ -27,7 +27,7 @@ import org.tptacs.presentation.responseModels.ItemsResponse;
 
 @RestController
 @Tag(name = "Orders")
-@RequestMapping(value = "/api/orders", produces = "application/json", consumes = "application/json"  )
+@RequestMapping(value = "/api/orders")
 public class OrderController extends BaseController {
 
     private final CreateOrderUC createOrderUC;
@@ -52,31 +52,32 @@ public class OrderController extends BaseController {
         this.updateItemOrderUC = updateItemOrderUC;        
     }
 
-    @PostMapping
+
+    @PostMapping(produces = "application/json", consumes = "application/json")
     public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderRequest orderRequest) {
     	orderRequest.assignUserId(this.getUserFromJwt().getId());
         String orderId = createOrderUC.createOrder(orderRequest);
 		return ResponseEntity.ok().body(new OrderResponse(orderId));
     }
 
-    @PostMapping("/{orderId}/items")
+    @PostMapping(path = "/{orderId}/items", produces = "application/json", consumes = "application/json")
     public ResponseEntity<ItemResponse> createItem(@RequestBody ItemOrderRequest itemOrderRequest, @PathVariable("orderId") String orderID) {
         addItemToOrderUC.addItemToOrder(orderID, itemOrderRequest);
         return ResponseEntity.ok().body(new ItemResponse(itemOrderRequest.getId()));
     }
 
-    @GetMapping("/{orderId}/items")
+    @GetMapping(path = "/{orderId}/items", produces = "application/json")
     public ResponseEntity<ItemsResponse> getItems(@PathVariable("orderId") String orderId) {
         return ResponseEntity.ok().body(new ItemsResponse(getItemsFromOrderUC.getItemsFromOrder(orderId)));
     }
     
-	@PatchMapping("/{orderId}")
+	@PatchMapping(path = "/{orderId}",  produces = "application/json", consumes = "application/json")
     public ResponseEntity<Response> updateOrder(@PathVariable("orderId") String orderId) {
 		updateOrderUC.updateStatusOrder(orderId, this.getUserFromJwt().getId(), OrderStatus.CLOSED);
 		return ResponseEntity.ok().body(new Response());
     }
 	
-	@PatchMapping("/{orderId}/items/{itemId}")
+	@PatchMapping(path = "/{orderId}/items/{itemId}", produces = "application/json", consumes = "application/json"  )
     public ResponseEntity<Response> updateItemOrder(@RequestBody Long quantity, @PathVariable("orderId") String orderId, @PathVariable("itemId") String itemId) {
 		updateItemOrderUC.updateItemOrder(orderId, itemId, quantity);
 		return ResponseEntity.ok().body(new Response());

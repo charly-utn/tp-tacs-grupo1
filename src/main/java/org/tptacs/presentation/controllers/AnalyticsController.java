@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @Tag(name = "Analytics")
-@RequestMapping(value = "/api/analytics", produces = "application/json", consumes = "application/json"  )
+@RequestMapping(value = "/api/analytics", produces = "application/json")
 public class AnalyticsController {
 	
 	private final GetAnalyticsUC getAnalyticsUC;
