@@ -12,7 +12,7 @@ import org.tptacs.domain.entities.User;
 import org.tptacs.domain.enums.Rol;
 import org.tptacs.infraestructure.repositories.interfaces.IUserRepository;
 import org.tptacs.presentation.requestModels.LoginRequest;
-import org.tptacs.presentation.responseModels.ResponseLogin;
+import org.tptacs.presentation.responseModels.LoginResponse;
 import java.util.Objects;
 
 @Service
@@ -28,7 +28,7 @@ public class LoginUserUC {
 
     @Autowired
     private JwtUtils jwtUtils;
-    public ResponseLogin login(LoginRequest loginRequest) {
+    public LoginResponse login(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword()));
 
@@ -38,7 +38,7 @@ public class LoginUserUC {
         User userDetails = (User) authentication.getPrincipal();
         Rol rol = Rol.valueOf(Objects.requireNonNull(userDetails.getAuthorities().stream().findFirst().orElse(null)).getAuthority());
 
-        return new ResponseLogin(jwt,
+        return new LoginResponse(jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),

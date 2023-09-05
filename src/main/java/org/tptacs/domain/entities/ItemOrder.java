@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import org.tptacs.presentation.dto.ItemOrderDto;
 
+import jakarta.validation.ValidationException;
 import lombok.Getter;
 
 @Getter
@@ -24,4 +25,9 @@ public class ItemOrder {
     	ItemOrderDto resItem = new ItemOrderDto(item.toDto(),quantity);
     	return resItem;
     }
+
+	public void updateQuantity(Long quantity) {
+		if(quantity <= 0) throw new ValidationException("La cantidad debe ser mayor a 0");
+		this.quantity = quantity;
+	}
 }

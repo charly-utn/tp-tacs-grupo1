@@ -29,4 +29,9 @@ public class UserRepositority implements IUserRepository {
     public void save(User user) {
         this.repository.put(user.getId(), user);
     }
+
+	@Override
+	public Long countUserUnique() {
+		return Long.valueOf(repository.size());
+	}
 }

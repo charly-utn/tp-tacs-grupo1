@@ -8,4 +8,5 @@ public interface IUserRepository {
     Optional<User> findByUsername(String userName);
     Optional<User> findByEmail(String email);
     void save(User user);
+	Long countUserUnique();
 }

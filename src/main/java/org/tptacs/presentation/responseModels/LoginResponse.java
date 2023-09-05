@@ -4,11 +4,11 @@ import lombok.Getter;
 import org.tptacs.domain.enums.Rol;
 
 @Getter
-public class ResponseLogin extends ResponseGeneric {
+public class LoginResponse extends Response {
     private String token;
     private String userId;
 
-    public ResponseLogin(String token, String userId, String userName, String email, Rol rol) {
+    public LoginResponse(String token, String userId, String userName, String email, Rol rol) {
         super();
         this.token = token;
         this.userId = userId;

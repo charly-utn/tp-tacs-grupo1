@@ -24,27 +24,17 @@ public class OrderRequestValidatorTest {
 
     @Test
     public void validateValidOrderRequest() {
-        OrderRequest orderRequest = new OrderRequest(1L, List.of(new ItemOrderRequest("item-id", 2L)));
+        OrderRequest orderRequest = new OrderRequest(List.of(new ItemOrderRequest("item-id", 2L)));
 
         ValidationResult validationResult = validator.validate(orderRequest);
 
         assertThat(validationResult.isValid()).isTrue();
     }
 
-    @Test
-    public void validateOrderRequestWithInvalidUserId() {
-        OrderRequest orderRequest = new OrderRequest(null, List.of(new ItemOrderRequest("item-id", 2L) ));
-
-        ValidationResult validationResult = validator.validate(orderRequest);
-
-        assertThat(validationResult.isValid()).isFalse();
-        assertThat(validationResult.getErrors()).hasSize(2);
-        assertThat(validationResult.getErrors().stream().findFirst().get().getCode()).isEqualTo("UNPROCESSABLE_ENTITY");
-    }
 
     @Test
     public void validateOrderRequestWithEmptyItems() {
-        OrderRequest orderRequest = new OrderRequest(1L, null);
+        OrderRequest orderRequest = new OrderRequest(null);
 
         ValidationResult validationResult = validator.validate(orderRequest);
 
