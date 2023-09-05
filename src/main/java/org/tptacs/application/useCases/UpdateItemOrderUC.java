@@ -3,8 +3,6 @@ package org.tptacs.application.useCases;
 import org.springframework.stereotype.Service;
 import org.tptacs.domain.entities.ItemOrder;
 
-import jakarta.validation.ValidationException;
-
 @Service
 public class UpdateItemOrderUC {
 

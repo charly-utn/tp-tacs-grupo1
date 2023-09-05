@@ -1,26 +1,18 @@
 package org.tptacs.application.validators;
 
+import static br.com.fluentvalidator.predicate.CollectionPredicate.empty;
+import static br.com.fluentvalidator.predicate.ObjectPredicate.nullValue;
+import static java.util.function.Predicate.not;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.tptacs.presentation.requestModels.OrderRequest;
-
-import static br.com.fluentvalidator.predicate.CollectionPredicate.empty;
-import static br.com.fluentvalidator.predicate.ComparablePredicate.greaterThanOrEqual;
-import static br.com.fluentvalidator.predicate.ObjectPredicate.nullValue;
-import static java.util.function.Predicate.not;
 
 @Component
 public class OrderRequestValidator extends Validator<OrderRequest> implements ValidatorHelper {
     @Override
     public void rules() {
         failFastRule();
-        ruleFor(OrderRequest::getUserId)
-                .must(not(nullValue()))
-                    .withMessage(notNullMessage("userId"))
-                    .withCode(HttpStatus.UNPROCESSABLE_ENTITY.name())
-                .must(greaterThanOrEqual(1L))
-                    .withMessage("invalid userId")
-                    .critical();
 
         ruleForEach(OrderRequest::getItems)
                 .must(not(nullValue()))

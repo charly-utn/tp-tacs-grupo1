@@ -11,13 +11,13 @@ import jakarta.validation.ValidationException;
 @Getter
 public class Order {
     private String id;
-    private Long userId;
+    private String userId;
     private List<ItemOrder> items;
     private OrderStatus status;
     private LocalDateTime creationDate;
     private LocalDateTime lastUpdate;
 
-    public Order(String id, Long userId, List<ItemOrder> item, OrderStatus status) {
+    public Order(String id, String userId, List<ItemOrder> item, OrderStatus status) {
         this.id = id;
         this.userId = userId;
         this.items = item;

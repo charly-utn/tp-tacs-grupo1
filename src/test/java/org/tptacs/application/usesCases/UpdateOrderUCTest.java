@@ -34,11 +34,11 @@ public class UpdateOrderUCTest {
     @Test
     @Disabled
     public void testUpdateStatusOrderWithValidData() {
-    	Order orderDB = new Order("order123", 1L, List.of(new ItemOrder(new Item("abc","name",new BigDecimal(100)),1L)),OrderStatus.NEW);
+    	Order orderDB = new Order("order123", "1", List.of(new ItemOrder(new Item("abc","name",new BigDecimal(100)),1L)),OrderStatus.NEW);
 
         when(orderRepository.get("order123")).thenReturn(orderDB);
 
-        updateOrderUC.updateStatusOrder("order123", 1L, OrderStatus.CLOSED);
+        updateOrderUC.updateStatusOrder("order123", "1", OrderStatus.CLOSED);
 
         assertThat(orderDB.getStatus()).isEqualTo(OrderStatus.CLOSED);
 
@@ -48,11 +48,11 @@ public class UpdateOrderUCTest {
     @Test
     @Disabled
     public void testUpdateStatusOrderWithInvalidData() {
-    	Order orderDB = new Order("order1235", 1L, List.of(new ItemOrder(new Item("abc","name",new BigDecimal(100)),1L)),OrderStatus.NEW);
+    	Order orderDB = new Order("order1235", "1", List.of(new ItemOrder(new Item("abc","name",new BigDecimal(100)),1L)),OrderStatus.NEW);
     	
         when(orderRepository.get("order1235")).thenReturn(orderDB);
 
-        updateOrderUC.updateStatusOrder("order1235", 2L, OrderStatus.CLOSED);
+        updateOrderUC.updateStatusOrder("order1235", "2", OrderStatus.CLOSED);
 
         assertThat(orderDB.getStatus()).isEqualTo(OrderStatus.NEW); // Estado no se ha actualizado
 
@@ -62,11 +62,11 @@ public class UpdateOrderUCTest {
     @Test
     @Disabled
     public void testUpdateStatusOrderWithNonExistingOrder() {
-    	Order orderDB = new Order("order123", 1L, List.of(new ItemOrder(new Item("abc","name",new BigDecimal(100)),1L)),OrderStatus.NEW);
+    	Order orderDB = new Order("order123", "1", List.of(new ItemOrder(new Item("abc","name",new BigDecimal(100)),1L)),OrderStatus.NEW);
     
         when(orderRepository.get("order123")).thenReturn(null);
 
-        updateOrderUC.updateStatusOrder("order123", 1L, OrderStatus.CLOSED);
+        updateOrderUC.updateStatusOrder("order123", "1", OrderStatus.CLOSED);
         
         assertThat(orderDB.getStatus()).isEqualTo(OrderStatus.NEW); // Estado no se ha actualizado
 

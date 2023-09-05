@@ -19,6 +19,7 @@ import org.tptacs.application.useCases.GetItemsFromOrderUC;
 import org.tptacs.application.useCases.RemoveItemFromOrderUC;
 import org.tptacs.application.useCases.UpdateItemOrderUC;
 import org.tptacs.application.useCases.UpdateOrderUC;
+import org.tptacs.domain.entities.User;
 import org.tptacs.presentation.requestModels.ItemOrderRequest;
 import org.tptacs.presentation.requestModels.OrderRequest;
 
@@ -50,17 +51,21 @@ public class OrderControllerTest {
     
     @MockBean
     private RemoveItemFromOrderUC removeItemFromOrderUC;
-
+    
+    @MockBean
+    private BaseController baseController;
 
     @BeforeEach
     void setUp() {
         Mockito.when(createOrderUC.createOrder(Mockito.any(OrderRequest.class)))
-               .thenReturn("123"); 
+        	.thenReturn("123"); 
+        Mockito.when(baseController.getUserFromJwt())
+        	.thenReturn(new User("1","userTest","email@email.com","UnPasswordMuySeguro1234")); 
     }
 
     @Test
     public void testCreateOrderSuccess() throws Exception {
-        OrderRequest request = new OrderRequest(1L,List.of(new ItemOrderRequest("123",1L)));
+        OrderRequest request = new OrderRequest(List.of(new ItemOrderRequest("123",1L)));
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/api/orders")

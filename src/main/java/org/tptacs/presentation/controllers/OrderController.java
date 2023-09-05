@@ -1,11 +1,11 @@
 package org.tptacs.presentation.controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,16 +18,16 @@ import org.tptacs.application.useCases.UpdateOrderUC;
 import org.tptacs.domain.enums.OrderStatus;
 import org.tptacs.presentation.requestModels.ItemOrderRequest;
 import org.tptacs.presentation.requestModels.OrderRequest;
-import org.tptacs.presentation.responseModels.Response;
 import org.tptacs.presentation.responseModels.ItemResponse;
 import org.tptacs.presentation.responseModels.OrderResponse;
+import org.tptacs.presentation.responseModels.Response;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @Tag(name = "Orders")
 @RequestMapping(value = "/api/orders", produces = "application/json", consumes = "application/json"  )
-public class OrderController {
+public class OrderController extends BaseController{
 
     private final CreateOrderUC createOrderUC;
     private final AddItemToOrderUC addItemToOrderUC;
@@ -42,18 +42,19 @@ public class OrderController {
                            GetItemsFromOrderUC getItemsFromOrderUC,
                            UpdateOrderUC updateOrderUC,
                            RemoveItemFromOrderUC removeItemFromOrderUC,
-                           UpdateItemOrderUC updateItemOrderUC) {
+                           UpdateItemOrderUC updateItemOrderUC,
+                           BaseController baseController) {
         this.createOrderUC = createOrderUC;
         this.addItemToOrderUC = addItemToOrderUC;
         this.getItemsFromOrderUC = getItemsFromOrderUC;
         this.updateOrderUC = updateOrderUC;
         this.removeItemFromOrderUC = removeItemFromOrderUC;
-        this.updateItemOrderUC = updateItemOrderUC;
-        
+        this.updateItemOrderUC = updateItemOrderUC;        
     }
 
     @PostMapping
     public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderRequest orderRequest) {
+    	orderRequest.assignUserId(this.getUserFromJwt().getId());
         String orderId = createOrderUC.createOrder(orderRequest);
 		return ResponseEntity.ok().body(new OrderResponse(orderId));
     }
@@ -61,7 +62,6 @@ public class OrderController {
     @PostMapping("/{orderId}/items")
     public ResponseEntity<ItemResponse> createItem(@RequestBody ItemOrderRequest itemOrderRequest, @PathVariable("orderId") String orderID) {
         addItemToOrderUC.addItemToOrder(orderID, itemOrderRequest);
-        
         return ResponseEntity.ok().body(new ItemResponse(itemOrderRequest.getId()));
     }
 
@@ -72,7 +72,7 @@ public class OrderController {
     
 	@PatchMapping("/{orderId}")
     public ResponseEntity<Response> updateOrder(@PathVariable("orderId") String orderId) {
-		updateOrderUC.updateStatusOrder(orderId, 1L, OrderStatus.CLOSED);
+		updateOrderUC.updateStatusOrder(orderId, this.getUserFromJwt().getId(), OrderStatus.CLOSED);
 		return ResponseEntity.ok().body(new Response());
     }
 	
