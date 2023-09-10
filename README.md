@@ -29,13 +29,11 @@ En la capa de Infraestructura se alojan las interfaces e implementaciones concre
 ### Presentación
 La capa de Presentación es la interfaz de usuario del sistema y recibe peticiones de los usuarios. Esta capa delega la resolución del caso de uso en la capa de Aplicación y luego devuelve los resultados al usuario. Aquí es donde se pueden utilizar mappers u otros componentes para dar formato adecuado a la salida de los datos y presentarlos de la manera apropiada.
 
-Esta estructura de capas ayuda a mantener un código organizado, facilita la escalabilidad y permite una mayor separación de preocupaciones en tu proyecto.
-
-Recuerda que esta información debe ser complementada con ejemplos, enlaces a documentación adicional o cualquier otra información relevante sobre la implementación de cada capa en tu proyecto.
+Esta estructura de capas ayuda a mantener el código organizado, facilita la escalabilidad y permite una mayor separación de preocupaciones en el proyecto.
 
 ## Autenticación
 La autenticación del sistema es stateless. Es decir, no se guarda en el servidor ningún tipo de estado para identificar a los usuarios. 
-Para lograr la autenticación, se utiliza JWT. El usuario priemero debe registrarse, y luego al iniciar sesión, se le entrega un token que debe incorporar en los headers (Authorization: Bearer Token) para todas las peticiones que quiera hacer
+Para lograr la autenticación, se utiliza JWT. El usuario primero debe registrarse, y luego al iniciar sesión, se le entrega un token que debe incorporar en los headers (Authorization: Bearer Token) para todas las peticiones que quiera hacer
 
 ## Pruebas
 Al navegar la url `localhost:8080/swagger`, se carga la pantalla de Swagger que permite interactuar con el sistema. También puede hacerse lo mismo desde Postman
