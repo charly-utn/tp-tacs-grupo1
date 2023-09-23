@@ -3,6 +3,7 @@ package org.tptacs.infraestructure.repositories;
 import org.springframework.stereotype.Repository;
 import org.tptacs.domain.entities.Item;
 import org.tptacs.domain.exceptions.NotFoundException;
+import org.tptacs.domain.exceptions.ResourceNotFoundException;
 import org.tptacs.infraestructure.repositories.interfaces.IItemsRepository;
 
 import java.math.BigDecimal;
@@ -24,12 +25,12 @@ public class ItemsRepository implements IItemsRepository {
 
     public Item get(String id) {
         var item = repository.get(id);
-        if (item == null) throw new NotFoundException(id, "item");
+        if (item == null) throw new ResourceNotFoundException(id, "item");
         return repository.get(id);
     }
 
     @Override
     public void exists(String id) {
-        if (!repository.containsKey(id)) throw new NotFoundException(id, "item");
+        if (!repository.containsKey(id)) throw new ResourceNotFoundException(id, "item");
     }
 }

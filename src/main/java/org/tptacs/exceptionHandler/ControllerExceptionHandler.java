@@ -1,4 +1,4 @@
-package org.tptacs.application;
+package org.tptacs.exceptionHandler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -6,10 +6,10 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.tptacs.domain.exceptions.ResourceNotFoundException;
 import org.tptacs.domain.exceptions.NotFoundException;
 import org.tptacs.domain.exceptions.RegistrationException;
 import org.tptacs.domain.exceptions.ValidationException;
-import org.tptacs.exceptionHandler.ErrorResponse;
 
 import java.util.Set;
 
@@ -34,11 +34,14 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(error.getHttpCode()).body(error);
     }
 
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handlConflictException(ResourceNotFoundException ex) {
+        return handleConflict(ex);
+    }
+    
     @ExceptionHandler(RegistrationException.class)
     public ResponseEntity<ErrorResponse> handlRegistrationException(RegistrationException ex) {
-        System.out.println("error: " + ex.getMessage());
-        var error = new ErrorResponse(HttpStatus.CONFLICT, ex.getMessage());
-        return ResponseEntity.status(error.getHttpCode()).body(error);
+        return handleConflict(ex);
     }
 
     @ExceptionHandler(BadCredentialsException.class)
@@ -53,5 +56,11 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         if (codes.contains(HttpStatus.CONFLICT.name())) return HttpStatus.CONFLICT;
         return HttpStatus.BAD_REQUEST;
     }
+    
+	private ResponseEntity<ErrorResponse> handleConflict(RuntimeException ex) {
+		System.out.println("error: " + ex.getMessage());
+        var error = new ErrorResponse(HttpStatus.CONFLICT, ex.getMessage());
+        return ResponseEntity.status(error.getHttpCode()).body(error);
+	}
 
 }
