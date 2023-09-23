@@ -2,6 +2,7 @@ package org.tptacs.infraestructure.repositories;
 
 import org.springframework.stereotype.Repository;
 import org.tptacs.domain.entities.Order;
+import org.tptacs.domain.exceptions.NotFoundException;
 import org.tptacs.domain.exceptions.ResourceNotFoundException;
 import org.tptacs.infraestructure.repositories.interfaces.IOrderRepository;
 
@@ -18,7 +19,7 @@ public class OrderRepository implements IOrderRepository {
 
     public Order get(String id) {
         var item = this.repository.get(id);
-        if (item == null) throw new ResourceNotFoundException(id, "pedido");
+        if (item == null) throw new NotFoundException(id, "pedido");
         return this.repository.get(id);
     }
 
@@ -28,7 +29,7 @@ public class OrderRepository implements IOrderRepository {
 
     @Override
     public void exists(String id) {
-        if (!this.repository.containsKey(id)) throw new ResourceNotFoundException(id, "pedido");
+        if (!this.repository.containsKey(id)) throw new NotFoundException(id, "pedido");
     }
     
     public Long count() {
