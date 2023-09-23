@@ -1,11 +1,21 @@
 package org.tptacs.domain.exceptions;
 
-public class ResourceNotFoundException extends NotFoundException {
+@SuppressWarnings("serial")
+public class ResourceNotFoundException extends RuntimeException {
 
-	private static final long serialVersionUID = 1L;
+    private final String message = "El recurso %s con id %s no existe";
+    private final String id;
+    private final String resource;
     
     public ResourceNotFoundException(String id, String resource)  {
-        super(id, resource);
+        super();
+        this.id = id;
+        this.resource = resource;
+    }
+
+    @Override
+    public String getMessage() {
+        return String.format(this.message, this.resource, this.id);
     }
 
 }

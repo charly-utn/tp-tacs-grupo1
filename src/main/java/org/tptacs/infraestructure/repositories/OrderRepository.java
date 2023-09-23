@@ -2,7 +2,6 @@ package org.tptacs.infraestructure.repositories;
 
 import org.springframework.stereotype.Repository;
 import org.tptacs.domain.entities.Order;
-import org.tptacs.domain.exceptions.NotFoundException;
 import org.tptacs.domain.exceptions.ResourceNotFoundException;
 import org.tptacs.infraestructure.repositories.interfaces.IOrderRepository;
 
