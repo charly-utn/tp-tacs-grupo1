@@ -28,10 +28,13 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-            if (!request.getRequestURI().contains("/api/users")) {
-                String jwt = parseJwt(request);
-                jwtUtils.validateJwtToken(jwt);
-                String username = jwtUtils.getUserNameFromJwtToken(jwt);
+            String jwt = parseJwt(request);
+            if (jwt == null) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+            jwtUtils.validateJwtToken(jwt);
+            String username = jwtUtils.getUserNameFromJwtToken(jwt);
 
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 UsernamePasswordAuthenticationToken authentication =
@@ -56,6 +59,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
             return headerAuth.substring(7);
         }
-        throw new AuthorizationException();
+        return null;
     }
 }
