@@ -29,6 +29,10 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             String jwt = parseJwt(request);
+            if (jwt == null) {
+                filterChain.doFilter(request, response);
+                return;
+            }
             jwtUtils.validateJwtToken(jwt);
             String username = jwtUtils.getUserNameFromJwtToken(jwt);
 
@@ -55,6 +59,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
             return headerAuth.substring(7);
         }
-        throw new AuthorizationException();
+        return null;
     }
 }
