@@ -4,7 +4,7 @@ import { Credentials } from "../interfaces/Credentials";
 import { User } from "../interfaces/User";
 import { instance } from "./BaseClient";
 
-export const endpoint = 'users'
+const endpoint = 'users'
 
 export let user = {
   user: <User>{},
