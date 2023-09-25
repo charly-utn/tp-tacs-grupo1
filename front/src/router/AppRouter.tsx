@@ -6,7 +6,7 @@ export const AppRouter = () => {
     <>
         <Navbar />
 
-        <div className="containers">
+        <div className="container mt-4">
           <Routes>
             <Route path="/*" element={<Login/>} />
             <Route path="/login" element={<Login />} />
