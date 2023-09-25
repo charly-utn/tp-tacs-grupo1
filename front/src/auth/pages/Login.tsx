@@ -11,7 +11,9 @@ export const Login = () => {
       userName: '',
       password: '',
     });
-  
+    const [responseMessage, setResponseMessage] = useState('');
+    const [responseMessageType, setResponseMessageType] = useState('');
+
     const handleChange = (e: any) => {
       const { name, value } = e.target;
       setFormData({
@@ -29,8 +31,12 @@ export const Login = () => {
           password: formData.password,
         });
         localStorage.setItem('token', response.token);
+        setResponseMessage('Inicio de sesión exitoso');
+        setResponseMessageType('success');
         console.log('Respuesta del servidor:', response);
       } catch (error) {
+        setResponseMessage('Error al iniciar sesión. Por favor, inténtalo de nuevo.');
+        setResponseMessageType('error');
         console.error('Error al iniciar sesión:', error);
       }
     };
@@ -47,7 +53,12 @@ export const Login = () => {
     return (
       <div className="login-container">
         <h2>Iniciar Sesión</h2>
-        <form onSubmit={iniciarSesion}>
+          {responseMessage && (
+              <div className={`response-message ${responseMessageType}`}>
+                  {responseMessage}
+              </div>
+          )}
+          <form onSubmit={iniciarSesion}>
           <div className="form-group">
             <label htmlFor="userName">Nombre de Usuario:</label>
             <input

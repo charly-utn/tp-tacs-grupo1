@@ -72,3 +72,20 @@ button:hover {
 .register-link button:hover {
   background-color: #1e7e34;
 }
+
+/* Estilos para el mensaje de respuesta */
+.response-message {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.response-message.success {
+  background-color: #28a745; /* Verde para éxito */
+  color: #fff;
+}
+
+.response-message.error {
+  background-color: #dc3545; /* Rojo para error */
+  color: #fff;
+}
