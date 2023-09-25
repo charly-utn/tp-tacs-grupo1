@@ -1,13 +1,18 @@
 import { Route, Routes } from 'react-router-dom';
 import { Login, Register } from '../auth' 
+import { Navbar } from '../components/navbar/Navbar';
 export const AppRouter = () => {
   return (
     <>
-        <Routes>
-        <Route path="/*" element={<Login/>} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        </Routes>
+        <Navbar />
+
+        <div className="container mt-4">
+          <Routes>
+            <Route path="/*" element={<Login/>} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
+        </div>
     </>
   )
 }
