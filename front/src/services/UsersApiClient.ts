@@ -36,5 +36,6 @@ export const loginUser = async(credentials: Credentials): Promise<User> => {
 
   export const logoutUser = () => {
   user.user = <User>{};
-  user.onUserChanges(user.user)
+  user.onUserChanges(user.user);
+  localStorage.removeItem('token');
 }

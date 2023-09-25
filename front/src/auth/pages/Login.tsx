@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../services/UsersApiClient';
-import './login.css';
 
 
 export const Login = () => {
@@ -34,6 +33,7 @@ export const Login = () => {
         setResponseMessage('Inicio de sesión exitoso');
         setResponseMessageType('success');
         console.log('Respuesta del servidor:', response);
+        navigate('/Home');
       } catch (error) {
         setResponseMessage('Error al iniciar sesión. Por favor, inténtalo de nuevo.');
         setResponseMessageType('error');
@@ -48,45 +48,55 @@ export const Login = () => {
     const redirectToRegister = () => {
       navigate(`/register`);
     };
-  
-  
+
+
     return (
-      <div className="login-container">
-        <h2>Iniciar Sesión</h2>
-          {responseMessage && (
-              <div className={`response-message ${responseMessageType}`}>
-                  {responseMessage}
-              </div>
-          )}
-          <form onSubmit={iniciarSesion}>
-          <div className="form-group">
-            <label htmlFor="userName">Nombre de Usuario:</label>
-            <input
-              type="text"
-              id="userName"
-              name="userName"
-              value={formData.userName}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Contraseña:</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <button type="submit">Iniciar Sesión</button>
-        </form>
-        <div className="register-link">
-          <p>¿No tienes una cuenta?</p>
-          <button onClick={redirectToRegister}>Registrarse</button>
+        <div className="container mt-5">
+            <div className="row justify-content-center">
+                <div className="col-md-6">
+                    <div className={`alert ${responseMessageType} ${responseMessage ? 'd-block' : 'd-none'}`}>
+                        {responseMessage}
+                    </div>
+                    <div className="card">
+                        <div className="card-header">Iniciar Sesión</div>
+                        <div className="card-body">
+                            <form onSubmit={iniciarSesion}>
+                                <div className="mb-3">
+                                    <label htmlFor="userName" className="form-label">Nombre de Usuario:</label>
+                                    <input
+                                        type="text"
+                                        id="userName"
+                                        name="userName"
+                                        value={formData.userName}
+                                        onChange={handleChange}
+                                        className="form-control"
+                                        required
+                                    />
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="password" className="form-label">Contraseña:</label>
+                                    <input
+                                        type="password"
+                                        id="password"
+                                        name="password"
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                        className="form-control"
+                                        required
+                                    />
+                                </div>
+                                <div className="d-grid">
+                                    <button type="submit" className="btn btn-primary">Iniciar Sesión</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div className="mt-3 text-center">
+                        <p>¿No tienes una cuenta?</p>
+                        <button onClick={redirectToRegister} className="btn btn-link">Registrarse</button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     );
-}
+};
