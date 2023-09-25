@@ -2,6 +2,7 @@ import { AxiosResponse } from "axios";
 import { CreateUser } from "../interfaces/CreateUser";
 import { Credentials } from "../interfaces/Credentials";
 import { User } from "../interfaces/User";
+import { Order } from "../interfaces/Order";
 import { instance } from "./BaseClient";
 
 const endpoint = 'users'
@@ -10,7 +11,16 @@ export let user = {
   user: <User>{},
   onUserChanges: (user: User) => {}
 }
- 
+
+export const getOrdersByUser = async (): Promise<Order[]> => {
+  try {
+    const response = await instance.get(`${endpoint}/orders/`);
+    console.log("orders:", response.data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
 export const createUser = async(user: CreateUser) => {
   
   try {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
-import { Login, Register } from '../auth/pages';
-import {  Home } from '../auth/pages/Home';
+import { Login, Register, Home } from '../auth/pages';
+import { Orders } from '../auth/pages/Orders';
 import { Navbar } from '../components/navbar/Navbar';
 
 
@@ -34,6 +34,11 @@ export const AppRouter = () => {
                         path="/home"
                         element={<ProtectedRoute element={<Home />} authenticated={isAuthenticated} />}
                     />
+                    <Route
+                        path="/orders"
+                        element={<ProtectedRoute element={<Orders />} authenticated={isAuthenticated} />}
+                    />
+
 
                     {/* Redirección desde la raíz ("/") a la página de inicio ("/home") */}
                     <Route path="/*" element={<Navigate to="/home" />} />
