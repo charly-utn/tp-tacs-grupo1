@@ -1,14 +1,13 @@
 package org.tptacs.application.useCases;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.tptacs.domain.entities.ItemOrder;
 import org.tptacs.infraestructure.repositories.interfaces.IOrderRepository;
 
 import jakarta.validation.ValidationException;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class GetItemsFromOrderUC {
