@@ -33,3 +33,8 @@ export const loginUser = async(credentials: Credentials): Promise<User> => {
     throw error;
   }
 }
+
+  export const logoutUser = () => {
+  user.user = <User>{};
+  user.onUserChanges(user.user)
+}

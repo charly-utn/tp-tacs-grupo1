@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { User } from '../../interfaces/User';
-import { user } from '../../services/UsersApiClient'
+import { logoutUser, user } from '../../services/UsersApiClient'
 
 export const Navbar = () => {
 
@@ -20,6 +20,7 @@ export const Navbar = () => {
         navigate('/login', {
             replace: true
         });
+        logoutUser();
     }
 
     return (
@@ -64,7 +65,7 @@ export const Navbar = () => {
                         className="nav-item nav-link btn"
                         onClick={ onLogout }
                     >
-                        Logout
+                        {user.user.userName ? 'Logout'  : 'Login'}
                     </button>
 
                 </ul>
