@@ -1,14 +1,7 @@
 package org.tptacs.presentation.controllers;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.tptacs.application.useCases.*;
 import org.tptacs.domain.entities.Order;
 import org.tptacs.domain.enums.OrderStatus;
@@ -69,10 +62,11 @@ public class OrderController extends BaseController {
         return ResponseEntity.ok().body(new ItemsResponse(getItemsFromOrderUC.getItemsFromOrder(orderId)));
     }
 
-    @GetMapping(path = "/", produces = "application/json")
+    @GetMapping(path = "", produces = "application/json")
     public ResponseEntity<OrdersResponse> getOrders() {
         List<Order> orders = getOrdersFromUser.getOrdersFromUser(this.getUserFromJwt().getId());
-        return ResponseEntity.ok().body(new OrdersResponse(
+        return ResponseEntity.ok()
+                .body(new OrdersResponse(
                 orders.stream().map(order -> new String(order.getId())).collect(Collectors.toList()))
         );
     }

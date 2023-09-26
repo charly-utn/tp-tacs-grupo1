@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../../services/UsersApiClient';
+import {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {loginUser} from '../../services/UsersApiClient';
 
 
 export const Login = () => {
@@ -33,18 +33,18 @@ export const Login = () => {
         setResponseMessage('Inicio de sesión exitoso');
         setResponseMessageType('success');
         console.log('Respuesta del servidor:', response);
-        navigate('/Home');
+        navigate("/Home");
       } catch (error) {
         setResponseMessage('Error al iniciar sesión. Por favor, inténtalo de nuevo.');
         setResponseMessageType('error');
         console.error('Error al iniciar sesión:', error);
       }
     };
-  
+
     const registrarse = async (e: any) => {
-      
+
     };
-  
+
     const redirectToRegister = () => {
       navigate(`/register`);
     };

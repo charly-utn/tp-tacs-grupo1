@@ -1,14 +1,16 @@
 import React from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
-import { Login, Register, Home } from '../auth/pages';
-import { Orders } from '../auth/pages/Orders';
-import { Navbar } from '../components/navbar/Navbar';
+import {Navigate, Route, Routes} from 'react-router-dom';
+import {Home, Login, Register} from '../auth/pages';
+import {Orders} from '../auth/pages/Orders';
+import {Navbar} from '../components/navbar/Navbar';
 
 
-class ProtectedRoute extends React.Component<{ element: any, authenticated: any }> {
+class ProtectedRoute extends React.Component<{ element: any }> {
     render() {
-        let {element, authenticated} = this.props;
-        if (authenticated) {
+        let {element} = this.props;
+        console.log('elem: ', element );
+        console.log('token: ', localStorage.getItem('token'));
+        if (localStorage.getItem('token') !== null) {
             return element;
         } else {
             return <Navigate to="/login"/>;
@@ -17,7 +19,7 @@ class ProtectedRoute extends React.Component<{ element: any, authenticated: any 
 }
 
 export const AppRouter = () => {
-    const isAuthenticated = localStorage.getItem('token') !== null;
+    var isAuthenticated = localStorage.getItem('token') !== null;
     console.log('isAuthenticated:', isAuthenticated);
     return (
         <>
@@ -32,11 +34,11 @@ export const AppRouter = () => {
                     {/* Ruta protegida (requiere autenticación) */}
                     <Route
                         path="/home"
-                        element={<ProtectedRoute element={<Home />} authenticated={isAuthenticated} />}
+                        element={<ProtectedRoute element={<Home />} />}
                     />
                     <Route
                         path="/orders"
-                        element={<ProtectedRoute element={<Orders />} authenticated={isAuthenticated} />}
+                        element={<ProtectedRoute element={<Orders />} />}
                     />
 
 
