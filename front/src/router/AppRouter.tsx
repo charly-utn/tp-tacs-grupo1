@@ -19,8 +19,8 @@ class ProtectedRoute extends React.Component<{ element: any }> {
 }
 
 export const AppRouter = () => {
-    var isAuthenticated = localStorage.getItem('token') !== null;
-    console.log('isAuthenticated:', isAuthenticated);
+    //var isAuthenticated = localStorage.getItem('token') !== null;
+    //console.log('isAuthenticated:', isAuthenticated);
     return (
         <>
             <Navbar />

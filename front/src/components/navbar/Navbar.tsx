@@ -1,26 +1,27 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { User } from '../../interfaces/User';
 import { logoutUser, user } from '../../services/UsersApiClient'
+import { AuthContext } from '../../context/AuthContext';
 
 export const Navbar = () => {
 
+    const { login, handlerLogout } = useContext(AuthContext)
+
     const navigate = useNavigate();
 
-    const [ loggedUser, setLoggedUser ] = useState<User>(user.user)
+   /* const [ loggedUser, setLoggedUser ] = useState<User>(user.user)
     
     useEffect(() => {
         const updateLoggedUser = (newUser: User) => {
             setLoggedUser(newUser);
         }
         user.onUserChanges = updateLoggedUser;
-    },[])
+    },[])*/
 
     const onLogout = () => {
-        navigate('/login', {
-            replace: true
-        });
-        logoutUser();
+        handlerLogout();
+        navigate('/login');
     }
 
     return (
@@ -56,18 +57,22 @@ export const Navbar = () => {
 
             <div className="navbar-collapse collapse w-100 order-3 dual-collapse2 d-flex justify-content-end">
                 <ul className="navbar-nav ml-auto">
-                   
-                    <span className="nav-item nav-link text-primary">
-                        {loggedUser.userName}
-                    </span>
 
-                    <button
-                        className="nav-item nav-link btn"
-                        onClick={ onLogout }
-                    >
-                        {user.user.userName ? 'Logout'  : 'Login'}
-                    </button>
-
+                    {
+                        login.isAuth ?
+                            <>
+                            <span className="nav-item nav-link text-primary mx-3">
+                                {login.user.userName}
+                            </span>
+                            <button
+                                className="nav-item nav-link btn"
+                                onClick={ onLogout }>
+                                Logout
+                            </button>
+                            </>
+                        :
+                            <NavLink className="nav-item nav-link btn" to="/login">Login</NavLink>
+                    }
                 </ul>
             </div>
         </nav>
