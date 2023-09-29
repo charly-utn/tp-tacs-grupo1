@@ -4,6 +4,7 @@ import {Home, Login, Register} from '../auth/pages';
 import {Orders} from '../auth/pages/Orders';
 import {Navbar} from '../components/navbar/Navbar';
 import { Products } from '../views'
+import { OrdersProvider } from '../context/OrdersProvider';
 
 class ProtectedRoute extends React.Component<{ element: any }> {
     render() {
@@ -24,6 +25,7 @@ export const AppRouter = () => {
         <>
             <Navbar />
 
+            <OrdersProvider>
             <div className="containers">
                 <Routes>
                     {/* Rutas públicas */}
@@ -45,6 +47,7 @@ export const AppRouter = () => {
                     <Route path="/" element={<Navigate to="/home" />} />
                 </Routes>
             </div>
+            </OrdersProvider>
         </>
     );
 };
