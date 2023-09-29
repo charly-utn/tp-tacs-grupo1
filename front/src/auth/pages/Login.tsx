@@ -1,8 +1,6 @@
 import {useContext, useState} from 'react';
 import {NavLink, useNavigate} from 'react-router-dom';
-import {loginUser} from '../../services/UsersApiClient';
 import { AuthContext } from '../../context/AuthContext';
-import {Credentials} from "../../interfaces/Credentials";
 
 const initialLogin = {
   userName: '',
@@ -16,12 +14,9 @@ export const Login = () => {
   
     const [formData, setFormData] = useState(initialLogin);
 
-    const [responseMessage, setResponseMessage] = useState('');
-    const [responseMessageType, setResponseMessageType] = useState('');
-
     const [errorLogin, setErrorLogin] = useState(false)
 
-    const handleChange = (e: any) => {
+    const onInputChange = (e: any) => {
       const { name, value } = e.target;
       setFormData({
         ...formData,
@@ -29,7 +24,7 @@ export const Login = () => {
       });
     };
   
-    const iniciarSesion = async (e: any) => {
+    const onFormSubmit = async (e: any) => {
       e.preventDefault();
       
       try {
@@ -37,28 +32,12 @@ export const Login = () => {
           userName: formData.userName,
           password: formData.password
         })
-        
-        /*const response = await loginUser({
-          userName: formData.userName,
-          password: formData.password,
-        });*/
-        //localStorage.setItem('token', response.token);
-        //setResponseMessage('Inicio de sesión exitoso');
-        //setResponseMessageType('success');
-        //console.log('Respuesta del servidor:', response);
         navigate("/home");
       } catch (error) {
-        //setResponseMessage('Error al iniciar sesión. Por favor, inténtalo de nuevo.');
-        //setResponseMessageType('error');
-        //console.error('Error al iniciar sesión:', error);
-        //Swal.fire('Error login', 'Username o password invalidos', 'error')
         setErrorLogin(true)
       }
+
       setFormData(initialLogin)
-    };
-
-    const registrarse = async (e: any) => {
-
     };
 
     return (
@@ -71,7 +50,7 @@ export const Login = () => {
                     <div className="card">
                         <div className="card-header">Iniciar Sesión</div>
                         <div className="card-body">
-                            <form onSubmit={iniciarSesion}>
+                            <form onSubmit={onFormSubmit}>
                                 <div className="mb-3">
                                     <label htmlFor="userName" className="form-label">Nombre de Usuario:</label>
                                     <input
@@ -79,7 +58,7 @@ export const Login = () => {
                                         id="userName"
                                         name="userName"
                                         value={formData.userName}
-                                        onChange={handleChange}
+                                        onChange={onInputChange}
                                         className="form-control"
                                         required
                                     />
@@ -91,7 +70,7 @@ export const Login = () => {
                                         id="password"
                                         name="password"
                                         value={formData.password}
-                                        onChange={handleChange}
+                                        onChange={onInputChange}
                                         className="form-control"
                                         required
                                     />

@@ -19,6 +19,7 @@ export const getOrdersByUser = async () => {
     throw error;
   }
 }
+
 export const createUser = async(user: CreateUser) => {
   
   try {
@@ -42,7 +43,7 @@ export const loginUser = async(credentials: Credentials): Promise<User> => {
   }
 }
 
-  export const logoutUser = () => {
+export const logoutUser = () => {
   user.user = <User>{};
   user.onUserChanges(user.user);
   localStorage.removeItem('token');
