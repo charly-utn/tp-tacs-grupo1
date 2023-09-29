@@ -32,7 +32,7 @@ export const Products = () => {
                         name={item.name}
                         //description={item.name}
                         price={item.price}
-                        //image={item.picture} 
+                        image={item.picture}
                         />
                 ))
             }

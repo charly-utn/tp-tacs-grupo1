@@ -12,12 +12,15 @@ public class ItemDto {
     private String name;
 	@JsonProperty("price")
     private BigDecimal price;
+    @JsonProperty("price")
+    private String picture;
 	
 	@JsonCreator
-	public ItemDto(String id, String name, BigDecimal price) {
+	public ItemDto(String id, String name, BigDecimal price, String picture) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
+        this.picture = picture;
 	}
 	
 	

@@ -34,7 +34,7 @@ public class UpdateOrderUCTest {
     @Test
     @Disabled
     public void testUpdateStatusOrderWithValidData() {
-    	Order orderDB = new Order("order123", "1", List.of(new ItemOrder(new Item("abc","name",new BigDecimal(100)),1L)),OrderStatus.NEW);
+    	Order orderDB = new Order("order123", "1", List.of(new ItemOrder(new Item("abc","name",new BigDecimal(100), ""),1L)),OrderStatus.NEW);
 
         when(orderRepository.get("order123")).thenReturn(orderDB);
 
@@ -48,7 +48,7 @@ public class UpdateOrderUCTest {
     @Test
     @Disabled
     public void testUpdateStatusOrderWithInvalidData() {
-    	Order orderDB = new Order("order1235", "1", List.of(new ItemOrder(new Item("abc","name",new BigDecimal(100)),1L)),OrderStatus.NEW);
+    	Order orderDB = new Order("order1235", "1", List.of(new ItemOrder(new Item("abc","name",new BigDecimal(100), ""),1L)),OrderStatus.NEW);
     	
         when(orderRepository.get("order1235")).thenReturn(orderDB);
 
@@ -62,7 +62,7 @@ public class UpdateOrderUCTest {
     @Test
     @Disabled
     public void testUpdateStatusOrderWithNonExistingOrder() {
-    	Order orderDB = new Order("order123", "1", List.of(new ItemOrder(new Item("abc","name",new BigDecimal(100)),1L)),OrderStatus.NEW);
+    	Order orderDB = new Order("order123", "1", List.of(new ItemOrder(new Item("abc","name",new BigDecimal(100), ""),1L)),OrderStatus.NEW);
     
         when(orderRepository.get("order123")).thenReturn(null);
 

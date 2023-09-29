@@ -14,14 +14,15 @@ public class Item {
     private BigDecimal price;
     private String picture;
 
-    public Item(String id, String name, BigDecimal price) {
+    public Item(String id, String name, BigDecimal price, String picture) {
         this.id = id;
         this.name = name;
         this.price = price;
+        this.picture = picture;
     }
 
 	public ItemDto toDto() {
-		ItemDto itemDto = new ItemDto(id,name,price);
+		ItemDto itemDto = new ItemDto(id, name, price, picture);
 		return itemDto;
 	}
 
