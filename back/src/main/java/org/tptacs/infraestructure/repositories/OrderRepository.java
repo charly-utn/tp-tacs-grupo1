@@ -7,7 +7,10 @@ import org.tptacs.domain.exceptions.ResourceNotFoundException;
 import org.tptacs.infraestructure.repositories.interfaces.IOrderRepository;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Repository
 public class OrderRepository implements IOrderRepository {
@@ -35,5 +38,10 @@ public class OrderRepository implements IOrderRepository {
     public Long count() {
     	return Long.valueOf(repository.values().size());
     }
-    
+
+    @Override
+    public List<Order> getOrdersFromUser(String userId) {
+        return this.repository.values().stream().filter(order -> order.getUserId().equals(userId)).collect(Collectors.toList());
+    }
+
 }
