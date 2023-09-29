@@ -1,8 +1,11 @@
 package org.tptacs.infraestructure.repositories;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 import org.tptacs.domain.entities.Item;
@@ -31,5 +34,10 @@ public class ItemsRepository implements IItemsRepository {
     @Override
     public void exists(String id) {
         if (!repository.containsKey(id)) throw new ResourceNotFoundException(id, "item");
+    }
+
+    @Override
+    public List<Item> getAll() {
+        return new ArrayList<>(repository.values());
     }
 }

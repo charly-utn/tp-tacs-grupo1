@@ -49,4 +49,9 @@ public class Order {
         if(!result) throw new ResourceNotFoundException(item.getId(), "item");
     }
 
+    public List<ItemOrder> findItemsOrder(List<String> itemIds) {
+        return this.getItems().stream()
+                .filter(i -> itemIds.contains(i.getItem().getId())).toList();
+    }
+
 }

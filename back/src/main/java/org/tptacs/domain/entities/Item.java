@@ -1,6 +1,7 @@
 package org.tptacs.domain.entities;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import org.tptacs.presentation.dto.ItemDto;
 
@@ -11,6 +12,7 @@ public class Item {
     private String id;
     private String name;
     private BigDecimal price;
+    private String picture;
 
     public Item(String id, String name, BigDecimal price) {
         this.id = id;
@@ -22,4 +24,17 @@ public class Item {
 		ItemDto itemDto = new ItemDto(id,name,price);
 		return itemDto;
 	}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return Objects.equals(id, item.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
