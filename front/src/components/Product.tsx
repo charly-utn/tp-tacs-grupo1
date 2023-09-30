@@ -110,7 +110,6 @@ export const Product = (item: Item = defaultProduct ) => {
               <strong>Selecioná un pedido para poder agregar items!</strong> 
             </div>
         }
-       
     </div>
   );
 }

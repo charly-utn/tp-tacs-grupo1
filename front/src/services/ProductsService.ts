@@ -1,6 +1,6 @@
 import { instance } from "./BaseClient";
 
-export const findAll = async (orderId: number) => {
+export const findAll = async (orderId: string) => {
   const params = {
     order_id: orderId
   }

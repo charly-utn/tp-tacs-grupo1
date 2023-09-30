@@ -44,6 +44,8 @@ export const AppRouter = () => {
 
                         {/* Redirección desde la raíz ("/") a la página de inicio ("/home") */}
                         <Route path="/" element={<Navigate to="/home" />} />
+
+                        <Route path="/items" element={<Products />} />
                     </Routes>
                 </div>
             </OrdersProvider>

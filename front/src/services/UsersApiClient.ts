@@ -24,9 +24,7 @@ export const createUser = async(user: CreateUser) => {
 
 export const loginUser = async(credentials: Credentials): Promise<User> => {
   try {
-    const response = await instance.post(`${endpoint}/login`, credentials);
-    //user.user = response.data;
-    //user.onUserChanges(user.user);    
+    const response = await instance.post(`${endpoint}/login`, credentials);   
     return response.data;
   } catch (error) {
     throw error;

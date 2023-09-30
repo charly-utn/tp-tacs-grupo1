@@ -41,7 +41,6 @@ export const UseOrders = () => {
       })
       .catch(e => AlertError('Pedido', 'Ocurrió un error al crear el pedido', e));
 
-    
   }
 
   return {
