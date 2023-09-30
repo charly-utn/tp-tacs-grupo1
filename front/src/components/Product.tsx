@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import "./Product.css";
 import { OrdersContext } from "../context/OrdersContext";
 import { Item } from "../interfaces/Item";
+import { addItem, removeItem, updateQuantity } from "../services/OrderService";
 
 const defaultProduct: Item = {
   id: "",
@@ -18,12 +19,15 @@ export const Product = (item: Item = defaultProduct ) => {
   //const {handlerAddProduct} = useContext(OrdersContext) TODO: implementar handlerAddProduct
   const [quantity, setQuantity] = useState(item.quantity || 0);
   const [debounceActive, setDebounceActive] = useState(false);
+  const queryString = window.location.search;
+  const orderId = new URLSearchParams(queryString).get('order_id');
 
   const handleChange = (event: any) => {
     setQuantity(parseInt(event.target.value));
     if (debounceActive) return;
     setDebounceActive(true);    
     let timeoutId = setInterval( () => {
+      internalUpdateQuantity(parseInt(event.target.value))
       clearTimeout(timeoutId);
       setDebounceActive(false);
     }, 1000)
@@ -33,7 +37,7 @@ export const Product = (item: Item = defaultProduct ) => {
     if (debounceActive) return;
     setDebounceActive(true);    
     let timeoutId = setInterval( () => {
-      console.log("agregando item");
+      internalUpdateQuantity(quantity + 1);
       clearTimeout(timeoutId);
       setDebounceActive(false);
     }, 500)
@@ -45,12 +49,24 @@ export const Product = (item: Item = defaultProduct ) => {
     if (debounceActive) return;
     setDebounceActive(true);    
     let timeoutId = setInterval( () => {
-      console.log("sacando item");
-      
+      internalUpdateQuantity(quantity - 1);
       clearTimeout(timeoutId);
       setDebounceActive(false);
     }, 500)
-    setQuantity(quantity  - 1)
+    setQuantity(quantity  - 1);
+  }
+
+  const internalUpdateQuantity = (value: number) => {
+    if (value == 0)  {
+      removeItem(orderId!, item.id)
+      return;
+    }
+    
+    if (quantity == 0) {
+      addItem(orderId!, item.id, value)
+      return;
+    }
+    updateQuantity(orderId!, item.id, value)
   }
 
   return (
@@ -70,7 +86,7 @@ export const Product = (item: Item = defaultProduct ) => {
           </div>
         </main>
         <div className="card-attribute">
-          <button onClick={handleRemoveProduct} className="btn btn-success p-3 m-4"> - </button>
+          <button onClick={handleRemoveProduct} className="btn btn-success btn-block  p-3 m-4"> - </button>
           
           <div className="input-group mb-3">
             <input type="text"
@@ -84,7 +100,8 @@ export const Product = (item: Item = defaultProduct ) => {
           </div>
 
 
-          <button onClick={handleAddProduct} className="btn btn-success p-3 m-4"> + </button>
+          <button onClick={handleAddProduct} className="btn btn-success btn-block p-3 m-4"> + </button>
+
         </div>
     </div>
   );

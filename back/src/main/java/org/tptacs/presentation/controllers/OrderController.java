@@ -7,6 +7,7 @@ import org.tptacs.domain.entities.Order;
 import org.tptacs.domain.enums.OrderStatus;
 import org.tptacs.presentation.requestModels.ItemOrderRequest;
 import org.tptacs.presentation.requestModels.OrderRequest;
+import org.tptacs.presentation.requestModels.UpdateQuantity;
 import org.tptacs.presentation.responseModels.*;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -78,8 +79,8 @@ public class OrderController extends BaseController {
     }
 	
 	@PatchMapping(path = "/{orderId}/items/{itemId}", produces = "application/json", consumes = "application/json"  )
-    public ResponseEntity<Response> updateItemOrder(@RequestBody Long quantity, @PathVariable("orderId") String orderId, @PathVariable("itemId") String itemId) {
-		updateItemOrderUC.updateItemOrder(orderId, itemId, quantity);
+    public ResponseEntity<Response> updateItemOrder(@RequestBody UpdateQuantity quantity, @PathVariable("orderId") String orderId, @PathVariable("itemId") String itemId) {
+		updateItemOrderUC.updateItemOrder(orderId, itemId, quantity.getQuantity());
 		return ResponseEntity.ok().body(new Response());
     }
 
