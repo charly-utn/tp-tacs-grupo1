@@ -7,10 +7,8 @@ import { useParams, useSearchParams } from "react-router-dom";
 
 export const Products = () => {
     const {products, getProducts}: {products: [ItemOrder], getProducts: any} = useContext(OrdersContext);
-    const queryString = window.location.search;
-    const params = new URLSearchParams(queryString);
 
-    //const {orderId} = useParams()
+    //const {orderId} = useParams() // By path param, i.e.: /items/:order_id
     const [searchParams] = useSearchParams()
 
     useEffect(() => { 

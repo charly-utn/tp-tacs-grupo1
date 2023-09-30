@@ -4,7 +4,7 @@ import { OrdersContext } from '../../context/OrdersContext';
 import { OrderPage } from './OrderPage';
 import { OrderRequest } from '../../interfaces/OrderRequest';
 
-const fakeOrderRequest: OrderRequest = {
+const defaultOrderRequest: OrderRequest = {
     items: [{
         id: 'abcd',
         quantity: 2    
@@ -22,7 +22,7 @@ export const Orders = () => {
     }, [])
 
     const onCreateOrder = async() => {
-        await handleCreateOrder(fakeOrderRequest)
+        await handleCreateOrder(defaultOrderRequest)
     }
 
     return (

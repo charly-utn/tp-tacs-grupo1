@@ -10,7 +10,7 @@ export const OrderPage = (order: Order) => {
                 <p className="mb-1">Orden: {order.id}</p>
             </div>
             <div>
-              <NavLink className="btn btn-success" to={"/items?order_id" + order.id}>
+              <NavLink className="btn btn-success" to={"/items?order_id=" + order.id}>
                 Ver Orden
               </NavLink>
               <button
