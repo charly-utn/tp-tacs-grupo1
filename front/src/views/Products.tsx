@@ -19,6 +19,7 @@ export const Products = () => {
     //@TODO: despues implementar un "ver más..." (si los caracteres son >38 x ejemplo)
 
     // Problema: si son mas de 4 productos, siguen apareciendo en la misma row. Habría que crear 1 nueva row por cada 4 productos.
+
     return (
         <div>
             <h1>Productos</h1>

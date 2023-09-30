@@ -4,7 +4,7 @@ import { OrdersContext } from './OrdersContext'
 
 export const OrdersProvider = ({children}) => {
 
-    const {products, getProducts, getProductsByOrder} = UseProducts()
+    const {products, getProducts} = UseProducts()
     const {orders, getOrders, handleCreateOrder} = UseOrders()
 
     return (
@@ -13,7 +13,6 @@ export const OrdersProvider = ({children}) => {
                 products,
                 orders,
                 getProducts,
-                getProductsByOrder,
                 getOrders,
                 handleCreateOrder
             }
