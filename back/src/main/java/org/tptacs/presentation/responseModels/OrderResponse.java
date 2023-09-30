@@ -9,7 +9,7 @@ public class OrderResponse extends Response{
 
 	
 	@Schema(description = "idientifier of order")
-	@JsonProperty("OrderId")
+	@JsonProperty("orderId")
 	private String id;
 
 	@JsonCreator

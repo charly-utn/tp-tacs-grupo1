@@ -6,4 +6,3 @@ export const ProductsReducer = (state = [], action: any) => {
             break;
     }
 }
-

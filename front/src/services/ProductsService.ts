@@ -12,4 +12,3 @@ export const findAll = async (orderId: number) => {
     throw error;
   }
 }
-  
