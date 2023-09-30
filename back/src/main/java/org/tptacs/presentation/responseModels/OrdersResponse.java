@@ -11,7 +11,7 @@ public class OrdersResponse extends Response{
 
 
     @Schema(description = "idientifiers of orders")
-    @JsonProperty("OrdersIds")
+    @JsonProperty("ordersIds")
     private List<String> id;
 
     @JsonCreator
