@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { Order } from "../../interfaces/Order";
 import { OrdersContext } from '../../context/OrdersContext';
 import { OrderPage } from './OrderPage';
@@ -31,10 +31,8 @@ export const Orders = () => {
         <div className="container mt-4">
             <h1 className="mb-4">Detalle de Órdenes</h1>
             {
-                orders.length == 0 ? (
-                    <>
+                orders.length === 0 ? (
                     <p className="my-3">Usted no posee pedidos. Cree un pedido para agregar productos</p>
-                    </>
                 ) :
                 <ul className="list-group">{
                     orders.map((o: Order) => (

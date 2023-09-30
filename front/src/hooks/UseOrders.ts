@@ -33,7 +33,7 @@ export const UseOrders = () => {
     const response = await createOrder(order)
 
     dispatch({
-      type: 'UPDATE_ORDERS',
+      type: 'UPDATE_ORDERS', //ADD_ORDER??
       payload: response.orderId
     })
   }
