@@ -1,16 +1,16 @@
-import { useNavigate } from "react-router-dom";
-import Product from "../components/Product";
+import { useNavigate, useParams } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { OrdersContext } from "../context/OrdersContext";
 import { Item } from "../interfaces/Item";
+import { Product } from "../components/Product"
 
 export const Products = () => {
     const navigate = useNavigate();
     const {products, getProducts} = useContext(OrdersContext)
-
+    const { order_id } = useParams()
     useEffect(() => { 
         const fetch = async () => {
-            await getProducts()
+            await getProducts(order_id)
         }
         fetch()
     }, [])
@@ -29,10 +29,12 @@ export const Products = () => {
                 items.map(item => (
                     <Product
                         key={item.id}
+                        id={item.id}
                         name={item.name}
-                        //description={item.name}
+                        description={'Descripción del Producto'}
                         price={item.price}
-                        image={item.picture}
+                        picture={item.picture}
+                        quantity={item.quantity}
                         />
                 ))
             }
