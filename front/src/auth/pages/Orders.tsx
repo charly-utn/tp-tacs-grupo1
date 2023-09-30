@@ -1,49 +1,50 @@
-import React, { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Order } from "../../interfaces/Order";
-import { getOrdersByUser } from '../../services/UsersApiClient';
+import { OrdersContext } from '../../context/OrdersContext';
+import { OrderPage } from './OrderPage';
+import { OrderRequest } from '../../interfaces/OrderRequest';
 
 export const Orders = () => {
-    const [orders, setOrders] = useState<Order[]>([]);
+    const {orders, getOrders, handleCreateOrder} = useContext(OrdersContext)
 
-    useEffect(() => {
-        const fetchOrders = async () => {
-            try {
-                const response = await getOrdersByUser(); // Utiliza la función actualizada
-                const listOrder:Order[] = [];
-                for(let i = 0; i < response.OrdersIds.length; i++) {
-                    const order: Order = {
-                        id: response.OrdersIds[i],
-                        name: 'Orden' + i,
-                        items: []
-                    };
-                    listOrder.push(order);
-                }
-                setOrders(listOrder);
-            } catch (error) {
-                console.error('Error al obtener los pedidos:', error);
-            }
-        };
-        fetchOrders();
-    }, []);
+    useEffect(() => { 
+        const fetch = async () => {
+            await getOrders()
+        }
+        fetch()
+    }, [])
+
+    //const [orders, setOrders] = useState<Order[]>([]);
+
+    const fakeOrderRequest: OrderRequest = {
+        items: [{
+            id: 'abcd',
+            quantity: 2    
+        }]
+    }
+
+    const onCreateOrder = async() => {
+        await handleCreateOrder(fakeOrderRequest)
+    }
 
     return (
         <div className="container mt-4">
             <h1 className="mb-4">Detalle de Órdenes</h1>
-            <ul className="list-group">
-                {orders.map((order) => (
-                    <li key={order.id} className="list-group-item border border-dark p-3 mb-3">
-                        <div className="d-flex justify-content-between align-items-center">
-                            <div>
-                                <p className="mb-1">Nombre: {order.name}</p>
-                                <p className="mb-1">Orden: {order.id}</p>
-                            </div>
-{/*                            <Button variant="primary" onClick={() => handleAction(order.id)}>
-                                Realizar Acción
-                            </Button>*/}
-                        </div>
-                    </li>
-                ))}
-            </ul>
+            {
+                orders.length == 0 ? (
+                    <>
+                    <p className="my-3">Usted no posee pedidos. Cree un pedido para agregar productos</p>
+                    </>
+                ) :
+                <ul className="list-group">{
+                    orders.map((o: Order) => (
+                        <OrderPage key={o.id} id={o.id} name={o.name} items={o.items}/>
+                    ))
+                }
+                </ul>
+            }
+            <button className="btn btn-success my-3"
+                onClick={onCreateOrder}>Crear Pedido</button>
         </div>
     );
 };

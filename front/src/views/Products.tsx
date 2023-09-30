@@ -19,7 +19,6 @@ export const Products = () => {
     //@TODO: despues implementar un "ver más..." (si los caracteres son >38 x ejemplo)
 
     const items: [Item] = products.map((p: {item: Item}) => p.item)
-    console.log('items', items)
 
     // Problema: si son mas de 4 productos, siguen apareciendo en la misma row. Habría que crear 1 nueva row por cada 4 productos.
     return (
