@@ -38,9 +38,10 @@ export const Products = () => {
 
     // Problema: si son mas de 4 productos, siguen apareciendo en la misma row. Habría que crear 1 nueva row por cada 4 productos.
     return (
-        <div>
-            <h1>Productos</h1>
-            <div className="flex-row">{
+        <div className="container">
+            <h1 className="my-3">Productos{orderId ? ` de ${orderId}` : ''}</h1>
+            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+            {
                 items.map(item => (
                     <Product
                         key={item.id}
