@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react";
 import { OrdersContext } from "../context/OrdersContext";
 import { ItemOrder } from "../interfaces/ItemOrder"
 import { Product } from "../components/Product"
+import { AlertOk } from "../components/SweetAlert";
 
 export const Products = () => {
     const {products, getProducts}: {products: [ItemOrder], getProducts: any} = useContext(OrdersContext);

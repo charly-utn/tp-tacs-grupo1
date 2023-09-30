@@ -1,5 +1,9 @@
+import { AxiosResponse } from "axios";
 import { OrderRequest } from "../interfaces/OrderRequest";
 import { instance } from "./BaseClient";
+
+
+const endpoint = 'orders'
 
 export const findAll = async () => {
   try {
@@ -11,12 +15,18 @@ export const findAll = async () => {
   }
 }
 
-export const createOrder = async(order: OrderRequest) => {
-  try {
-    const response = await instance.post("orders", order);
-    return response.data;
-  } catch (error) {
-    console.log("Error createOrder")
-    throw error;
+export const createOrder = async(order: OrderRequest): Promise<AxiosResponse<{orderId: string}, any>> => {
+    return instance.post("orders", order);
   }
+
+export const addItem = async (orderId: string, itemId: string, quantity: number) => {
+  return instance.post(`${endpoint}/${orderId}/items`, {id: itemId, quantity: quantity})
+}
+
+export const removeItem = async (orderId: string, itemId: string) => {
+  return instance.delete(`${endpoint}/${orderId}/items/${itemId}`)
+}
+
+export const updateQuantity = async (orderId: string, itemId: string, quantity: number) => {
+  return instance.patch(`${endpoint}/${orderId}/items/${itemId}`, {quantity})
 }
