@@ -30,11 +30,9 @@ export const AppRouter = () => {
                         {/* Rutas públicas */}
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
-                        {/* Rutas protegidas (requiere autenticación) */}
+                        <Route path="/home" element={<Home />} />
 
-                        <Route path="/home"
-                               element={<ProtectedRoute element={<Home />} />}
-                        />
+                        {/* Rutas protegidas (requiere autenticación) */}
 
                         <Route
                             path="/orders"
