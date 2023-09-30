@@ -26,27 +26,27 @@ export const AppRouter = () => {
             <Navbar />
 
             <OrdersProvider>
-            <div className="containers">
-                <Routes>
-                    {/* Rutas públicas */}
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/home" element={<Home />} />
+                <div className="containers">
+                    <Routes>
+                        {/* Rutas públicas */}
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                        <Route path="/home" element={<Home />} />
 
-                    {/* Rutas protegidas (requiere autenticación) */}
-                    <Route
-                        path="/orders"
-                        element={<ProtectedRoute element={<Orders />} />}
-                    />
-                    <Route 
-                        path="/products" 
-                        element={<ProtectedRoute element={<Products />} />}
-                     />
+                        {/* Rutas protegidas (requiere autenticación) */}
+                        <Route
+                            path="/orders"
+                            element={<ProtectedRoute element={<Orders />} />}
+                        />
+                        <Route 
+                            path="/products" 
+                            element={<ProtectedRoute element={<Products />} />}
+                        />
 
-                    {/* Redirección desde la raíz ("/") a la página de inicio ("/home") */}
-                    <Route path="/" element={<Navigate to="/home" />} />
-                </Routes>
-            </div>
+                        {/* Redirección desde la raíz ("/") a la página de inicio ("/home") */}
+                        <Route path="/" element={<Navigate to="/home" />} />
+                    </Routes>
+                </div>
             </OrdersProvider>
         </>
     );

@@ -1,7 +1,7 @@
 import {Item} from "./Item";
 
 export interface Order {
-    id: number;
+    id: string;
     name: string;
     items: Item[];
 }

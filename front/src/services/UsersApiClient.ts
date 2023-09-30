@@ -10,16 +10,6 @@ export let user = {
   onUserChanges: (user: User) => {}
 }
 
-export const getOrdersByUser = async () => {
-  try {
-    const response = await instance.get("orders");
-    console.log("orders:", response.data);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-}
-
 export const createUser = async(user: CreateUser) => {
   
   try {
