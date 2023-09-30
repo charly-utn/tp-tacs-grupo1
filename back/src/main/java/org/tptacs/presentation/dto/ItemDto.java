@@ -4,15 +4,17 @@ import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 
+@Getter
 public class ItemDto {
-	@JsonProperty("idItem")
+	@JsonProperty("id")
     private String id;
 	@JsonProperty("name")
     private String name;
 	@JsonProperty("price")
     private BigDecimal price;
-    @JsonProperty("price")
+    @JsonProperty("picture")
     private String picture;
 	
 	@JsonCreator
@@ -22,7 +24,4 @@ public class ItemDto {
 		this.price = price;
         this.picture = picture;
 	}
-	
-	
-
 }
