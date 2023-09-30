@@ -4,6 +4,13 @@ import { OrdersContext } from '../../context/OrdersContext';
 import { OrderPage } from './OrderPage';
 import { OrderRequest } from '../../interfaces/OrderRequest';
 
+const fakeOrderRequest: OrderRequest = {
+    items: [{
+        id: 'abcd',
+        quantity: 2    
+    }]
+}
+
 export const Orders = () => {
     const {orders, getOrders, handleCreateOrder} = useContext(OrdersContext)
 
@@ -13,15 +20,6 @@ export const Orders = () => {
         }
         fetch()
     }, [])
-
-    //const [orders, setOrders] = useState<Order[]>([]);
-
-    const fakeOrderRequest: OrderRequest = {
-        items: [{
-            id: 'abcd',
-            quantity: 2    
-        }]
-    }
 
     const onCreateOrder = async() => {
         await handleCreateOrder(fakeOrderRequest)

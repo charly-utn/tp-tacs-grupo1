@@ -1,7 +1,6 @@
-import { Item } from "./Item"
+import {Item} from "./Item";
 
 export interface ItemOrder {
-  item: Item,
-  quantity: number,
-  price: number
+    item: Item,
+    quantity: number
 }

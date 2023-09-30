@@ -3,6 +3,7 @@ import { OrdersReducer } from "../reducers/OrdersReducer"
 import { createOrder, findAll } from "../services/OrdersService"
 import { Order } from "../interfaces/Order"
 import { OrderRequest } from "../interfaces/OrderRequest"
+import { AlertError, AlertOk } from "../components/SweetAlert"
 
 const initialOrders: Order[] = []
 /*[{
@@ -30,12 +31,16 @@ export const UseOrders = () => {
   }
 
   const handleCreateOrder = async(order: OrderRequest) => {
-    const response = await createOrder(order)
+    createOrder(order)
+      .then(response => {
+        dispatch({
+          type: 'UPDATE_ORDERS',
+          payload: response.data.orderId
+        });
+        AlertOk('Pedido', 'El pedido se creó correctamente');
+      })
+      .catch(e => AlertError('Pedido', 'Ocurrió un error al crear el pedido', e));
 
-    dispatch({
-      type: 'UPDATE_ORDERS', //ADD_ORDER??
-      payload: response.orderId
-    })
   }
 
   return {
