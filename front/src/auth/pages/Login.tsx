@@ -1,19 +1,22 @@
-import {useState} from 'react';
-import {useNavigate} from 'react-router-dom';
-import {loginUser} from '../../services/UsersApiClient';
+import {useContext, useState} from 'react';
+import {NavLink, useNavigate} from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 
+const initialLogin = {
+  userName: '',
+  password: '',
+}
 
 export const Login = () => {
     const navigate = useNavigate();
-  
-    const [formData, setFormData] = useState({
-      userName: '',
-      password: '',
-    });
-    const [responseMessage, setResponseMessage] = useState('');
-    const [responseMessageType, setResponseMessageType] = useState('');
 
-    const handleChange = (e: any) => {
+    const {handlerLogin} = useContext(AuthContext)
+  
+    const [formData, setFormData] = useState(initialLogin);
+
+    const [errorLogin, setErrorLogin] = useState(false)
+
+    const onInputChange = (e: any) => {
       const { name, value } = e.target;
       setFormData({
         ...formData,
@@ -21,46 +24,33 @@ export const Login = () => {
       });
     };
   
-    const iniciarSesion = async (e: any) => {
+    const onFormSubmit = async (e: any) => {
       e.preventDefault();
       
       try {
-        const response = await loginUser({
+        await handlerLogin({
           userName: formData.userName,
-          password: formData.password,
-        });
-        localStorage.setItem('token', response.token);
-        setResponseMessage('Inicio de sesión exitoso');
-        setResponseMessageType('success');
-        console.log('Respuesta del servidor:', response);
-        navigate("/Home");
+          password: formData.password
+        })
+        navigate("/home");
       } catch (error) {
-        setResponseMessage('Error al iniciar sesión. Por favor, inténtalo de nuevo.');
-        setResponseMessageType('error');
-        console.error('Error al iniciar sesión:', error);
+        setErrorLogin(true)
       }
+
+      setFormData(initialLogin)
     };
-
-    const registrarse = async (e: any) => {
-
-    };
-
-    const redirectToRegister = () => {
-      navigate(`/register`);
-    };
-
 
     return (
         <div className="container mt-5">
             <div className="row justify-content-center">
                 <div className="col-md-6">
-                    <div className={`alert ${responseMessageType} ${responseMessage ? 'd-block' : 'd-none'}`}>
-                        {responseMessage}
+                    <div className={`alert alert-warning ${errorLogin ? 'd-block' : 'd-none'}`}>
+                      Error al iniciar sesión. Por favor, inténtalo de nuevo.
                     </div>
                     <div className="card">
                         <div className="card-header">Iniciar Sesión</div>
                         <div className="card-body">
-                            <form onSubmit={iniciarSesion}>
+                            <form onSubmit={onFormSubmit}>
                                 <div className="mb-3">
                                     <label htmlFor="userName" className="form-label">Nombre de Usuario:</label>
                                     <input
@@ -68,7 +58,7 @@ export const Login = () => {
                                         id="userName"
                                         name="userName"
                                         value={formData.userName}
-                                        onChange={handleChange}
+                                        onChange={onInputChange}
                                         className="form-control"
                                         required
                                     />
@@ -80,7 +70,7 @@ export const Login = () => {
                                         id="password"
                                         name="password"
                                         value={formData.password}
-                                        onChange={handleChange}
+                                        onChange={onInputChange}
                                         className="form-control"
                                         required
                                     />
@@ -93,7 +83,7 @@ export const Login = () => {
                     </div>
                     <div className="mt-3 text-center">
                         <p>¿No tienes una cuenta?</p>
-                        <button onClick={redirectToRegister} className="btn btn-link">Registrarse</button>
+                        <NavLink className="btn btn-link" to="/register">Registrarse</NavLink>
                     </div>
                 </div>
             </div>

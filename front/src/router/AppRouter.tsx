@@ -19,35 +19,30 @@ class ProtectedRoute extends React.Component<{ element: any }> {
 }
 
 export const AppRouter = () => {
-    var isAuthenticated = localStorage.getItem('token') !== null;
-    console.log('isAuthenticated:', isAuthenticated);
+
     return (
         <>
             <Navbar />
 
             <div className="containers">
                 <Routes>
-                    {/* Ruta pública */}
+                    {/* Rutas públicas */}
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
+                    <Route path="/home" element={<Home />} />
 
-                    {/* Ruta protegida (requiere autenticación) */}
-                    <Route
-                        path="/home"
-                        element={<ProtectedRoute element={<Home />} />}
-                    />
+                    {/* Rutas protegidas (requiere autenticación) */}
                     <Route
                         path="/orders"
                         element={<ProtectedRoute element={<Orders />} />}
                     />
-                  
                     <Route 
-                      path="/productos" 
-                      element={<ProtectedRoute element={<Products />} />}
+                        path="/products" 
+                        element={<ProtectedRoute element={<Products />} />}
                      />
 
                     {/* Redirección desde la raíz ("/") a la página de inicio ("/home") */}
-                    <Route path="/*" element={<Navigate to="/home" />} />
+                    <Route path="/" element={<Navigate to="/home" />} />
                 </Routes>
             </div>
         </>
