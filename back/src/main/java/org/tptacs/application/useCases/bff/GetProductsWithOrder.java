@@ -30,7 +30,7 @@ public class GetProductsWithOrder {
 
         var result = new ArrayList<ItemOrder>();
         result.addAll(itemsInOrder);
-        result.addAll(itemsOutOfOrder);
+        //result.addAll(itemsOutOfOrder);
         return result;
     }
 }
