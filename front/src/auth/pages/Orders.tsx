@@ -14,28 +14,7 @@ export const Orders = () => {
         fetch()
     }, [])
 
-    //const [orders2, setOrders] = useState<Order[]>([]);
-
-    /*useEffect(() => {
-        const fetchOrders = async () => {
-            try {
-                const response = await getOrdersByUser(); // Utiliza la función actualizada
-                const listOrder:Order[] = [];
-                for(let i = 0; i < response.OrdersIds.length; i++) {
-                    const order: Order = {
-                        id: response.OrdersIds[i],
-                        name: 'Orden' + i,
-                        items: []
-                    };
-                    listOrder.push(order);
-                }
-                setOrders(listOrder);
-            } catch (error) {
-                console.error('Error al obtener los pedidos:', error);
-            }
-        };
-        fetchOrders();
-    }, []);*/
+    //const [orders, setOrders] = useState<Order[]>([]);
 
     const fakeOrderRequest: OrderRequest = {
         items: [{

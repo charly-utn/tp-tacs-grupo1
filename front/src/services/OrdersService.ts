@@ -12,11 +12,6 @@ export const findAll = async () => {
 }
 
 export const createOrder = async(order: OrderRequest) => {
-  const body = {
-    //userId,
-    items: order.items
-  }
-
   try {
     const response = await instance.post("orders", order);
     return response.data;

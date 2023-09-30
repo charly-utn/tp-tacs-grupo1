@@ -9,7 +9,6 @@ import { OrdersProvider } from '../context/OrdersProvider';
 class ProtectedRoute extends React.Component<{ element: any }> {
     render() {
         let {element} = this.props;
-        console.log('elem: ', element );
         console.log('token: ', localStorage.getItem('token'));
         if (localStorage.getItem('token') !== null) {
             return element;
