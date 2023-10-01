@@ -9,13 +9,14 @@ public class AnalyticsResponse extends Response {
 	
 	
 	@Schema(description = "Response internal code")
-	@JsonProperty("quantity")
-	private Long quantity;
+	@JsonProperty("usersQuantity")
+	private Long usersQuantity;
+	@JsonProperty("ordersQuantity")
+	private Long ordersQuantity;
 
 	@JsonCreator
-	public AnalyticsResponse(Long quantity) {
-		this.quantity = quantity;
+	public AnalyticsResponse(Long usersQuantity, Long ordersQuantity) {
+		this.usersQuantity = usersQuantity;
+		this.ordersQuantity = ordersQuantity;
 	}
-		
-
 }

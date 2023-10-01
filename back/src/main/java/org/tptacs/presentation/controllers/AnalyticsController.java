@@ -21,14 +21,9 @@ public class AnalyticsController {
 		this.getAnalyticsUC = getAnalyticsUC;
 	}
 
-	@GetMapping("/orders")
-    public ResponseEntity<AnalyticsResponse> getCountOrders() {
-        return ResponseEntity.ok(new AnalyticsResponse(getAnalyticsUC.countOrders()));
-    }   
-    
-    @GetMapping("/users")
-    public ResponseEntity<AnalyticsResponse> getUsersUnique() {
-        return ResponseEntity.ok(new AnalyticsResponse(getAnalyticsUC.countOrders()));
+    @GetMapping()
+    public ResponseEntity<AnalyticsResponse> getAnalytics() {
+        return ResponseEntity.ok(new AnalyticsResponse(getAnalyticsUC.countUsersUnique(), getAnalyticsUC.countOrders()));
     }
 
 }
