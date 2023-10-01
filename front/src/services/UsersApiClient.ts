@@ -10,25 +10,12 @@ export let user = {
   onUserChanges: (user: User) => {}
 }
 
-export const createUser = async(user: CreateUser) => {
-  
-  try {
-    const response = await instance.post(endpoint, user);
-    console.log("creado:", response.data);
-    return response.data;
-  } catch (error) {
-      console.log("hubo un error:", error);
-    throw error;
-  }
+export const createUser = (user: CreateUser): Promise<any> => {
+    return instance.post(endpoint, user);
 }
 
-export const loginUser = async(credentials: Credentials): Promise<User> => {
-  try {
-    const response = await instance.post(`${endpoint}/login`, credentials);   
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+export const loginUser = (credentials: Credentials): Promise<any> => {
+    return instance.post(`${endpoint}/login`, credentials);   
 }
 
 export const logoutUser = () => {

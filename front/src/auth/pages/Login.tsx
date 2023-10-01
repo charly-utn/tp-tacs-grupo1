@@ -1,6 +1,7 @@
 import {useContext, useState} from 'react';
 import {NavLink, useNavigate} from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
+import { AlertError } from '../../components/SweetAlert';
 
 const initialLogin = {
   userName: '',
@@ -27,18 +28,20 @@ export const Login = () => {
     const onFormSubmit = async (e: any) => {
       e.preventDefault();
       
-      try {
-        await handlerLogin({
+      handlerLogin({
           userName: formData.userName,
           password: formData.password
         })
-        navigate("/home");
-      } catch (error) {
-        setErrorLogin(true)
-      }
-
+        .then(() => navigate("/home"))        
+        .catch((e:any) => {
+          AlertError('Inicio de Sesión', 'Ocurrió un error al iniciar sesión', e);
+          setErrorLogin(true)
+        });
       setFormData(initialLogin)
-    };
+    }
+
+    
+    
 
     return (
         <div className="container mt-5">
