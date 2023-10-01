@@ -9,29 +9,32 @@ import java.util.Map;
 import java.util.Optional;
 
 @Repository
-public class UserRepositority implements IUserRepository {
-    private final Map<String, User> repository = new HashMap<>();
+public class UserRepositority extends FileRepository<User> implements IUserRepository {
+    public UserRepositority() {
+        super(UserRepositority.class.getSimpleName(), User.class);
+    }
+
     @Override
     public Optional<User> findByUsername(String userName) {
-        return this.repository.values()
+        return values()
                 .stream().filter(v -> v.getUsername().equals(userName))
                 .findFirst();
     }
 
     @Override
     public Optional<User> findByEmail(String email) {
-        return this.repository.values()
+        return values()
                 .stream().filter(v -> v.getEmail().equals(email))
                 .findFirst();
     }
 
     @Override
     public void save(User user) {
-        this.repository.put(user.getId(), user);
+        super.put(user.getId(), user);
     }
 
 	@Override
 	public Long countUserUnique() {
-		return Long.valueOf(repository.size());
+		return (long) values().size();
 	}
 }

@@ -2,6 +2,7 @@ package org.tptacs.domain.entities;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.tptacs.presentation.dto.ItemOrderDto;
 
 import jakarta.validation.ValidationException;
@@ -17,6 +18,9 @@ public class ItemOrder {
         this.quantity = quantity;
     }
 
+    private ItemOrder() {}
+
+    @JsonIgnore
     public BigDecimal getPrice() {
         return this.item.getPrice().multiply(new BigDecimal(this.quantity));
     }

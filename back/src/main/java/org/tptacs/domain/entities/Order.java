@@ -28,6 +28,8 @@ public class Order {
         this.lastUpdate = LocalDateTime.now();
     }
 
+    private Order() {}
+
     public void addItem(ItemOrder itemOrder){
         this.lastUpdate = LocalDateTime.now();
         items.add(itemOrder);
