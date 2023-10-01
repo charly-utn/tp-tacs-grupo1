@@ -45,7 +45,7 @@ public class ItemsRepository extends FileRepository<Item> implements IItemsRepos
 
     @SneakyThrows
     private void loadMockData() {
-        var path = getRepositoryPath("ItemsData.json");
+        var path = getRepositoryPath("/mocks/ItemsData.json");
         var file = new File(path);
         List<Item> itemsMock = objectMapper.readValue(file, objectMapper.getTypeFactory().constructCollectionType(List.class, Item.class));
         itemsMock.forEach(this::save);

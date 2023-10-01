@@ -18,7 +18,7 @@ public class FileRepository<T> {
     private Class<T> type;
 
     public FileRepository(String name, Class<T> type) {
-        this.name =  "/" + name + ".json";
+        this.name =  "/repositories/" + name + ".json";
         this.type = type;
     }
 
