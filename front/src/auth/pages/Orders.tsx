@@ -5,10 +5,7 @@ import { OrderPage } from './OrderPage';
 import { OrderRequest } from '../../interfaces/OrderRequest';
 
 const defaultOrderRequest: OrderRequest = {
-    items: [{
-        id: 'abcd',
-        quantity: 2    
-    }]
+    items: []
 }
 
 export const Orders = () => {

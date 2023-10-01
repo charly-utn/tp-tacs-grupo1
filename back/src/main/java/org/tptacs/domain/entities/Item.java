@@ -21,6 +21,8 @@ public class Item {
         this.picture = picture;
     }
 
+    private Item() {}
+
 	public ItemDto toDto() {
 		ItemDto itemDto = new ItemDto(id, name, price, picture);
 		return itemDto;

@@ -1,18 +1,25 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { OrdersContext } from "../context/OrdersContext";
 import { ItemOrder } from "../interfaces/ItemOrder"
 import { Product } from "../components/Product"
 import { AlertOk } from "../components/SweetAlert";
 import { useParams, useSearchParams } from "react-router-dom";
+import { findAll } from "../services/ProductsService";
 
 export const Products = () => {
-    const {products, getProducts}: {products: [ItemOrder], getProducts: any} = useContext(OrdersContext);
-
+    const defaultResponse: ItemOrder[] = []
     //const {orderId} = useParams() // By path param, i.e.: /items/:order_id
     const [searchParams] = useSearchParams()
+    const [products, setProducts] = useState(defaultResponse);
 
+    const getProducts = async (id:string | null)=> {
+        const p = await findAll(id)
+        setProducts(p)
+    }
+    
     useEffect(() => { 
         getProducts(searchParams.get('order_id'))
+        
     }, [])
 
     //Problema: si hay un producto con descripción demasiado larga, se estira toda la card.

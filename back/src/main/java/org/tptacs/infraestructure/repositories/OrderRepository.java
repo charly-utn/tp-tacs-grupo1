@@ -13,35 +13,37 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Repository
-public class OrderRepository implements IOrderRepository {
-    private final Map<String, Order> repository = new HashMap<>();
+public class OrderRepository extends FileRepository<Order> implements IOrderRepository {
+    public OrderRepository() {
+        super(OrderRepository.class.getSimpleName(), Order.class);
+    }
 
     public void save(Order order) {
-        this.repository.put(order.getId(), order);
+        super.put(order.getId(), order);
     }
 
     public Order get(String id) {
-        var item = this.repository.get(id);
+        var item = super.get(id);
         if (item == null) throw new NotFoundException(id, "pedido");
-        return this.repository.get(id);
+        return super.get(id);
     }
 
     public void update(Order order){
-        repository.replace(order.getId(), order);
+        super.replace(order.getId(), order);
     }
 
     @Override
     public void exists(String id) {
-        if (!this.repository.containsKey(id)) throw new NotFoundException(id, "pedido");
+        if (!super.exist(id)) throw new NotFoundException(id, "pedido");
     }
     
     public Long count() {
-    	return Long.valueOf(repository.values().size());
+    	return super.count();
     }
 
     @Override
     public List<Order> getOrdersFromUser(String userId) {
-        return this.repository.values().stream().filter(order -> order.getUserId().equals(userId)).collect(Collectors.toList());
+        return values().stream().filter(order -> order.getUserId().equals(userId)).collect(Collectors.toList());
     }
 
 }

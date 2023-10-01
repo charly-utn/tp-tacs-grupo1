@@ -14,16 +14,16 @@ public class OrderRequestValidator extends Validator<OrderRequest> implements Va
     public void rules() {
         failFastRule();
 
-        ruleForEach(OrderRequest::getItems)
-                .must(not(nullValue()))
-                    .withMessage(notNullMessage("items"))
-                    .withCode(HttpStatus.UNPROCESSABLE_ENTITY.name())
-                .must(not(empty()))
-                    .when(not(nullValue()))
-                    .withMessage("items must be not empty")
-                    .whenever(not(nullValue()))
-                    .withValidator(new ItemOrderRequestValidator())
-                    .critical();
+//        ruleForEach(OrderRequest::getItems)
+//                .must(not(nullValue()))
+//                    .withMessage(notNullMessage("items"))
+//                    .withCode(HttpStatus.UNPROCESSABLE_ENTITY.name())
+//                .must(not(empty()))
+//                    .when(not(nullValue()))
+//                    .withMessage("items must be not empty")
+//                    .whenever(not(nullValue()))
+//                    .withValidator(new ItemOrderRequestValidator())
+//                    .critical();
     }
 
     @Override

@@ -1,10 +1,13 @@
 package org.tptacs.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.tptacs.domain.enums.Rol;
+import org.tptacs.infraestructure.config.CustomAuthorityDeserializer;
 
 import java.util.Collection;
 import java.util.List;
@@ -17,6 +20,10 @@ public class User implements UserDetails {
     private String password;
     private Rol rol;
     private Collection<? extends GrantedAuthority> authorities;
+    private boolean enabled = true;
+    private boolean accountNonExpired = true;
+    private boolean credentialsNonExpired = true;
+    private boolean accountNonLocked = true;
 
     public User(String id, String username, String email, String password) {
         this.id = id;
@@ -27,6 +34,9 @@ public class User implements UserDetails {
         this.rol = Rol.BASIC;
     }
 
+    private User() {}
+
+    @JsonDeserialize(using = CustomAuthorityDeserializer.class)
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
