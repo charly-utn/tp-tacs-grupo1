@@ -74,10 +74,8 @@ export const Product = (item: Item = defaultProduct ) => {
   }
 
   return (
-    <div className="card-container">
-        <a href="/" className="product-image-container">
-          <img className="product-image" src={item.picture} alt="Product Image"/>
-        </a>
+    <div className="card-container">  
+        <img className="product-image" src={item.picture} alt="Product Image"/>
         <main className="main-content">
           <h1 className="product-title">{item.name}</h1>
           <p className="product-description">{item.description}</p>

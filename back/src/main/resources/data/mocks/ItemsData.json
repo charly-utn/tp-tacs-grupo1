@@ -58,5 +58,65 @@
     "name": "Cerveza",
     "price": 5179,
     "picture": "https://cdn-icons-png.flaticon.com/512/931/931949.png"
+  },
+  {
+    "id": "9c36d2d4-4333-48c0-8fc0-96d3dc06d286",
+    "name": "Chocolate",
+    "price": 9784.3559,
+    "picture": "https://cdn-icons-png.flaticon.com/512/3465/3465221.png"
+  },
+  {
+    "id": "f319bd78-a5fc-4b85-9346-5ac752f3a38d",
+    "name": "Helado",
+    "price": 7844.4187,
+    "picture": "https://cdn-icons-png.flaticon.com/512/648/648770.png"
+  },
+  {
+    "id": "405a7743-b174-48e0-b33e-8eeefbb07a68",
+    "name": "Caramelos",
+    "price": 7664.646,
+    "picture": "https://cdn-icons-png.flaticon.com/512/1888/1888859.png"
+  },
+  {
+    "id": "c2f303c3-9034-4d2b-946c-bdbfdc0903de",
+    "name": "Chicles",
+    "price": 9596.6326,
+    "picture": "https://cdn-icons-png.flaticon.com/512/6314/6314772.png"
+  },
+  {
+    "id": "454f78ee-e951-4991-99fd-e28891263584",
+    "name": "Vino",
+    "price": 3220.335,
+    "picture": "https://cdn-icons-png.flaticon.com/512/683/683981.png"
+  },
+  {
+    "id": "eb5b7d09-1ad6-46b8-92e8-61d5019b7738",
+    "name": "Flan",
+    "price": 7035.7123,
+    "picture": "https://cdn-icons-png.flaticon.com/512/6691/6691384.png"
+  },
+  {
+    "id": "eb2f45aa-78d5-4a29-90d1-7e85e00626ec",
+    "name": "Tarta",
+    "price": 2788.9821,
+    "picture": "https://cdn.icon-icons.com/icons2/1703/PNG/512/pie_112163.png"
+  },
+  {
+    "id": "2998557d-0b8d-441e-9e63-55e6c79d67dd",
+    "name": "Cookies",
+    "price": 9667.3789,
+    "picture": "https://cdn-icons-png.flaticon.com/512/6122/6122403.png"
+  },
+  {
+    "id": "bcd1f1b7-95fc-49ff-be89-5112cb31e3ce",
+    "name": "Pollo",
+    "price": 6011.4584,
+    "picture": "https://png.pngtree.com/png-vector/20200531/ourlarge/pngtree-chicken-illustration-in-icon-drawn-style-png-image_2216359.jpg"
+  },
+  {
+    "id": "4cd4b156-6a7b-4fe4-8da4-d73d916f8615",
+    "name": "Asado",
+    "price": 9308.5564,
+    "picture": "https://cdn-icons-png.flaticon.com/512/782/782265.png"
   }
 ]
