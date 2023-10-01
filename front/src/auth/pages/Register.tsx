@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { createUser } from "../../services/UsersApiClient";
 import { CreateUser } from "../../interfaces/CreateUser";
 import { useNavigate } from "react-router-dom";
+import { AlertError, AlertOk } from "../../components/SweetAlert";
 
 export const Register = () => {
     const [username, setUsername] = useState("");
@@ -14,16 +15,18 @@ export const Register = () => {
     const handleSubmit = async (event: any) => {
         event.preventDefault();
         const user: CreateUser = { userName: username, password, email };
-        try {
-            const response = await createUser(user);
-            setMessage(`User ${response.username} created successfully!`);
-            alert('Registro correcto');
-            navigate('/login');
-        } catch (error) {
-            setMessage('Error creating user. Please try again.');
-        }
-    };
 
+        createUser(user)
+            .then(r => {
+                setMessage(`User ${r.username} created successfully!`);
+                AlertOk('Registro', 'Tu usuario se creó correctamente!');
+                navigate('/login');
+            })
+            .catch(e => {
+                AlertError('Registro', 'Ocurrió un error la registrar tu usuario', e);
+                setMessage('Error creating user. Please try again.');
+            });
+    }
     return (
         <div className="container mt-5">
             <div className="row justify-content-center">
@@ -79,5 +82,4 @@ export const Register = () => {
             </div>
         </div>
     );
-};
-
+}

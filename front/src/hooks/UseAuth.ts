@@ -9,16 +9,16 @@ export const UseAuth = () => {
   const [login, dispatch] = useReducer(LoginReducer, initialLogin)
 
   const handlerLogin = async(credentials: Credentials) => {
-    const userLogged = await loginUser(credentials)
+    const userLogged = await loginUser(credentials)    
     dispatch({
         type: 'login',
-        payload: userLogged
+        payload: userLogged.data
     })
-    localStorage.setItem('token', userLogged.token);
+    localStorage.setItem('token', userLogged.data.token);
     localStorage.setItem('login', JSON.stringify({
         isAuth: true,
         user: {
-          userName: userLogged.userName
+          userName: userLogged.data.userName
         }
     }))
   }
