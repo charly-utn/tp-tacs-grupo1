@@ -12,6 +12,7 @@ import org.tptacs.presentation.responseModels.*;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,7 +50,8 @@ public class OrderController extends BaseController {
     public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderRequest orderRequest) {
     	orderRequest.assignUserId(this.getUserFromJwt().getId());
         String orderId = createOrderUC.createOrder(orderRequest);
-		return ResponseEntity.ok().body(new OrderResponse(orderId));
+        URI location = URI.create("/items?order_id=" + orderId);
+        return ResponseEntity.created(location).body(new OrderResponse(orderId, "201", "Resource successfully created"));
     }
 
     @PostMapping(path = "/{orderId}/items", produces = "application/json", consumes = "application/json")
