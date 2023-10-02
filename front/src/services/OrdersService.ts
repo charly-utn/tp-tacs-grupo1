@@ -30,3 +30,7 @@ export const removeItem = async (orderId: string, itemId: string) => {
 export const updateQuantity = async (orderId: string, itemId: string, quantity: number) => {
   return instance.patch(`${endpoint}/${orderId}/items/${itemId}`, {quantity})
 }
+
+export const updateOrder = async (orderId: string) => {
+  return instance.patch(`${endpoint}/${orderId}`, {orderId})
+}

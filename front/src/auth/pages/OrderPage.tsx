@@ -3,6 +3,8 @@ import { Order } from "../../interfaces/Order"
 import { useState } from 'react';
 import { Clipboard } from 'react-bootstrap-icons';
 import OrderModal from "./OrderModal";
+import { updateOrder } from "../../services/OrdersService";
+import { AlertOk } from "../../components/SweetAlert";
 
 export const OrderPage = (order: Order) => {
   const [showSnackbar, setShowSnackbar] = useState(false);
@@ -29,6 +31,22 @@ export const OrderPage = (order: Order) => {
       });
   };
 
+  const closeOrder = () => {
+    updateOrder(order.id).then(() => {
+      // dispatch({
+      //   type: 'UPDATE_ORDERS',
+      //   payload: order.id
+      // });
+      AlertOk('Pedido', 'El pedido se cerró con éxito');
+    });
+  }
+
+  const botonCierreHabilitado = (orderUserId : string, orderStatus : string, orderHasItems: boolean) => {
+    //var userId = login.UserId;
+    return orderHasItems 
+      && orderStatus != 'CLOSED'; //|| orderUserId == userId;
+  }
+
   return (
      <li className="list-group-item border border-dark p-3 mb-3">
       <div className="d-flex justify-content-between align-items-center">
@@ -48,15 +66,20 @@ export const OrderPage = (order: Order) => {
           <NavLink className="btn btn-success" to={"/items?order_id=" + order.id}>
             Modificar ítems
           </NavLink>
+
           <button 
-            className="btn btn-secondary mx-2" 
-            onClick={() => openOrderModal()}>Ver detalle orden</button>
-            <OrderModal show={showModal} handleClose={closeOrderModal} productId={order.id}/>
+            className="btn btn-success mx-2" 
+            onClick={() => openOrderModal()}>
+              Ver detalle orden
+          </button>
+
+          <OrderModal show={showModal} handleClose={closeOrderModal} productId={order.id}/>
+
           <button
-            className="btn btn-danger mx-3"
-            // Agregar handler onclick para cerrar el pedido
-          >
-            Cerrar Pedido
+            className="btn btn-danger mx-2"
+            onClick={() => closeOrder()}
+            disabled={!botonCierreHabilitado(order.userId, order.status, order.hasItems)}>
+              Cerrar Pedido
           </button>
         </div>
       </div>
@@ -67,4 +90,8 @@ export const OrderPage = (order: Order) => {
       )}
     </li>
   )
+}
+
+function dispatch(arg0: { type: string; payload: any; }) {
+  throw new Error("Function not implemented.");
 }
