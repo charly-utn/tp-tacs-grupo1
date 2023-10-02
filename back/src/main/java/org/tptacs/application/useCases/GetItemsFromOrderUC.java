@@ -21,10 +21,4 @@ public class GetItemsFromOrderUC {
         var order = this.orderRepository.get(orderId);
         return order.getItems();
     }
-    
-    public ItemOrder getItemFromOrder(String orderId, String itemId) {
-		Optional<ItemOrder> itemOp = orderRepository.get(orderId).getItems().stream().filter(item -> item.getItem().getId().equals(itemId)).findFirst();
-		if(itemOp.isEmpty()) throw new ValidationException("El item debe haber sido previamente agregado");
-		return itemOp.get(); 
-    }
 }
