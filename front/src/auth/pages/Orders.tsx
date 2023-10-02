@@ -37,7 +37,8 @@ export const Orders = () => {
                 </ul>
             }
             <button className="btn btn-success my-3"
-                onClick={onCreateOrder}>Crear Pedido</button>
+                onClick={onCreateOrder}>Crear Pedido
+            </button>
         </div>
     );
 };

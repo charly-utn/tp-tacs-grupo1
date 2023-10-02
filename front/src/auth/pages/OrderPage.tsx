@@ -2,9 +2,19 @@ import { NavLink } from "react-router-dom"
 import { Order } from "../../interfaces/Order"
 import { useState } from 'react';
 import { Clipboard } from 'react-bootstrap-icons';
+import OrderModal from "./OrderModal";
 
 export const OrderPage = (order: Order) => {
   const [showSnackbar, setShowSnackbar] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  const openOrderModal = () => {
+    setShowModal(true);
+  };
+
+  const closeOrderModal = () => {
+    setShowModal(false);
+  };
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(order.id)
@@ -36,8 +46,12 @@ export const OrderPage = (order: Order) => {
         </div>
         <div>
           <NavLink className="btn btn-success" to={"/items?order_id=" + order.id}>
-            Ver Orden
+            Modificar ítems
           </NavLink>
+          <button 
+            className="btn btn-secondary mx-2" 
+            onClick={() => openOrderModal()}>Ver detalle orden</button>
+            <OrderModal show={showModal} handleClose={closeOrderModal} productId={order.id}/>
           <button
             className="btn btn-danger mx-3"
             // Agregar handler onclick para cerrar el pedido
