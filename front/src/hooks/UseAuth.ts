@@ -18,7 +18,8 @@ export const UseAuth = () => {
     localStorage.setItem('login', JSON.stringify({
         isAuth: true,
         user: {
-          userName: userLogged.data.userName
+          userName: userLogged.data.userName,
+          userId: userLogged.data.userId
         }
     }))
   }

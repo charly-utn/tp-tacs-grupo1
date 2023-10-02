@@ -72,7 +72,7 @@ export const Register = () => {
                                     />
                                 </div>
                                 <button type="submit" className="btn btn-primary">
-                                    Register
+                                    Registrarse
                                 </button>
                             </form>
                             {message && <p>{message}</p>}

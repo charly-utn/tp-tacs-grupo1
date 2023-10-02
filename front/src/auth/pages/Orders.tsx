@@ -31,13 +31,14 @@ export const Orders = () => {
                 ) :
                 <ul className="list-group">{
                     orders.map((o: Order) => (
-                        <OrderPage key={o.id} id={o.id} name={o.name} items={o.items}/>
+                        <OrderPage key={o.id} id={o.id} name={o.name} items={o.items} userId={o.userId} status={o.status} hasItems={o.hasItems}/>
                     ))
                 }
                 </ul>
             }
             <button className="btn btn-success my-3"
-                onClick={onCreateOrder}>Crear Pedido</button>
+                onClick={onCreateOrder}>Crear Pedido
+            </button>
         </div>
     );
 };
