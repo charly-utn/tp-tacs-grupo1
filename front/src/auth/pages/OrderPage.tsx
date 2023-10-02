@@ -33,18 +33,29 @@ export const OrderPage = (order: Order) => {
 
   const closeOrder = () => {
     updateOrder(order.id).then(() => {
-      // dispatch({
-      //   type: 'UPDATE_ORDERS',
-      //   payload: order.id
-      // });
+      //  dispatch({
+      //    type: 'UPDATE_ORDERS',
+      //    payload: order.id
+      //  });
       AlertOk('Pedido', 'El pedido se cerró con éxito');
     });
   }
 
-  const botonCierreHabilitado = (orderUserId : string, orderStatus : string, orderHasItems: boolean) => {
-    //var userId = login.UserId;
+  const canCloseOrder = (orderUserId : string, orderStatus : string, orderHasItems: boolean) => {
+    let login = localStorage.getItem("login");
+
+    let userId = null;
+
+    if (login !== null)
+      userId = JSON.parse(login).user.userId;
+    
     return orderHasItems 
-      && orderStatus != 'CLOSED'; //|| orderUserId == userId;
+      && orderStatus != 'CLOSED'
+      && orderUserId == userId;
+  }
+
+  const canAddItems = (orderStatus : string) => {
+    return orderStatus != 'CLOSED';
   }
 
   return (
@@ -63,7 +74,10 @@ export const OrderPage = (order: Order) => {
           </div>
         </div>
         <div>
-          <NavLink className="btn btn-success" to={"/items?order_id=" + order.id}>
+          <NavLink
+            className={`btn ${canAddItems(order.status) ? 'btn-success' : 'btn-disabled'}`}
+            to={canAddItems(order.status) ? `/items?order_id=${order.id}` : '#'}
+            onClick={canAddItems(order.status) ? undefined : (e) => e.preventDefault()}>
             Modificar ítems
           </NavLink>
 
@@ -78,7 +92,7 @@ export const OrderPage = (order: Order) => {
           <button
             className="btn btn-danger mx-2"
             onClick={() => closeOrder()}
-            disabled={!botonCierreHabilitado(order.userId, order.status, order.hasItems)}>
+            disabled={!canCloseOrder(order.userId, order.status, order.hasItems)}>
               Cerrar Pedido
           </button>
         </div>
@@ -90,8 +104,4 @@ export const OrderPage = (order: Order) => {
       )}
     </li>
   )
-}
-
-function dispatch(arg0: { type: string; payload: any; }) {
-  throw new Error("Function not implemented.");
 }

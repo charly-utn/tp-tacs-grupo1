@@ -19,7 +19,7 @@ export const UseAuth = () => {
         isAuth: true,
         user: {
           userName: userLogged.data.userName,
-          userId: userLogged.data.id
+          userId: userLogged.data.userId
         }
     }))
   }
