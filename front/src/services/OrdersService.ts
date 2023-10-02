@@ -5,19 +5,19 @@ import { instance } from "./BaseClient";
 
 const endpoint = 'orders'
 
-export const findAll = async () => {
+export const findOrders = async () => {
   try {
     const response = await instance.get("orders");
     return response.data;
   } catch (error) {
-    console.log("Error findAll")
+    console.log("Error findOrders")
     throw error;
   }
 }
 
 export const createOrder = async(order: OrderRequest): Promise<AxiosResponse<{orderId: string}, any>> => {
     return instance.post("orders", order);
-  }
+}
 
 export const addItem = async (orderId: string, itemId: string, quantity: number) => {
   return instance.post(`${endpoint}/${orderId}/items`, {id: itemId, quantity: quantity})
