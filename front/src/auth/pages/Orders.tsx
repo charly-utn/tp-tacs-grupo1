@@ -14,7 +14,7 @@ export const Orders = () => {
             await getOrders()
         }
         fetch()
-    }, [])
+    }, [orders])
     
     const handleAcceptModal = async (type: string, nameOrId: string) => {
         if (type == 'new') await handleCreateOrder({items: [], name: nameOrId});
