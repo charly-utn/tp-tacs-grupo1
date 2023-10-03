@@ -8,10 +8,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import org.tptacs.domain.exceptions.NotFoundException;
-import org.tptacs.domain.exceptions.RegistrationException;
-import org.tptacs.domain.exceptions.ResourceNotFoundException;
-import org.tptacs.domain.exceptions.ValidationException;
+import org.tptacs.domain.exceptions.*;
 
 @ControllerAdvice
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
@@ -48,6 +45,13 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException ex) {
         System.out.println("error: " + ex.getMessage());
         var error = new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+        return ResponseEntity.status(error.getHttpCode()).body(error);
+    }
+
+    @ExceptionHandler(AuthorizationException.class)
+    public ResponseEntity<ErrorResponse> handleAuthorizationException(AuthorizationException ex) {
+        System.out.println("error: " + ex.getMessage());
+        var error = new ErrorResponse(HttpStatus.FORBIDDEN, ex.getMessage());
         return ResponseEntity.status(error.getHttpCode()).body(error);
     }
 
