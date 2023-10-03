@@ -46,9 +46,6 @@ export const Products = () => {
         let items = await findAll(event.target.value)
         setProducts(items)
         setSearchParams({order_id: event.target.value})
-        console.log("items:", items);
-        
-        //setSelectedOrder(orderId);
     };
 
     return (
