@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.time.LocalDateTime;
+
 public class OrderResponse extends Response{
 
 	
@@ -13,8 +15,8 @@ public class OrderResponse extends Response{
 	private String id;
 
 	@JsonCreator
-    public OrderResponse(String orderId) {
-		super();
+    public OrderResponse(String orderId, String code, String message) {
+		super(code, message, LocalDateTime.now());
 		this.id = orderId;
     }
 

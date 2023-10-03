@@ -20,6 +20,8 @@ services:
     container_name: back_container
     build:
       context: back
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
     ports:
       - 8080:8080
     restart: always

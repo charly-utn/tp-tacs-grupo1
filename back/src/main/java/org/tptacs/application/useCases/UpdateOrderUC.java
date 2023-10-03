@@ -19,7 +19,7 @@ public class UpdateOrderUC {
 		Order orderDB = orderRepository.get(orderId);
 		if(!orderDB.getUserId().equals(userId)) throw new ValidationException("El usuario no esta autorizado");
 		orderDB.upateStatus(status);
-		orderRepository.save(orderDB);
+		orderRepository.update(orderDB);
 	}
 	
 }

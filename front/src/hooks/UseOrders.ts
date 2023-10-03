@@ -6,11 +6,6 @@ import { OrderRequest } from "../interfaces/OrderRequest"
 import { AlertError, AlertOk } from "../components/SweetAlert"
 
 const initialOrders: Order[] = []
-/*[{
-  id: '',
-  name: '',
-  items: []
-}]*/
 
 export const UseOrders = () => {
 
@@ -18,10 +13,13 @@ export const UseOrders = () => {
 
   const getOrders = async() => {
     const response = await findOrders()
-    const allOrders: Order[] = response.ordersIds.map((id: string) => <Order>{
-      id: id,
+    const allOrders: Order[] = response.orderDtos.map((orderDto: any) => <Order>{
+      id: orderDto.orderId,
       name: '',
-      items: []
+      items: [],
+      userId: orderDto.userId,
+      status: orderDto.status,
+      hasItems: orderDto.hasItems
     })
 
     dispatch({

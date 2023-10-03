@@ -2,9 +2,21 @@ import { NavLink } from "react-router-dom"
 import { Order } from "../../interfaces/Order"
 import { useState } from 'react';
 import { Clipboard } from 'react-bootstrap-icons';
+import OrderModal from "./OrderModal";
+import { updateOrder } from "../../services/OrdersService";
+import { AlertOk } from "../../components/SweetAlert";
 
 export const OrderPage = (order: Order) => {
   const [showSnackbar, setShowSnackbar] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  const openOrderModal = () => {
+    setShowModal(true);
+  };
+
+  const closeOrderModal = () => {
+    setShowModal(false);
+  };
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(order.id)
@@ -18,6 +30,33 @@ export const OrderPage = (order: Order) => {
         console.error('Error al copiar al portapapeles: ', error);
       });
   };
+
+  const closeOrder = () => {
+    updateOrder(order.id).then(() => {
+      //  dispatch({
+      //    type: 'UPDATE_ORDERS',
+      //    payload: order.id
+      //  });
+      AlertOk('Pedido', 'El pedido se cerró con éxito');
+    });
+  }
+
+  const canCloseOrder = (orderUserId : string, orderStatus : string, orderHasItems: boolean) => {
+    let login = localStorage.getItem("login");
+
+    let userId = null;
+
+    if (login !== null)
+      userId = JSON.parse(login).user.userId;
+    
+    return orderHasItems 
+      && orderStatus != 'CLOSED'
+      && orderUserId == userId;
+  }
+
+  const canAddItems = (orderStatus : string) => {
+    return orderStatus != 'CLOSED';
+  }
 
   return (
      <li className="list-group-item border border-dark p-3 mb-3">
@@ -35,14 +74,26 @@ export const OrderPage = (order: Order) => {
           </div>
         </div>
         <div>
-          <NavLink className="btn btn-success" to={"/items?order_id=" + order.id}>
-            Ver Orden
+          <NavLink
+            className={`btn ${canAddItems(order.status) ? 'btn-success' : 'btn-disabled'}`}
+            to={canAddItems(order.status) ? `/items?order_id=${order.id}` : '#'}
+            onClick={canAddItems(order.status) ? undefined : (e) => e.preventDefault()}>
+            Modificar ítems
           </NavLink>
+
+          <button 
+            className="btn btn-success mx-2" 
+            onClick={() => openOrderModal()}>
+              Ver detalle orden
+          </button>
+
+          <OrderModal show={showModal} handleClose={closeOrderModal} productId={order.id}/>
+
           <button
-            className="btn btn-danger mx-3"
-            // Agregar handler onclick para cerrar el pedido
-          >
-            Cerrar Pedido
+            className="btn btn-danger mx-2"
+            onClick={() => closeOrder()}
+            disabled={!canCloseOrder(order.userId, order.status, order.hasItems)}>
+              Cerrar Pedido
           </button>
         </div>
       </div>

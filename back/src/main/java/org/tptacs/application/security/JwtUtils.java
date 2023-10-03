@@ -2,6 +2,8 @@ package org.tptacs.application.security;
 
 import java.security.Key;
 import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import io.jsonwebtoken.*;
@@ -13,8 +15,8 @@ import org.tptacs.domain.exceptions.AuthorizationException;
 @Component
 public class JwtUtils {
 
-    // TODO extraer a una varialbe de entorno
-    private String jwtSecret = "0b70d97e54964bc0ab6d7f9446e831de0b70d97e54964bc0ab6d7f9446e831de";
+    @Value("${jwt.secret}")
+    private String jwtSecret;
 
     private int jwtExpirationMs = 1000 * 60 * 60 * 2 ; //2 horas
 
