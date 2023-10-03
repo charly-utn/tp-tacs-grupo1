@@ -18,7 +18,7 @@ export const Orders = () => {
     
     const handleAcceptModal = async (type: string, nameOrId: string) => {
         if (type == 'new') await handleCreateOrder({items: [], name: nameOrId});
-        if (type == 'other') await handleCreateOrder({items: [], name: nameOrId});
+        if (type == 'other') await handleCreateOrder({items: [], id: nameOrId});
     }
 
     return (

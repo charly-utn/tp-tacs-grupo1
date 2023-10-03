@@ -36,8 +36,8 @@ export const InputNameModal =  ({show, handleClose, handleFunc} : {show: any, ha
     <div className="input-group mb-3 mt-3">
       <input type="text"
         className="form-control"
-        id="nameOrId"
-        name="nameOrId" 
+        id="id"
+        name="name" 
         value={nameOrId}
         onChange={setValue}
         required

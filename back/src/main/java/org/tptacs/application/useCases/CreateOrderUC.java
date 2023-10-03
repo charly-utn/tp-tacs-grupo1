@@ -21,7 +21,7 @@ public class CreateOrderUC {
         this.orderRepository = orderRepository;
     }
 
-    public String createOrder(OrderRequest orderRequest) {
+    public Order createOrder(OrderRequest orderRequest) {
         var items = orderRequest.getItems().stream().map(ior -> {
             var item = this.itemsRepository.get(ior.getId());
             return new ItemOrder(item, ior.getQuantity());
@@ -29,6 +29,6 @@ public class CreateOrderUC {
 
         var order = new Order(UUID.randomUUID().toString(), orderRequest.getUserId(), orderRequest.getName(), items, OrderStatus.NEW);
         this.orderRepository.save(order);
-        return order.getId();
+        return order;
     }
 }

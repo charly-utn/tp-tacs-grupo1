@@ -2,6 +2,7 @@ package org.tptacs.domain.entities;
 
 
 import java.time.LocalDateTime;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +22,7 @@ public class Order {
     private OrderStatus status;
     private LocalDateTime creationDate;
     private LocalDateTime lastUpdate;
+    private List<String> usersInvited = new LinkedList<String>();
 
     public Order(String id, String userId, String name, List<ItemOrder> item, OrderStatus status) {
         this.id = id;
@@ -71,5 +73,16 @@ public class Order {
         if(itemOp.isEmpty()) throw new NotFoundException("El item buscado no existe en este pedido", "Item Order");
         return itemOp.get();
     }
+    
+    public void addUserInvited(String userName) {
+    	if(this.getUsersInvited().contains(userName)) {
+    		//TODO
+    	}else {
+    		this.getUsersInvited().add(userName);
+    	}
+    }
 
+    public List<String> getUsersInvited(){
+    	return this.usersInvited != null ? this.usersInvited : new LinkedList<String>();
+    }
 }

@@ -33,14 +33,13 @@ public class OrderRequestValidatorTest {
 
 
     @Test
-    public void validateOrderRequestWithEmptyItems() {
+    public void validateOKOrderRequestWithEmptyItems() {
         OrderRequest orderRequest = new OrderRequest(null);
 
         ValidationResult validationResult = validator.validate(orderRequest);
 
-        assertThat(validationResult.isValid()).isFalse();
-        assertThat(validationResult.getErrors()).hasSize(1);
-        assertThat(validationResult.getErrors().stream().findFirst().get().getCode()).isEqualTo("UNPROCESSABLE_ENTITY");
+        assertThat(validationResult.isValid()).isTrue();
+
     }
 
 }

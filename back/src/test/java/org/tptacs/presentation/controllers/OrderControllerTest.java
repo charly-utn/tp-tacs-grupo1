@@ -19,7 +19,9 @@ import org.tptacs.application.useCases.GetItemsFromOrderUC;
 import org.tptacs.application.useCases.RemoveItemFromOrderUC;
 import org.tptacs.application.useCases.UpdateItemOrderUC;
 import org.tptacs.application.useCases.UpdateOrderUC;
+import org.tptacs.domain.entities.Order;
 import org.tptacs.domain.entities.User;
+import org.tptacs.domain.enums.OrderStatus;
 import org.tptacs.presentation.requestModels.ItemOrderRequest;
 import org.tptacs.presentation.requestModels.OrderRequest;
 
@@ -58,7 +60,7 @@ public class OrderControllerTest {
     @BeforeEach
     void setUp() {
         Mockito.when(createOrderUC.createOrder(Mockito.any(OrderRequest.class)))
-        	.thenReturn("123"); 
+        	.thenReturn(new Order("123","1","OrderName",List.of(),OrderStatus.NEW)); 
         Mockito.when(baseController.getUserFromJwt())
         	.thenReturn(new User("1","userTest","email@email.com","UnPasswordMuySeguro1234")); 
     }
