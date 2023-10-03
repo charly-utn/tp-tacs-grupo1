@@ -7,6 +7,7 @@ import org.tptacs.domain.entities.Order;
 import org.tptacs.domain.entities.User;
 import org.tptacs.domain.enums.OrderStatus;
 import org.tptacs.domain.exceptions.AuthorizationException;
+import org.tptacs.domain.exceptions.NotFoundException;
 import org.tptacs.infraestructure.repositories.interfaces.IOrderRepository;
 import org.tptacs.infraestructure.repositories.interfaces.IUserRepository;
 
@@ -30,7 +31,7 @@ public class UpdateOrderUC {
 	public Order updateOrderForShared(String orderId, String userName){
 		Order orderDB = orderRepository.get(orderId);
 		Optional<User> userInvited = userRepository.findByUsername(userName);
-		if(userInvited.isEmpty()) throw new ValidationException("El usuario no existe");
+		if(userInvited.isEmpty()) throw new NotFoundException("User",userName);
 		userInvited.get().addOrderShared(orderDB.getId());
 		orderDB.addUserInvited(userInvited.get().getUsername());
 		orderRepository.update(orderDB);
