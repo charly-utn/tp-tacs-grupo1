@@ -1,15 +1,13 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Order } from "../../interfaces/Order";
 import { OrdersContext } from '../../context/OrdersContext';
 import { OrderPage } from './OrderPage';
 import { OrderRequest } from '../../interfaces/OrderRequest';
-
-const defaultOrderRequest: OrderRequest = {
-    items: []
-}
+import { InputNameModal } from '../../components/InputNameModal';
 
 export const Orders = () => {
     const {orders, getOrders, handleCreateOrder} = useContext(OrdersContext)
+    const [show, setShow] = useState(false);
 
     useEffect(() => { 
         const fetch = async () => {
@@ -17,9 +15,10 @@ export const Orders = () => {
         }
         fetch()
     }, [])
-
-    const onCreateOrder = async() => {
-        await handleCreateOrder(defaultOrderRequest)
+    
+    const handleAcceptModal = async (type: string, nameOrId: string) => {
+        if (type == 'new') await handleCreateOrder({items: [], name: nameOrId});
+        if (type == 'other') await handleCreateOrder({items: [], name: nameOrId});
     }
 
     return (
@@ -37,8 +36,9 @@ export const Orders = () => {
                 </ul>
             }
             <button className="btn btn-success my-3"
-                onClick={onCreateOrder}>Crear Pedido
+                onClick={() => setShow(true)}>Crear Pedido
             </button>
+            <InputNameModal show={show} handleClose={() => setShow(false)} handleFunc={handleAcceptModal} ></InputNameModal>
         </div>
     );
 };

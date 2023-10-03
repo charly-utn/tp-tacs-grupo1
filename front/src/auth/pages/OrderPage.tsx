@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom"
 import { Order } from "../../interfaces/Order"
 import { useState } from 'react';
 import { Clipboard } from 'react-bootstrap-icons';
-import OrderModal from "./OrderModal";
+import OrderModal from "../../components/OrderModal";
 import { updateOrder } from "../../services/OrdersService";
 import { AlertOk } from "../../components/SweetAlert";
 
@@ -62,9 +62,9 @@ export const OrderPage = (order: Order) => {
      <li className="list-group-item border border-dark p-3 mb-3">
       <div className="d-flex justify-content-between align-items-center">
         <div>
-          <p className="mb-1">Nombre: {order.name}</p>
+          <p className="mb-1"><strong>Nombre:</strong> {order.name}</p>
           <div className="d-flex align-items-center"> {/* Agregamos un contenedor flex para alinear el botón junto a order.id */}
-            <p className="mb-1">Orden: {order.id}</p>
+            <p className="mb-1"><strong>Orden:</strong> {order.id}</p>
               <button
                 className="btn btn-secondary mx-2" // Reducimos el espacio entre el texto y el botón
                 onClick={copyToClipboard}

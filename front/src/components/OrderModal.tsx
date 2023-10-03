@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
-import { findAll } from '../../services/ProductsService';
-import { ItemOrder } from "../../interfaces/ItemOrder"
+import { findAll } from '../services/ProductsService';
+import { ItemOrder } from "../interfaces/ItemOrder"
 
 const OrderModal =  ({show, handleClose, productId} : {show: any, handleClose: any, productId: any}) => {
     const [products, setProducts] = useState([]);

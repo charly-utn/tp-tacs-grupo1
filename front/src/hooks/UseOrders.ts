@@ -15,7 +15,7 @@ export const UseOrders = () => {
     const response = await findOrders()
     const allOrders: Order[] = response.orderDtos.map((orderDto: any) => <Order>{
       id: orderDto.orderId,
-      name: '',
+      name: orderDto.name,
       items: [],
       userId: orderDto.userId,
       status: orderDto.status,
