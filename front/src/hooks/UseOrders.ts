@@ -42,8 +42,7 @@ export const UseOrders = () => {
     } else {
       updateOrderShared(order.id)
       .then(() => {
-        // Puedes realizar alguna acción adicional después de la actualización si es necesario
-        AlertOk('Pedido', 'El pedido se actualizó correctamente');
+        AlertOk('Pedido', 'El pedido se agrego correctamente');
       })
       .catch((e) => AlertError('Pedido', 'Ocurrió un error al actualizar el pedido', e));
 
