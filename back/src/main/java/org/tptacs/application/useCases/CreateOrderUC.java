@@ -27,7 +27,7 @@ public class CreateOrderUC {
             return new ItemOrder(item, ior.getQuantity());
         }).collect(Collectors.toList());
 
-        var order = new Order(UUID.randomUUID().toString(), orderRequest.getUserId(), items, OrderStatus.NEW);
+        var order = new Order(UUID.randomUUID().toString(), orderRequest.getUserId(), orderRequest.getName(), items, OrderStatus.NEW);
         this.orderRepository.save(order);
         return order.getId();
     }

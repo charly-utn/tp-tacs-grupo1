@@ -14,6 +14,7 @@ public class OrderRequest {
     private String userId;
 	@JsonProperty("items")
     private List<ItemOrderRequest> items;
+	private String name;
 	
 	@JsonCreator
     public OrderRequest(

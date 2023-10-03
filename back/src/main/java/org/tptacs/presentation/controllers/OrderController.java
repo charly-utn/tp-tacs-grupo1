@@ -72,7 +72,7 @@ public class OrderController extends BaseController {
 
         var mappedOrders = orders
                 .stream()
-                .map(order -> new OrderDto(order.getId(), order.getUserId(), order.getStatus().toString(), order.getItems().size() > 0))
+                .map(order -> new OrderDto(order.getId(), order.getUserId(), order.getStatus().toString(), order.getItems().size() > 0, order.getName()))
                 .collect(Collectors.toList());
 
         return ResponseEntity

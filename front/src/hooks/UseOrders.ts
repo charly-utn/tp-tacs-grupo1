@@ -1,6 +1,6 @@
 import { useReducer } from "react"
 import { OrdersReducer } from "../reducers/OrdersReducer"
-import { createOrder, findAll } from "../services/OrdersService"
+import { createOrder, findOrders } from "../services/OrdersService"
 import { Order } from "../interfaces/Order"
 import { OrderRequest } from "../interfaces/OrderRequest"
 import { AlertError, AlertOk } from "../components/SweetAlert"
@@ -12,10 +12,10 @@ export const UseOrders = () => {
   const [orders, dispatch] = useReducer(OrdersReducer, initialOrders)
 
   const getOrders = async() => {
-    const response = await findAll()
+    const response = await findOrders()
     const allOrders: Order[] = response.orderDtos.map((orderDto: any) => <Order>{
       id: orderDto.orderId,
-      name: '',
+      name: orderDto.name,
       items: [],
       userId: orderDto.userId,
       status: orderDto.status,

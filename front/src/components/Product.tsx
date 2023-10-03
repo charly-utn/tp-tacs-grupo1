@@ -1,9 +1,10 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./Product.css";
 import { OrdersContext } from "../context/OrdersContext";
 import { Item } from "../interfaces/Item";
 import { addItem, removeItem, updateQuantity } from "../services/OrdersService";
 import { AlertError, AlertOk } from "./SweetAlert";
+import { ItemOrder } from "../interfaces/ItemOrder";
 
 const defaultProduct: Item = {
   id: "",
@@ -14,13 +15,22 @@ const defaultProduct: Item = {
   quantity: 0
 }
 
+const defaultItemOrder: ItemOrder = {
+  item: defaultProduct,
+  quantity: 0
+}
 
-export const Product = (item: Item = defaultProduct ) => {
+export const Product = (itemOrder: ItemOrder = defaultItemOrder ) => {
 
-  const [quantity, setQuantity] = useState(item.quantity || 0);
+  const [quantity, setQuantity] = useState(itemOrder.quantity);
   const [debounceActive, setDebounceActive] = useState(false);
   const queryString = window.location.search;
   const orderId = new URLSearchParams(queryString).get('order_id');
+
+  useEffect(() => {
+      setQuantity(itemOrder.quantity)
+  }, [itemOrder])
+  
 
   const handleChange = (event: any) => {
     setQuantity(parseInt(event.target.value));
@@ -58,31 +68,31 @@ export const Product = (item: Item = defaultProduct ) => {
 
   const internalUpdateQuantity = (value: number) => {
     if (value == 0)  {
-      removeItem(orderId!, item.id)
+      removeItem(orderId!, itemOrder.item.id)
         .then(r => AlertOk('Eliminación', 'El item se eliminó correctamente del pedido'))
         .catch(e => AlertError('Eliminación', 'Hubo un error al intentar borrar el item del pedido', e.response.data.message));
       return;
     }
     
     if (quantity == 0) {
-      addItem(orderId!, item.id, value)
+      addItem(orderId!, itemOrder.item.id, value)
         .then(r => AlertOk('Agregar Item', 'El item se agregó correctamente al pedido' ))
         .catch(e =>  AlertError('Agregar Item', 'Hubo un error al intentar agregar el item al pedido', e.response.data.message));
       return;
     }
-    updateQuantity(orderId!, item.id, value)
+    updateQuantity(orderId!, itemOrder.item.id, value)
   }
 
   return (
     <div className="card-container">  
-        <img className="product-image" src={item.picture} alt="Product Image"/>
+        <img className="product-image" src={itemOrder.item.picture} alt="Product Image"/>
         <main className="main-content">
-          <h1 className="product-title">{item.name}</h1>
-          <p className="product-description">{item.description}</p>
+          <h1 className="product-title">{itemOrder.item.name}</h1>
+          <p className="product-description">{itemOrder.item.description}</p>
           <div className="flex-row">
             <div className="price-container">
               
-              <h2 className="price">${item.price}</h2>
+              <h2 className="price">${itemOrder.item.price}</h2>
             </div>
 
           </div>

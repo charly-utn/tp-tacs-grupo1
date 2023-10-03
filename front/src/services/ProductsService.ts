@@ -1,7 +1,7 @@
 import { instance } from "./BaseClient";
 
 export const findAll = async (orderId: string | null): Promise<any> => {
-  
+  if (orderId == '') orderId = null;
   const params = {
     order_id: orderId
   }
