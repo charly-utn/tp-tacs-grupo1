@@ -10,6 +10,7 @@ import org.tptacs.domain.entities.ItemOrder;
 import org.tptacs.domain.entities.Order;
 import org.tptacs.domain.enums.OrderStatus;
 import org.tptacs.infraestructure.repositories.interfaces.IOrderRepository;
+import org.tptacs.infraestructure.repositories.interfaces.IUserRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -20,6 +21,9 @@ import java.util.List;
 public class UpdateOrderUCTest {
 
     private UpdateOrderUC updateOrderUC;
+    
+    @Mock
+    private IUserRepository userRepository;
 
     @Mock
     private IOrderRepository orderRepository;
@@ -27,7 +31,7 @@ public class UpdateOrderUCTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        updateOrderUC = new UpdateOrderUC(orderRepository);
+        updateOrderUC = new UpdateOrderUC(orderRepository, userRepository);
 
     }
 

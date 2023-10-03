@@ -50,9 +50,9 @@ public class OrderController extends BaseController {
     @PostMapping(produces = "application/json", consumes = "application/json")
     public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderRequest orderRequest) {
     	orderRequest.assignUserId(this.getUserFromJwt().getId());
-        String orderId = createOrderUC.createOrder(orderRequest);
-        URI location = URI.create("/items?order_id=" + orderId);
-        return ResponseEntity.created(location).body(new OrderResponse(orderId, "201", "Resource successfully created"));
+        Order order = createOrderUC.createOrder(orderRequest);
+        URI location = URI.create("/items?order_id=" + order.getId());
+        return ResponseEntity.created(location).body(new OrderResponse(order, "201", "Resource successfully created"));
     }
 
     @PostMapping(path = "/{orderId}/items", produces = "application/json", consumes = "application/json")
@@ -69,6 +69,8 @@ public class OrderController extends BaseController {
     @GetMapping(path = "", produces = "application/json")
     public ResponseEntity<OrdersResponse> getOrders() {
         List<Order> orders = getOrdersFromUser.getOrdersFromUser(this.getUserFromJwt().getId());
+        List<Order> ordersShared = getOrdersFromUser.getOrdersFromUserInvited(this.getUserFromJwt().getUsername());
+        orders.addAll(ordersShared);
 
         var mappedOrders = orders
                 .stream()
@@ -85,8 +87,13 @@ public class OrderController extends BaseController {
 		updateOrderUC.updateStatusOrder(orderId, this.getUserFromJwt().getId(), OrderStatus.CLOSED);
 		return ResponseEntity.ok().body(new Response());
     }
+    
+	@PatchMapping(path = "/{orderId}/users",  produces = "application/json", consumes = "application/json")
+    public ResponseEntity<OrderResponse> updateOrderForShared(@PathVariable("orderId") String orderId) {
+		return ResponseEntity.ok().body(new OrderResponse(updateOrderUC.updateOrderForShared(orderId, this.getUserFromJwt().getUsername())));
+    }
 	
-	@PatchMapping(path = "/{orderId}/items/{itemId}", produces = "application/json", consumes = "application/json"  )
+	@PatchMapping(path = "/{orderId}/items/{itemId}", produces = "application/json", consumes = "application/json")
     public ResponseEntity<Response> updateItemOrder(@RequestBody UpdateQuantity quantity, @PathVariable("orderId") String orderId, @PathVariable("itemId") String itemId) {
 		updateItemOrderUC.updateItemOrder(orderId, itemId, quantity.getQuantity());
 		return ResponseEntity.ok().body(new Response());

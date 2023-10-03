@@ -1,6 +1,6 @@
 import { useReducer } from "react"
 import { OrdersReducer } from "../reducers/OrdersReducer"
-import { createOrder, findOrders } from "../services/OrdersService"
+import { createOrder, findOrders, updateOrderShared } from "../services/OrdersService"
 import { Order } from "../interfaces/Order"
 import { OrderRequest } from "../interfaces/OrderRequest"
 import { AlertError, AlertOk } from "../components/SweetAlert"
@@ -29,7 +29,8 @@ export const UseOrders = () => {
   }
 
   const handleCreateOrder = async(order: OrderRequest) => {
-    createOrder(order)
+    if(!order.id) {
+      createOrder(order)
       .then(response => {
         dispatch({
           type: 'UPDATE_ORDERS',
@@ -38,7 +39,15 @@ export const UseOrders = () => {
         AlertOk('Pedido', 'El pedido se creó correctamente');
       })
       .catch(e => AlertError('Pedido', 'Ocurrió un error al crear el pedido', e));
+    } else {
+      updateOrderShared(order.id)
+      .then(() => {
+        AlertOk('Pedido', 'El pedido se agrego correctamente');
+      })
+      .catch((e) => AlertError('Pedido', 'Ocurrió un error al actualizar el pedido', e));
 
+    }
+    
   }
 
   return {

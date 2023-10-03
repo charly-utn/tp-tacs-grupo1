@@ -1,12 +1,10 @@
 package org.tptacs.infraestructure.repositories;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Repository;
 import org.tptacs.domain.entities.User;
 import org.tptacs.infraestructure.repositories.interfaces.IUserRepository;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 
 @Repository
 public class UserRepositority extends FileRepository<User> implements IUserRepository {
@@ -37,4 +35,9 @@ public class UserRepositority extends FileRepository<User> implements IUserRepos
 	public Long countUserUnique() {
 		return (long) values().size();
 	}
+
+	public void update(User user) {
+		super.replace(user.getId(), user);
+	}
+
 }

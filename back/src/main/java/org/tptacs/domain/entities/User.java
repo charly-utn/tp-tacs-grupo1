@@ -1,16 +1,19 @@
 package org.tptacs.domain.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.Getter;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.tptacs.domain.enums.OrderStatus;
 import org.tptacs.domain.enums.Rol;
 import org.tptacs.infraestructure.config.CustomAuthorityDeserializer;
 
-import java.util.Collection;
-import java.util.List;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import lombok.Getter;
 
 @Getter
 public class User implements UserDetails {
@@ -24,6 +27,7 @@ public class User implements UserDetails {
     private boolean accountNonExpired = true;
     private boolean credentialsNonExpired = true;
     private boolean accountNonLocked = true;
+    private List<String> orderShared = new LinkedList<String>();
 
     public User(String id, String username, String email, String password) {
         this.id = id;
@@ -61,4 +65,19 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+    
+    public void addOrderShared(String orderId) {
+    	if(this.getOrderShared().contains(orderId)) {
+    		//TODO
+    	}else{
+    		//    public Order(String id, String userId, String name, List<ItemOrder> item, OrderStatus status) {
+    		this.getOrderShared().add(orderId);
+    	}
+    }
+    
+    public List<String> getOrderShared(){
+    	return this.orderShared != null ? this.orderShared : new LinkedList<String>();
+    }
+    
+    
 }

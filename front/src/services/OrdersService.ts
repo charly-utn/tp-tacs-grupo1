@@ -34,3 +34,7 @@ export const updateQuantity = async (orderId: string, itemId: string, quantity: 
 export const updateOrder = async (orderId: string) => {
   return instance.patch(`${endpoint}/${orderId}`, {orderId})
 }
+
+export const updateOrderShared = async (orderId: string) => {
+  return instance.patch(`${endpoint}/${orderId}/users`, {orderId})
+}
