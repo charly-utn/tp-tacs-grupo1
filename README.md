@@ -1,18 +1,31 @@
 # TP - TACS - GRUPO 1
 
-## Ejecución de spring con Docker
-
-1) Para buildear la imagen:
+## Ejecución con Docker
+Para levantar la aplicacion tanto de back como de front:
+1. Ir al proyecto correspondiente
+```bash
+cd front
+# or
+cd back
+```
+2. Buildear la imagen
 ```bash
 docker build -t <tag_name>:<version> .
 ```
 
-2) Ejecutar el contenedor
+3. Ejecutar el contenedor
 ```bash
-docker run --rm --name <container_name> <tag_name>:<version>
+docker run --rm -p HOST_PORT:CONTAINER_PORT --name <container_name> <tag_name>:<version>
 ```
 
+El **back** expone el puerto 8080 y el **front** el puerto 3000
+
 Nota: Si no se especifica ninguna version, por default es latest
+
+## Ejecución con Docker Compose
+```bash
+docker-compose up
+```
 
 ## Arquitectura del proyecto
 El proyecto sigue una arquitectura basada en Domain Driven Design (DDD), que se organiza en cuatro capas clave: Dominio, Aplicación, Infraestructura y Presentación.
