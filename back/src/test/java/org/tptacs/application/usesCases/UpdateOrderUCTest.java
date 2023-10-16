@@ -9,6 +9,7 @@ import org.tptacs.domain.entities.Item;
 import org.tptacs.domain.entities.ItemOrder;
 import org.tptacs.domain.entities.Order;
 import org.tptacs.domain.enums.OrderStatus;
+import org.tptacs.infraestructure.repositories.PedidoRepository;
 import org.tptacs.infraestructure.repositories.interfaces.IOrderRepository;
 import org.tptacs.infraestructure.repositories.interfaces.IUserRepository;
 
@@ -27,6 +28,9 @@ public class UpdateOrderUCTest {
 
     @Mock
     private IOrderRepository orderRepository;
+    
+    @Mock
+    private PedidoRepository pedido;
 
     @BeforeEach
     public void setUp() {

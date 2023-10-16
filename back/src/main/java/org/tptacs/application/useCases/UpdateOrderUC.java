@@ -15,7 +15,8 @@ import org.tptacs.infraestructure.repositories.interfaces.IUserRepository;
 public class UpdateOrderUC {
     private final IOrderRepository orderRepository;
     private final IUserRepository userRepository;
-
+   
+    
 	public UpdateOrderUC(IOrderRepository orderRepository, IUserRepository userRepository) {
 		this.orderRepository = orderRepository;
 		this.userRepository = userRepository;
@@ -38,4 +39,5 @@ public class UpdateOrderUC {
 		userRepository.update(userInvited.get());
 		return orderDB;
 	}
+
 }

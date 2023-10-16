@@ -1,21 +1,40 @@
 package org.tptacs.presentation.controllers;
 
+import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.tptacs.application.useCases.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.tptacs.application.useCases.AddItemToOrderUC;
+import org.tptacs.application.useCases.CreadorPedidosUC;
+import org.tptacs.application.useCases.CreateOrderUC;
+import org.tptacs.application.useCases.GetItemsFromOrderUC;
+import org.tptacs.application.useCases.GetOrdersFromUser;
+import org.tptacs.application.useCases.RemoveItemFromOrderUC;
+import org.tptacs.application.useCases.UpdateItemOrderUC;
+import org.tptacs.application.useCases.UpdateOrderUC;
 import org.tptacs.domain.entities.Order;
 import org.tptacs.domain.enums.OrderStatus;
 import org.tptacs.presentation.dto.OrderDto;
 import org.tptacs.presentation.requestModels.ItemOrderRequest;
 import org.tptacs.presentation.requestModels.OrderRequest;
 import org.tptacs.presentation.requestModels.UpdateQuantity;
-import org.tptacs.presentation.responseModels.*;
+import org.tptacs.presentation.responseModels.ItemResponse;
+import org.tptacs.presentation.responseModels.ItemsResponse;
+import org.tptacs.presentation.responseModels.OrderResponse;
+import org.tptacs.presentation.responseModels.OrdersResponse;
+import org.tptacs.presentation.responseModels.Response;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-
-import java.net.URI;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @Tag(name = "Orders")
@@ -29,6 +48,9 @@ public class OrderController extends BaseController {
     private final UpdateOrderUC updateOrderUC;
     private final UpdateItemOrderUC updateItemOrderUC;
     private final GetOrdersFromUser getOrdersFromUser;
+    
+    @Autowired
+    private CreadorPedidosUC creadorPedidosUC;
 
     public OrderController(CreateOrderUC createOrderUC,
                            AddItemToOrderUC addItemToOrderUC,
@@ -50,9 +72,12 @@ public class OrderController extends BaseController {
     @PostMapping(produces = "application/json", consumes = "application/json")
     public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderRequest orderRequest) {
     	orderRequest.assignUserId(this.getUserFromJwt().getId());
-        Order order = createOrderUC.createOrder(orderRequest);
+    	//Order order = createOrderUC.createOrder(orderRequest);
+    	Order order = new Order("123","12","name", List.of(),OrderStatus.NEW);
         URI location = URI.create("/items?order_id=" + order.getId());
-        return ResponseEntity.created(location).body(new OrderResponse(order, "201", "Resource successfully created"));
+        //(String id, String userId, String name, List<ItemOrder> item, OrderStatus status) {
+        creadorPedidosUC.createPedido();
+    	return ResponseEntity.created(location).body(new OrderResponse(order, "201", "Resource successfully created"));
     }
 
     @PostMapping(path = "/{orderId}/items", produces = "application/json", consumes = "application/json")
