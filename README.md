@@ -54,6 +54,47 @@ Al navegar la url `localhost:8080/swagger`, se carga la pantalla de Swagger que 
 ## Datos de test
 Para hacer pruebas, el repositorio de items es inicializado con tres items con id "abcd", "defg" y "hijk"
 
+
+# Proyecto Spring Boot con MongoDB
+
+Este repositorio contiene un proyecto Spring Boot que utiliza MongoDB como base de datos. A continuación, se proporcionan instrucciones paso a paso para instalar MongoDB y configurar el proyecto.
+
+## Instalación de MongoDB
+
+### Paso 1: Descargar e Instalar MongoDB
+
+1. Ve al sitio web oficial de MongoDB para descargar la versión adecuada para tu sistema operativo: [MongoDB Download Center](https://www.mongodb.com/try/download/community).
+
+2. Sigue las instrucciones de instalación para tu sistema operativo. En la mayoría de los casos, deberás seguir un asistente de instalación para completar el proceso.
+
+### Paso 2: Iniciar el Servicio MongoDB
+
+1. Una vez instalado MongoDB, asegúrate de que el servicio MongoDB se esté ejecutando. Puedes hacerlo iniciando el servicio de MongoDB en tu sistema. En sistemas Unix, puedes usar el siguiente comando:
+
+   ```bash
+   sudo service mongod start
+```
+En sistemas Windows, puedes ejecutar el siguiente comando:
+   ```bash 
+   mongod
+```
+### Paso 3: Crear una Base de Datos MongoDB
+Abre una terminal o línea de comandos y ejecuta el cliente de MongoDB usando el siguiente comando:
+   ```bash
+   mongo
+```
+Crea una nueva base de datos y una colección para tu proyecto. Por ejemplo, para crear una base de datos llamada "tacs" y una colección llamada "prueba", puedes usar los siguientes comandos:
+```bash 
+use tacs
+db.createCollection("prueba")
+```
+o en su defecto usar compass y crear la db tacs
+
+
+
+
+
+
 ## Collection de postman
 <details>
 <summary>Mostrar JSON</summary>
@@ -445,4 +486,3 @@ Para hacer pruebas, el repositorio de items es inicializado con tres items con i
 }
 </details>
 ```
-
