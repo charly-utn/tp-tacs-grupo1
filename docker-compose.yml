@@ -11,9 +11,8 @@ services:
     restart: always
     depends_on:
       - backend
-    networks:
-      - front-end
-      - back-end
+    # networks:
+    #   - front-end
 
   backend:
     image: backend
@@ -25,11 +24,38 @@ services:
     ports:
       - 8080:8080
     restart: always
-    #depends_on:
-      #- db
-    networks:
-      - back-end
+    depends_on:
+      - db
+    network_mode: host
+    # networks:
+    #   - front-end
+    #   - back-end
 
-networks:
-  back-end:
-  front-end:
+  db:
+    image: mongodb/mongodb-community-server
+    container_name: db_container
+    ports:
+      - 27017:27017
+    restart: always
+    # networks:
+    #   - back-end
+    #   - interface
+
+  mongo-interface:
+    image: mongo-express
+    container_name: mongo_interface_container
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=localhost
+      - ME_CONFIG_MONGODB_PORT=27017
+    ports:
+      - 8081:8081
+    depends_on:
+      - db
+    network_mode: host
+    # networks:
+    #   - interface
+
+# networks:
+#   back-end:
+#   front-end:
+#   interface:
