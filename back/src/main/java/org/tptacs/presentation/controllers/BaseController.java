@@ -1,10 +1,10 @@
 package org.tptacs.presentation.controllers;
 
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.tptacs.domain.entities.UserOld;
+import org.tptacs.domain.entities.User;
 
 public class BaseController {
-    public UserOld getUserFromJwt() {
-        return (UserOld) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public User getUserFromJwt() {
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

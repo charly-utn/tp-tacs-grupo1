@@ -8,13 +8,14 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.tptacs.domain.enums.Rol;
 
 import lombok.Getter;
 
 @Getter
 @Document(collection = "users")
-public class User {
+public class User implements UserDetails {
 	@Id
     private String id;
     private String username;
@@ -28,9 +29,9 @@ public class User {
     private boolean accountNonLocked = true;
     private List<String> orderShared = new LinkedList<String>();
     
-	public User(String id, String userName, String email, String password) {
+	public User(String id, String username, String email, String password) {
         this.id = id;
-        this.username = userName;
+        this.username = username;
         this.email = email;
         this.password = password;
         this.authorities = List.of(new SimpleGrantedAuthority(Rol.BASIC.name()));
@@ -42,4 +43,10 @@ public class User {
 		else orderShared = List.of(id);
 		
 	}
+
+	@Override
+	public String getUsername() {
+		return this.username;
+	}
+
 }

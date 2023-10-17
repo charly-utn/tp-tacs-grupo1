@@ -17,7 +17,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @Tag(name = "Users")
-@RequestMapping(value = "/v2/api/users", produces = "application/json", consumes = "application/json")
+@RequestMapping(value = "/api/users", produces = "application/json", consumes = "application/json")
 public class UserController {
 
     private final LoginUserUC loginUserUC;

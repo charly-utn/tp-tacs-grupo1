@@ -13,21 +13,21 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.tptacs.application.useCases.AddItemToOrderUC;
-import org.tptacs.application.useCases.CreateOrderUC;
-import org.tptacs.application.useCases.GetItemsFromOrderUC;
-import org.tptacs.application.useCases.RemoveItemFromOrderUC;
-import org.tptacs.application.useCases.UpdateItemOrderUC;
-import org.tptacs.application.useCases.UpdateOrderUC;
-import org.tptacs.domain.entities.OrderOld;
-import org.tptacs.domain.entities.UserOld;
+import org.tptacs.application.useCases.AddItemToOrderUseCase;
+import org.tptacs.application.useCases.CreatorOrderUseCase;
+import org.tptacs.application.useCases.GetItemFromOrderUseCase;
+import org.tptacs.application.useCases.RemoveItemFromOrderUseCase;
+import org.tptacs.application.useCases.UpdateItemOrderUseCase;
+import org.tptacs.application.useCases.UpdateOrderUseCase;
+import org.tptacs.domain.entities.Order;
+import org.tptacs.domain.entities.User;
 import org.tptacs.domain.enums.OrderStatus;
 import org.tptacs.presentation.requestModels.ItemOrderRequest;
 import org.tptacs.presentation.requestModels.OrderRequest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@WebMvcTest(OrderControllerOld.class)
+@WebMvcTest(OrderController.class)
 public class OrderControllerTest {
 
     @Autowired
@@ -37,22 +37,22 @@ public class OrderControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private CreateOrderUC createOrderUC;
+    private CreatorOrderUseCase createOrderUC;
 
     @MockBean
-    private AddItemToOrderUC addItemToOrderUC;
+    private AddItemToOrderUseCase addItemToOrderUC;
 
     @MockBean
-    private GetItemsFromOrderUC getItemsFromOrderUC;
+    private GetItemFromOrderUseCase getItemsFromOrderUC;
     
     @MockBean
-    private UpdateOrderUC updateOrderUC;
+    private UpdateOrderUseCase updateOrderUC;
     
     @MockBean
-    private UpdateItemOrderUC updateItemOrderUC;
+    private UpdateItemOrderUseCase updateItemOrderUC;
     
     @MockBean
-    private RemoveItemFromOrderUC removeItemFromOrderUC;
+    private RemoveItemFromOrderUseCase removeItemFromOrderUC;
     
     @MockBean
     private BaseController baseController;
@@ -60,9 +60,9 @@ public class OrderControllerTest {
     @BeforeEach
     void setUp() {
         Mockito.when(createOrderUC.createOrder(Mockito.any(OrderRequest.class)))
-        	.thenReturn(new OrderOld("123","1","OrderName",List.of(),OrderStatus.NEW)); 
+        	.thenReturn(new Order("123","1","OrderName",List.of(),OrderStatus.NEW)); 
         Mockito.when(baseController.getUserFromJwt())
-        	.thenReturn(new UserOld("1","userTest","email@email.com","UnPasswordMuySeguro1234")); 
+        	.thenReturn(new User("1","userTest","email@email.com","UnPasswordMuySeguro1234")); 
     }
 
     @Test

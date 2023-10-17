@@ -1,34 +1,37 @@
 package org.tptacs.application.useCases.bff;
 
-import org.springframework.stereotype.Service;
-import org.tptacs.domain.entities.ItemOld;
-import org.tptacs.domain.entities.ItemOrderOld;
-import org.tptacs.infraestructure.repositories.interfaces.IItemsRepository;
-import org.tptacs.infraestructure.repositories.interfaces.IOrderRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.tptacs.domain.entities.ItemOrder;
+import org.tptacs.domain.entities.Product;
+import org.tptacs.infraestructure.repositories.OrderRepository;
+import org.tptacs.infraestructure.repositories.ProductRepository;
 
 @Service
 public class GetProductsWithOrder {
-    private final IItemsRepository itemsRepository;
-    private final IOrderRepository orderRepository;
+    
+	@Autowired
+	private ProductRepository productRepository;
+    
+	@Autowired
+	private OrderRepository orderRepository;
 
-    public GetProductsWithOrder(IItemsRepository itemsRepository, IOrderRepository orderRepository) {
-        this.itemsRepository = itemsRepository;
-        this.orderRepository = orderRepository;
-    }
-    public List<ItemOrderOld> getProductsWithOrder(String orderId) {
-        var items = itemsRepository.getAll();
-        if (orderId == null) return items.stream().map(i -> new ItemOrderOld(i, 0L)).toList();
+    public List<ItemOrder> getProductsWithOrder(String orderId) {
+        var items = productRepository.findAll();
+        if (orderId == null) return items.stream().map(i -> new ItemOrder(i, 0L)).toList();
 
-        var order = this.orderRepository.get(orderId);
-        var itemsInOrder = order.findItemsOrder(items.stream().map(ItemOld::getId).toList());
+        var order = orderRepository.findById(orderId);
+        var itemsInOrder = order.get().findItemsOrder(items.stream().map(Product::getId).toList());
 
         var itemsOutOfOrder = items.stream()
-                .filter(i -> !itemsInOrder.stream().map(ItemOrderOld::getItem).toList().contains(i))
-                .map(i -> new ItemOrderOld(i,0L)).toList();
+                .filter(i -> !itemsInOrder.stream().map(ItemOrder::getProduct).toList().contains(i))
+                .map(i -> new ItemOrder(i,0L)).collect(Collectors.toList());
 
-        var result = new ArrayList<ItemOrderOld>();
+        var result = new ArrayList<ItemOrder>();
         result.addAll(itemsInOrder);
         result.addAll(itemsOutOfOrder);
         return result;

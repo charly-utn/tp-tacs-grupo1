@@ -1,14 +1,13 @@
 package org.tptacs.presentation.responseModels;
 
+import java.time.LocalDateTime;
+
+import org.tptacs.domain.entities.Order;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import java.time.LocalDateTime;
-
-import org.tptacs.domain.entities.Order;
-import org.tptacs.domain.entities.OrderOld;
 
 public class OrderResponse extends Response{
 
