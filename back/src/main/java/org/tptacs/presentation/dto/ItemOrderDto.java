@@ -2,22 +2,26 @@ package org.tptacs.presentation.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 public class ItemOrderDto {
-	
-	@JsonProperty("item")
+	private String id;
     private ItemDto item;
-	@JsonProperty("quantity")
-    private Long quantity;
+	private String userId;
+	private Long total;
+	private Long quantity;
 	
 	@JsonCreator
-	public ItemOrderDto(ItemDto item, Long quantity) {
+	public ItemOrderDto(String userId, ItemDto item, Long quantity, Long total) {
+		this.userId = userId;
+		this.id = UUID.randomUUID().toString();
 		this.item = item;
 		this.quantity = quantity;
+		this.total = total;
 	}
-	
 }

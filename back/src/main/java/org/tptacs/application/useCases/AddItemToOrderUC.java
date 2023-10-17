@@ -16,7 +16,7 @@ public class AddItemToOrderUC {
         this.orderRepository = orderRepository;
     }
 
-    public void addItemToOrder(String orderId, ItemOrderRequest orderRequest) {
+    public void addItemToOrder(String orderId, ItemOrderRequest orderRequest, String userId) {
         var order = this.orderRepository.get(orderId);
         
         var item = order.getItems().stream().filter( i -> i.getItem().getId().equals(orderRequest.getId())).findFirst();
@@ -24,7 +24,7 @@ public class AddItemToOrderUC {
                 existingItem -> existingItem.updateQuantity(existingItem.getQuantity() + orderRequest.getQuantity()),
                 () -> {
                     var newItem = this.itemsRepository.get(orderRequest.getId());
-                    var itemOrder = new ItemOrder(newItem, orderRequest.getQuantity());
+                    var itemOrder = new ItemOrder(userId, newItem, orderRequest.getQuantity());
                     order.addItem(itemOrder);
                 }
             );

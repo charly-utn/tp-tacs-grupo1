@@ -50,14 +50,14 @@ public class OrderController extends BaseController {
     @PostMapping(produces = "application/json", consumes = "application/json")
     public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderRequest orderRequest) {
     	orderRequest.assignUserId(this.getUserFromJwt().getId());
-        Order order = createOrderUC.createOrder(orderRequest);
+        Order order = createOrderUC.createOrder(orderRequest, getUserFromJwt().getId());
         URI location = URI.create("/items?order_id=" + order.getId());
         return ResponseEntity.created(location).body(new OrderResponse(order, "201", "Resource successfully created"));
     }
 
     @PostMapping(path = "/{orderId}/items", produces = "application/json", consumes = "application/json")
     public ResponseEntity<ItemResponse> createItem(@RequestBody ItemOrderRequest itemOrderRequest, @PathVariable("orderId") String orderID) {
-        addItemToOrderUC.addItemToOrder(orderID, itemOrderRequest);
+        addItemToOrderUC.addItemToOrder(orderID, itemOrderRequest, getUserFromJwt().getId());
         return ResponseEntity.ok().body(new ItemResponse(itemOrderRequest.getId()));
     }
 
