@@ -1,14 +1,14 @@
 package org.tptacs.infraestructure.repositories.interfaces;
 
-import org.tptacs.domain.entities.Order;
+import org.tptacs.domain.entities.OrderOld;
 
 import java.util.List;
 
 public interface IOrderRepository {
-    void save(Order order);
-    Order get(String id);
+    void save(OrderOld order);
+    OrderOld get(String id);
     void exists(String id);
-    void update(Order order);
+    void update(OrderOld order);
     Long count();
-    List<Order> getOrdersFromUser(String userId);
+    List<OrderOld> getOrdersFromUser(String userId);
 }

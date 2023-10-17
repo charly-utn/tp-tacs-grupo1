@@ -1,7 +1,7 @@
 package org.tptacs.application.useCases;
 
 import org.springframework.stereotype.Service;
-import org.tptacs.domain.entities.ItemOrder;
+import org.tptacs.domain.entities.ItemOrderOld;
 import org.tptacs.infraestructure.repositories.interfaces.IOrderRepository;
 
 @Service

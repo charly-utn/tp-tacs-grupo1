@@ -1,8 +1,9 @@
 package org.tptacs.infraestructure.repositories;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.tptacs.domain.entities.Order;
+import org.tptacs.domain.entities.User;
 
-public interface OrderRepository extends MongoRepository<Order, String> {
+public interface UserRepository extends MongoRepository<User, String> {
 
 }
+

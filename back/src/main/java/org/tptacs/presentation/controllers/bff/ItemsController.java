@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.tptacs.application.useCases.GetItemsFromOrderUC;
 import org.tptacs.application.useCases.bff.GetProductsWithOrder;
-import org.tptacs.domain.entities.ItemOrder;
+import org.tptacs.domain.entities.ItemOrderOld;
 import org.tptacs.presentation.controllers.BaseController;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public class ItemsController extends BaseController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<ItemOrder>> getProducts(@RequestParam(value = "order_id", required = false) String orderId) {
+    public ResponseEntity<List<ItemOrderOld>> getProducts(@RequestParam(value = "order_id", required = false) String orderId) {
         return ResponseEntity.ok(getProductsWithOrder.getProductsWithOrder(orderId));
     }
 }

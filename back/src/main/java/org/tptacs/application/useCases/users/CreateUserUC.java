@@ -3,7 +3,7 @@ package org.tptacs.application.useCases.users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.tptacs.domain.entities.User;
+import org.tptacs.domain.entities.UserOld;
 import org.tptacs.domain.exceptions.RegistrationException;
 import org.tptacs.infraestructure.repositories.interfaces.IUserRepository;
 import org.tptacs.presentation.requestModels.CreateUserRequest;
@@ -29,7 +29,7 @@ public class CreateUserUC {
         if (userNameOptional.isPresent()) throw new RegistrationException("user already exists");
         if (emailOptional.isPresent()) throw new RegistrationException("email already exists");
 
-        User user = new User(UUID.randomUUID().toString(), createUserRequest.getUserName(),
+        UserOld user = new UserOld(UUID.randomUUID().toString(), createUserRequest.getUserName(),
                 createUserRequest.getEmail(),
                 encoder.encode(createUserRequest.getPassword()));
 

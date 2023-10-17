@@ -1,7 +1,7 @@
 package org.tptacs.application.dto;
 
-import org.tptacs.domain.entities.Item;
-import org.tptacs.domain.entities.Order;
+import org.tptacs.domain.entities.ItemOld;
+import org.tptacs.domain.entities.OrderOld;
 
 import java.math.BigDecimal;
 
@@ -12,7 +12,7 @@ public class ItemsWithOrderDTO {
     private Long quantity;
     private String picture;
 
-    public ItemsWithOrderDTO(Long quantity, Item item) {
+    public ItemsWithOrderDTO(Long quantity, ItemOld item) {
         this.id = item.getId();
         this.name = item.getName();
         this.price = item.getPrice();

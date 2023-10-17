@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-import org.tptacs.domain.entities.ItemOrder;
+import org.tptacs.domain.entities.ItemOrderOld;
 import org.tptacs.infraestructure.repositories.interfaces.IOrderRepository;
 
 import jakarta.validation.ValidationException;
@@ -17,7 +17,7 @@ public class GetItemsFromOrderUC {
         this.orderRepository = orderRepository;
     }
 
-    public List<ItemOrder> getItemsFromOrder(String orderId) {
+    public List<ItemOrderOld> getItemsFromOrder(String orderId) {
         var order = this.orderRepository.get(orderId);
         return order.getItems();
     }

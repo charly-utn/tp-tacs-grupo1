@@ -8,7 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.tptacs.application.security.JwtUtils;
-import org.tptacs.domain.entities.User;
+import org.tptacs.domain.entities.UserOld;
 import org.tptacs.domain.enums.Rol;
 import org.tptacs.infraestructure.repositories.interfaces.IUserRepository;
 import org.tptacs.presentation.requestModels.LoginRequest;
@@ -35,7 +35,7 @@ public class LoginUserUC {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
 
-        User userDetails = (User) authentication.getPrincipal();
+        UserOld userDetails = (UserOld) authentication.getPrincipal();
         Rol rol = Rol.valueOf(Objects.requireNonNull(userDetails.getAuthorities().stream().findFirst().orElse(null)).getAuthority());
 
         return new LoginResponse(jwt,

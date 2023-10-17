@@ -8,20 +8,20 @@ import org.tptacs.presentation.dto.ItemDto;
 import lombok.Getter;
 
 @Getter
-public class Item {
+public class ItemOld {
     private String id;
     private String name;
     private BigDecimal price;
     private String picture;
 
-    public Item(String id, String name, BigDecimal price, String picture) {
+    public ItemOld(String id, String name, BigDecimal price, String picture) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.picture = picture;
     }
 
-    private Item() {}
+    private ItemOld() {}
 
 	public ItemDto toDto() {
 		ItemDto itemDto = new ItemDto(id, name, price, picture);
@@ -32,7 +32,7 @@ public class Item {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Item item = (Item) o;
+        ItemOld item = (ItemOld) o;
         return Objects.equals(id, item.id);
     }
 

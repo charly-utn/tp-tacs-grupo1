@@ -7,10 +7,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
 
-import org.tptacs.domain.entities.Order;
 import org.tptacs.domain.entities.OrderOld;
 
-public class OrderResponse extends Response{
+public class OrderResponseOld extends Response{
 
 	
 	@Schema(description = "idientifier of order")
@@ -34,7 +33,7 @@ public class OrderResponse extends Response{
     private boolean userId;
 
 	@JsonCreator
-    public OrderResponse(Order order, String code, String message) {
+    public OrderResponseOld(OrderOld order, String code, String message) {
 		super(code, message, LocalDateTime.now());
 		this.id = order.getId();
 		this.name = order.getName();
@@ -42,7 +41,7 @@ public class OrderResponse extends Response{
 		this.status = order.getStatus().name();
     }
 
-	public OrderResponse(Order order) {
+	public OrderResponseOld(OrderOld order) {
 		super();
 		this.id = order.getId();
 		this.name = order.getName();

@@ -1,12 +1,12 @@
 package org.tptacs.infraestructure.repositories.interfaces;
 
-import org.tptacs.domain.entities.Item;
+import org.tptacs.domain.entities.ItemOld;
 
 import java.util.List;
 
 public interface IItemsRepository {
-    void save(Item item);
-    Item get(String id);
+    void save(ItemOld item);
+    ItemOld get(String id);
     void exists(String id);
-    List<Item> getAll();
+    List<ItemOld> getAll();
 }

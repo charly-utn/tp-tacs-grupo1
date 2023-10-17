@@ -13,11 +13,11 @@ import org.tptacs.presentation.responseModels.LoginResponse;
 @RestController
 @Tag(name = "Users")
 @RequestMapping(value = "/api/users", produces = "application/json", consumes = "application/json")
-public class UserController {
+public class UserControllerOld {
     private final CreateUserUC createUserUC;
     private final LoginUserUC loginUserUC;
 
-    public UserController(CreateUserUC createUserUC, LoginUserUC loginUserUC) {
+    public UserControllerOld(CreateUserUC createUserUC, LoginUserUC loginUserUC) {
         this.createUserUC = createUserUC;
         this.loginUserUC = loginUserUC;
     }

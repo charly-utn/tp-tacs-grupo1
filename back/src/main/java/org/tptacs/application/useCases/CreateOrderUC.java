@@ -1,8 +1,8 @@
 package org.tptacs.application.useCases;
 
 import org.springframework.stereotype.Service;
-import org.tptacs.domain.entities.ItemOrder;
-import org.tptacs.domain.entities.Order;
+import org.tptacs.domain.entities.ItemOrderOld;
+import org.tptacs.domain.entities.OrderOld;
 import org.tptacs.domain.enums.OrderStatus;
 import org.tptacs.infraestructure.repositories.interfaces.IItemsRepository;
 import org.tptacs.infraestructure.repositories.interfaces.IOrderRepository;
@@ -21,13 +21,13 @@ public class CreateOrderUC {
         this.orderRepository = orderRepository;
     }
 
-    public Order createOrder(OrderRequest orderRequest) {
+    public OrderOld createOrder(OrderRequest orderRequest) {
         var items = orderRequest.getItems().stream().map(ior -> {
             var item = this.itemsRepository.get(ior.getId());
-            return new ItemOrder(item, ior.getQuantity());
+            return new ItemOrderOld(item, ior.getQuantity());
         }).collect(Collectors.toList());
 
-        var order = new Order(UUID.randomUUID().toString(), orderRequest.getUserId(), orderRequest.getName(), items, OrderStatus.NEW);
+        var order = new OrderOld(UUID.randomUUID().toString(), orderRequest.getUserId(), orderRequest.getName(), items, OrderStatus.NEW);
         this.orderRepository.save(order);
         return order;
     }

@@ -5,11 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.tptacs.application.useCases.UpdateOrderUC;
-import org.tptacs.domain.entities.Item;
-import org.tptacs.domain.entities.ItemOrder;
-import org.tptacs.domain.entities.Order;
+import org.tptacs.domain.entities.ItemOld;
+import org.tptacs.domain.entities.ItemOrderOld;
+import org.tptacs.domain.entities.OrderOld;
 import org.tptacs.domain.enums.OrderStatus;
-import org.tptacs.infraestructure.repositories.PedidoRepository;
+import org.tptacs.infraestructure.repositories.OrderRepository;
 import org.tptacs.infraestructure.repositories.interfaces.IOrderRepository;
 import org.tptacs.infraestructure.repositories.interfaces.IUserRepository;
 
@@ -30,7 +30,7 @@ public class UpdateOrderUCTest {
     private IOrderRepository orderRepository;
     
     @Mock
-    private PedidoRepository pedido;
+    private OrderRepository pedido;
 
     @BeforeEach
     public void setUp() {
@@ -42,7 +42,7 @@ public class UpdateOrderUCTest {
     @Test
     @Disabled
     public void testUpdateStatusOrderWithValidData() {
-    	Order orderDB = new Order("order123", "1", "", List.of(new ItemOrder(new Item("abc","name",new BigDecimal(100), ""),1L)),OrderStatus.NEW);
+    	OrderOld orderDB = new OrderOld("order123", "1", "", List.of(new ItemOrderOld(new ItemOld("abc","name",new BigDecimal(100), ""),1L)),OrderStatus.NEW);
 
         when(orderRepository.get("order123")).thenReturn(orderDB);
 
@@ -56,7 +56,7 @@ public class UpdateOrderUCTest {
     @Test
     @Disabled
     public void testUpdateStatusOrderWithInvalidData() {
-    	Order orderDB = new Order("order1235", "1", "", List.of(new ItemOrder(new Item("abc","name",new BigDecimal(100), ""),1L)),OrderStatus.NEW);
+    	OrderOld orderDB = new OrderOld("order1235", "1", "", List.of(new ItemOrderOld(new ItemOld("abc","name",new BigDecimal(100), ""),1L)),OrderStatus.NEW);
     	
         when(orderRepository.get("order1235")).thenReturn(orderDB);
 
@@ -70,7 +70,7 @@ public class UpdateOrderUCTest {
     @Test
     @Disabled
     public void testUpdateStatusOrderWithNonExistingOrder() {
-    	Order orderDB = new Order("order123", "1", "", List.of(new ItemOrder(new Item("abc","name",new BigDecimal(100), ""),1L)),OrderStatus.NEW);
+    	OrderOld orderDB = new OrderOld("order123", "1", "", List.of(new ItemOrderOld(new ItemOld("abc","name",new BigDecimal(100), ""),1L)),OrderStatus.NEW);
     
         when(orderRepository.get("order123")).thenReturn(null);
 
@@ -78,6 +78,6 @@ public class UpdateOrderUCTest {
         
         assertThat(orderDB.getStatus()).isEqualTo(OrderStatus.NEW); // Estado no se ha actualizado
 
-        verify(orderRepository, never()).save(any(Order.class));
+        verify(orderRepository, never()).save(any(OrderOld.class));
     }
 }

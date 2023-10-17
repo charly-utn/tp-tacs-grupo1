@@ -19,15 +19,15 @@ import org.tptacs.application.useCases.GetItemsFromOrderUC;
 import org.tptacs.application.useCases.RemoveItemFromOrderUC;
 import org.tptacs.application.useCases.UpdateItemOrderUC;
 import org.tptacs.application.useCases.UpdateOrderUC;
-import org.tptacs.domain.entities.Order;
-import org.tptacs.domain.entities.User;
+import org.tptacs.domain.entities.OrderOld;
+import org.tptacs.domain.entities.UserOld;
 import org.tptacs.domain.enums.OrderStatus;
 import org.tptacs.presentation.requestModels.ItemOrderRequest;
 import org.tptacs.presentation.requestModels.OrderRequest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@WebMvcTest(OrderController.class)
+@WebMvcTest(OrderControllerOld.class)
 public class OrderControllerTest {
 
     @Autowired
@@ -60,9 +60,9 @@ public class OrderControllerTest {
     @BeforeEach
     void setUp() {
         Mockito.when(createOrderUC.createOrder(Mockito.any(OrderRequest.class)))
-        	.thenReturn(new Order("123","1","OrderName",List.of(),OrderStatus.NEW)); 
+        	.thenReturn(new OrderOld("123","1","OrderName",List.of(),OrderStatus.NEW)); 
         Mockito.when(baseController.getUserFromJwt())
-        	.thenReturn(new User("1","userTest","email@email.com","UnPasswordMuySeguro1234")); 
+        	.thenReturn(new UserOld("1","userTest","email@email.com","UnPasswordMuySeguro1234")); 
     }
 
     @Test

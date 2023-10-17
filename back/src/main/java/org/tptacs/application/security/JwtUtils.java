@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.tptacs.domain.entities.User;
+import org.tptacs.domain.entities.UserOld;
 import org.tptacs.domain.exceptions.AuthenticationException;
 
 @Component
@@ -22,7 +22,7 @@ public class JwtUtils {
 
     public String generateJwtToken(Authentication authentication) {
 
-        User userPrincipal = (User) authentication.getPrincipal();
+        UserOld userPrincipal = (UserOld) authentication.getPrincipal();
 
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))

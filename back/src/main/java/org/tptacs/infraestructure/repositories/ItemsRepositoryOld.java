@@ -10,24 +10,24 @@ import java.util.stream.Collectors;
 
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Repository;
-import org.tptacs.domain.entities.Item;
+import org.tptacs.domain.entities.ItemOld;
 import org.tptacs.domain.exceptions.ResourceNotFoundException;
 import org.tptacs.infraestructure.repositories.interfaces.IItemsRepository;
 
 @Repository
-public class ItemsRepository extends FileRepository<Item> implements IItemsRepository {
-    public ItemsRepository() {
-        super(ItemsRepository.class.getSimpleName(), Item.class);
+public class ItemsRepositoryOld extends FileRepository<ItemOld> implements IItemsRepository {
+    public ItemsRepositoryOld() {
+        super(ItemsRepositoryOld.class.getSimpleName(), ItemOld.class);
         if (count() == 0) {
             loadMockData();
         }
     }
 
-    public void save(Item item) {
+    public void save(ItemOld item) {
         super.put(item.getId(), item);
     }
 
-    public Item get(String id) {
+    public ItemOld get(String id) {
         var item = super.get(id);
         if (item == null) throw new ResourceNotFoundException(id, "item");
         return item;
@@ -39,7 +39,7 @@ public class ItemsRepository extends FileRepository<Item> implements IItemsRepos
     }
 
     @Override
-    public List<Item> getAll() {
+    public List<ItemOld> getAll() {
         return values();
     }
 
@@ -47,7 +47,7 @@ public class ItemsRepository extends FileRepository<Item> implements IItemsRepos
     private void loadMockData() {
         var path = getRepositoryPath("/mocks/ItemsData.json");
         var file = new File(path);
-        List<Item> itemsMock = objectMapper.readValue(file, objectMapper.getTypeFactory().constructCollectionType(List.class, Item.class));
+        List<ItemOld> itemsMock = objectMapper.readValue(file, objectMapper.getTypeFactory().constructCollectionType(List.class, ItemOld.class));
         itemsMock.forEach(this::save);
     }
 }

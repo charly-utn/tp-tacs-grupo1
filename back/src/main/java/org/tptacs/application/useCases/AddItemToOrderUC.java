@@ -1,7 +1,7 @@
 package org.tptacs.application.useCases;
 
 import org.springframework.stereotype.Service;
-import org.tptacs.domain.entities.ItemOrder;
+import org.tptacs.domain.entities.ItemOrderOld;
 import org.tptacs.infraestructure.repositories.interfaces.IItemsRepository;
 import org.tptacs.infraestructure.repositories.interfaces.IOrderRepository;
 import org.tptacs.presentation.requestModels.ItemOrderRequest;
@@ -24,7 +24,7 @@ public class AddItemToOrderUC {
                 existingItem -> existingItem.updateQuantity(existingItem.getQuantity() + orderRequest.getQuantity()),
                 () -> {
                     var newItem = this.itemsRepository.get(orderRequest.getId());
-                    var itemOrder = new ItemOrder(newItem, orderRequest.getQuantity());
+                    var itemOrder = new ItemOrderOld(newItem, orderRequest.getQuantity());
                     order.addItem(itemOrder);
                 }
             );
