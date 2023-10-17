@@ -12,7 +12,7 @@ import org.tptacs.presentation.responseModels.LoginResponse;
 
 @RestController
 @Tag(name = "Users")
-@RequestMapping(value = "/api/users", produces = "application/json", consumes = "application/json")
+@RequestMapping(value = "/v1/api/users", produces = "application/json", consumes = "application/json")
 public class UserControllerOld {
     private final CreateUserUC createUserUC;
     private final LoginUserUC loginUserUC;

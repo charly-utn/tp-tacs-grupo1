@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.tptacs.application.useCases.AddItemToOrderUseCase;
 import org.tptacs.application.useCases.CreatorOrderUseCase;
 import org.tptacs.application.useCases.GetItemFromOrderUseCase;
+import org.tptacs.application.useCases.GetOrdersFromUserUseCase;
+import org.tptacs.application.useCases.RemoveItemFromOrderUseCase;
+import org.tptacs.application.useCases.UpdateItemOrderUseCase;
+import org.tptacs.application.useCases.UpdateOrderUseCase;
 import org.tptacs.domain.entities.Order;
-import org.tptacs.domain.entities.OrderOld;
 import org.tptacs.domain.enums.OrderStatus;
 import org.tptacs.presentation.dto.OrderDto;
 import org.tptacs.presentation.requestModels.ItemOrderRequest;
@@ -26,9 +29,7 @@ import org.tptacs.presentation.requestModels.OrderRequest;
 import org.tptacs.presentation.requestModels.UpdateQuantity;
 import org.tptacs.presentation.responseModels.ItemResponse;
 import org.tptacs.presentation.responseModels.ItemsResponse;
-import org.tptacs.presentation.responseModels.ItemsResponseOld;
 import org.tptacs.presentation.responseModels.OrderResponse;
-import org.tptacs.presentation.responseModels.OrderResponseOld;
 import org.tptacs.presentation.responseModels.OrdersResponse;
 import org.tptacs.presentation.responseModels.Response;
 
@@ -47,7 +48,19 @@ public class OrderController extends BaseController {
     
     @Autowired
     private GetItemFromOrderUseCase getItemFromORderUseCase;
+    
+    @Autowired
+    private GetOrdersFromUserUseCase getOrdersFromUserUseCase;
+    
+    @Autowired
+    private UpdateOrderUseCase updateOrderUseCase;
+    
+    @Autowired
+    private UpdateItemOrderUseCase updateItemOrderUseCase;
 
+    @Autowired
+    private RemoveItemFromOrderUseCase removeItemFromOrderUseCase;
+    
     @PostMapping(produces = "application/json", consumes = "application/json")
     public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderRequest orderRequest) {
     	orderRequest.assignUserId(this.getUserFromJwt().getId());
@@ -69,8 +82,8 @@ public class OrderController extends BaseController {
 
     @GetMapping(path = "", produces = "application/json")
     public ResponseEntity<OrdersResponse> getOrders() {
-        List<OrderOld> orders = getOrdersFromUser.getOrdersFromUser(this.getUserFromJwt().getId());
-        List<OrderOld> ordersShared = getOrdersFromUser.getOrdersFromUserInvited(this.getUserFromJwt().getUsername());
+        List<Order> orders = getOrdersFromUserUseCase.getOrdersFromUser(this.getUserFromJwt().getId());
+        List<Order> ordersShared = getOrdersFromUserUseCase.getOrdersFromUserInvited(this.getUserFromJwt().getId());
         orders.addAll(ordersShared);
 
         var mappedOrders = orders
@@ -83,28 +96,28 @@ public class OrderController extends BaseController {
                 .body(new OrdersResponse(mappedOrders));
     }
     
-//	@PatchMapping(path = "/{orderId}",  produces = "application/json", consumes = "application/json")
-//    public ResponseEntity<Response> updateOrder(@PathVariable("orderId") String orderId) {
-//		updateOrderUC.updateStatusOrder(orderId, this.getUserFromJwt().getId(), OrderStatus.CLOSED);
-//		return ResponseEntity.ok().body(new Response());
-//    }
-//    
-//	@PatchMapping(path = "/{orderId}/users",  produces = "application/json", consumes = "application/json")
-//    public ResponseEntity<OrderResponseOld> updateOrderForShared(@PathVariable("orderId") String orderId) {
-//		return ResponseEntity.ok().body(new OrderResponseOld(updateOrderUC.updateOrderForShared(orderId, this.getUserFromJwt().getUsername())));
-//    }
-//	
-//	@PatchMapping(path = "/{orderId}/items/{itemId}", produces = "application/json", consumes = "application/json")
-//    public ResponseEntity<Response> updateItemOrder(@RequestBody UpdateQuantity quantity, @PathVariable("orderId") String orderId, @PathVariable("itemId") String itemId) {
-//		updateItemOrderUC.updateItemOrder(orderId, itemId, quantity.getQuantity());
-//		return ResponseEntity.ok().body(new Response());
-//    }
-//
-//
-//    @DeleteMapping("/{orderId}/items/{itemId}")
-//    public ResponseEntity<Response> removeItem(@PathVariable("orderId") String orderID, @PathVariable("itemId") String itemID) {
-//        removeItemFromOrderUC.removeItemFromOrder(orderID, itemID);
-//		return ResponseEntity.ok().body(new Response());
-//    }
+	@PatchMapping(path = "/{orderId}",  produces = "application/json", consumes = "application/json")
+    public ResponseEntity<Response> updateOrder(@PathVariable("orderId") String orderId) {
+		updateOrderUseCase.updateStatusOrder(orderId, this.getUserFromJwt().getId(), OrderStatus.CLOSED);
+		return ResponseEntity.ok().body(new Response());
+    }
+    
+	@PatchMapping(path = "/{orderId}/users",  produces = "application/json", consumes = "application/json")
+    public ResponseEntity<OrderResponse> updateOrderForShared(@PathVariable("orderId") String orderId) {
+		return ResponseEntity.ok().body(new OrderResponse(updateOrderUseCase.updateOrderForShared(orderId, this.getUserFromJwt().getId())));
+    }
+	
+	@PatchMapping(path = "/{orderId}/items/{itemId}", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<Response> updateItemOrder(@RequestBody UpdateQuantity quantity, @PathVariable("orderId") String orderId, @PathVariable("itemId") String itemId) {
+		updateItemOrderUseCase.updateItemOrder(orderId, itemId, quantity.getQuantity());
+		return ResponseEntity.ok().body(new Response());
+    }
+
+
+    @DeleteMapping("/{orderId}/items/{itemId}")
+    public ResponseEntity<Response> removeItem(@PathVariable("orderId") String orderID, @PathVariable("itemId") String itemID) {
+        removeItemFromOrderUseCase.removeItemFromOrder(orderID, itemID);
+		return ResponseEntity.ok().body(new Response());
+    }
 
 }

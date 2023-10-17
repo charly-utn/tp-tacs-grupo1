@@ -3,11 +3,15 @@ package org.tptacs.domain.entities;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.tptacs.domain.enums.OrderStatus;
+import org.tptacs.domain.exceptions.NotFoundException;
+import org.tptacs.domain.exceptions.ResourceNotFoundException;
 
+import jakarta.validation.ValidationException;
 import lombok.Getter;
 
 @Getter
@@ -38,9 +42,44 @@ public class Order {
 	}
 
 	public void addItem(ItemOrder itemOrder) {
-		if (this.items != null) this.items.add(itemOrder);
+        this.lastUpdate = LocalDateTime.now();
+		if (this.items != null) this.items.add(itemOrder); 
 		else this.items = List.of(itemOrder);
 	}
+	
+	public void updateStatus(OrderStatus status) {
+		if(this.getStatus().equals(status)) {
+			throw new ValidationException("El pedido no se puede cambiar al mismo estado");
+		}
+		this.lastUpdate = LocalDateTime.now();
+		this.status = status;	
+	}
+	
+    public void addUserInvited(String userName) {
+    	if(this.getUsersInvited().contains(userName)) {
+    		//TODO tiene sentido pensar que esta volviendo a agregar el mismo id? tiramos un error?
+    	}else {
+    		this.getUsersInvited().add(userName);
+    	}
+    }
+
+	public ItemOrder getItemFromOrder(String productId) {
+        Optional<ItemOrder> itemOp = this.items.stream().filter(item -> item.getProduct().getId().equals(productId)).findFirst();
+        if(itemOp.isEmpty()) throw new NotFoundException("El item buscado no existe en este pedido", "Item Order");
+        return itemOp.get();	}
+
+	public void updateItemOrder(ItemOrder item) {
+        Optional<ItemOrder> itemOp = this.items.stream().filter( i -> i.getProduct().getId().equals(item.getProduct().getId())).findFirst();
+        if (itemOp.isEmpty()) throw new NotFoundException("Debe agregar el item al pedido antes de actualizarlo", "Item Order");
+        itemOp.get().updateQuantity(item.getQuantity());
+	}
+
+	public void removeItem(Product item) {
+        var result = this.items.removeIf(io -> io.getProduct().getId().equals(item.getId()));
+        this.lastUpdate = LocalDateTime.now();
+        if(!result) throw new ResourceNotFoundException(item.getId(), "item");		
+	}
+
   
 	
     
