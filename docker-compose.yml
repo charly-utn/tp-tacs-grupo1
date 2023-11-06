@@ -6,6 +6,8 @@ services:
     container_name: front_container
     build:
       context: front
+    environment:
+      - REACT_APP_API_URL=${REACT_APP_API_URL}
     ports:
       - 80:80
     restart: always
