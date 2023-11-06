@@ -11,8 +11,8 @@ services:
     restart: always
     depends_on:
       - backend
-    # networks:
-    #   - front-end
+    networks:
+      - front-end
 
   backend:
     image: backend
@@ -21,15 +21,15 @@ services:
       context: back
     environment:
       - JWT_SECRET=${JWT_SECRET}
+      - DB_HOST_NAME=mongo
     ports:
       - 8080:8080
     restart: always
     depends_on:
       - db
-    network_mode: host
-    # networks:
-    #   - front-end
-    #   - back-end
+    networks:
+      - front-end
+      - back-end
 
   db:
     image: mongodb/mongodb-community-server
@@ -37,25 +37,25 @@ services:
     ports:
       - 27017:27017
     restart: always
-    # networks:
-    #   - back-end
-    #   - interface
+    hostname: mongo
+    networks:
+      - back-end
+      - interface
 
   mongo-interface:
     image: mongo-express
     container_name: mongo_interface_container
     environment:
-      - ME_CONFIG_MONGODB_SERVER=localhost
+      - ME_CONFIG_MONGODB_SERVER=mongo
       - ME_CONFIG_MONGODB_PORT=27017
     ports:
       - 8081:8081
     depends_on:
       - db
-    network_mode: host
-    # networks:
-    #   - interface
+    networks:
+      - interface
 
-# networks:
-#   back-end:
-#   front-end:
-#   interface:
+networks:
+  back-end:
+  interface:
+  front-end:
