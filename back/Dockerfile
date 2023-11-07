@@ -1,7 +1,7 @@
 FROM maven:3.8-openjdk-17-slim as builder
 
-COPY . /tp-tacs
 WORKDIR /tp-tacs
+COPY . .
 RUN mvn package -DskipTests
 
 FROM eclipse-temurin:17-jre-alpine
