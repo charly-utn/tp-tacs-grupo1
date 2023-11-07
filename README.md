@@ -20,13 +20,14 @@ docker run --rm --name mongo -p 27017:27017 -e MONGODB_INITDB_ROOT_USERNAME=${MO
 	docker build -t backend .
 	# or
 	docker build -t frontend .
+	docker build -t frontend --build-arg REACT_APP_API_URL=${REACT_APP_API_URL} .
 	```
 
 	3. Ejecutar el contenedor
 	```bash
 	docker run --rm -p 8080:8080 --name back_container -e JWT_SECRET=${JWT_SECRET} -e MONGO_USERNAME=${MONGO_USERNAME} -e MONGO_PASSWORD=${MONGO_PASSWORD} -e MONGO_HOST=${MONGO_HOST} -e MONGO_PORT=${MONGO_PORT} --network host backend
 	# or
-	docker run --rm -p 80:80 --name front_container -e REACT_APP_API_URL=${REACT_APP_API_URL} frontend
+	docker run --rm -p 3000:80 --name front_container frontend
 	```
 
 3. (Opcional) Interface de Mongodb: Usuario y contraseña por default admin:pass
