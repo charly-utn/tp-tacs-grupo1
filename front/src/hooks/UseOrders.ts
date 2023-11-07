@@ -41,7 +41,11 @@ export const UseOrders = () => {
       .catch(e => AlertError('Pedido', 'Ocurrió un error al crear el pedido', e));
     } else {
       updateOrderShared(order.id)
-      .then(() => {
+      .then(response => {
+        dispatch({
+          type: 'UPDATE_ORDERS',
+          payload: response.data.orderId
+        });
         AlertOk('Pedido', 'El pedido se agrego correctamente');
       })
       .catch((e) => AlertError('Pedido', 'Ocurrió un error al actualizar el pedido', e));
