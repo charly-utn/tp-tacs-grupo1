@@ -3,21 +3,19 @@ package org.tptacs.presentation.requestModels;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ItemOrderRequest {
-	@JsonProperty("id")
     private String id;
-	@JsonProperty("quantity")
     private Long quantity;
+    private String userId;
 	
-    @JsonCreator
-    public ItemOrderRequest(
-            @JsonProperty("id") String id,
-            @JsonProperty("quantity") Long quantity) {
+    public ItemOrderRequest(String id, Long quantity) {
         this.id = id;
         this.quantity = quantity;
     }
-	
 }

@@ -6,6 +6,8 @@ import org.tptacs.domain.entities.ItemOrder;
 import org.tptacs.infraestructure.repositories.interfaces.IItemsRepository;
 import org.tptacs.infraestructure.repositories.interfaces.IOrderRepository;
 import org.tptacs.presentation.dto.ItemOrderDto;
+import org.tptacs.presentation.requestModels.ItemOrderRequest;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,19 +25,24 @@ public class GetProductsWithOrder {
     }
     public List<ItemOrderDto> getProductsWithOrder(String orderId, String userId) {
         var items = itemsRepository.getAll();
-        if (orderId == null) return items.stream().map(i -> new ItemOrderDto(null, i.toDto(), 0L, 0L)).toList();
+        if (orderId == null) return items.stream().map(i -> new ItemOrderDto(null, null, i.toDto(), 0L, 0L)).toList();
 
         var order = this.orderRepository.get(orderId);
         var itemsInOrder = order.findItemsOrder(items.stream().map(Item::getId).toList());
 
         var totalByItem = itemsInOrder.stream().collect(groupingBy(ItemOrder::getItemId, summingLong(ItemOrder::getQuantity)));
 
-        var itemsInOrderWithTotal = itemsInOrder.stream().distinct()
-                .map(i -> new ItemOrderDto(userId, i.getItem().toDto(), i.getQuantity(), totalByItem.get(i.getItemId()))).toList();
+        var itemsInOrderWithTotal = itemsInOrder.stream()
+                .map(i -> {
+                    if (totalByItem.containsKey(i.getItemId())) {
+                        return new ItemOrderDto(i.getId(), userId, i.getItem().toDto(), i.getQuantity(), totalByItem.get(i.getItemId()));
+                    }
+                    return new ItemOrderDto(null, null, i.getItem().toDto(), i.getQuantity(), totalByItem.get(i.getItemId()));
+                }).toList();
 
         var itemsOutOfOrder = items.stream()
                 .filter(i -> !itemsInOrder.stream().map(ItemOrder::getItem).toList().contains(i))
-                .map(i -> new ItemOrderDto(null, i.toDto(),0L, 0L)).toList();
+                .map(i -> new ItemOrderDto(null,null, i.toDto(),0L, 0L)).toList();
 
         var result = new ArrayList<ItemOrderDto>();
         result.addAll(itemsInOrderWithTotal);

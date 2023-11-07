@@ -1,6 +1,7 @@
 import { AxiosResponse } from "axios";
 import { OrderRequest } from "../interfaces/OrderRequest";
 import { instance } from "./BaseClient";
+import { getUser } from "../helpers/UserHelper";
 
 
 const endpoint = 'orders'
@@ -20,14 +21,17 @@ export const createOrder = async(order: OrderRequest): Promise<AxiosResponse<{or
 }
 
 export const addItem = async (orderId: string, itemId: string, quantity: number) => {
-  return instance.post(`${endpoint}/${orderId}/items`, {id: itemId, quantity: quantity})
+  const user = getUser();
+  return instance.post(`${endpoint}/${orderId}/items`, {id: itemId, quantity: quantity, userId: user.userId})
 }
 
 export const removeItem = async (orderId: string, itemId: string) => {
+  const user = getUser();
   return instance.delete(`${endpoint}/${orderId}/items/${itemId}`)
 }
 
 export const updateQuantity = async (orderId: string, itemId: string, quantity: number) => {
+  const user = getUser();
   return instance.patch(`${endpoint}/${orderId}/items/${itemId}`, {quantity})
 }
 

@@ -32,7 +32,7 @@ public class ItemOrder {
     }
     
     public ItemOrderDto toDto() {
-    	ItemOrderDto resItem = new ItemOrderDto(userId, item.toDto(), quantity, 0L);
+    	ItemOrderDto resItem = new ItemOrderDto(id, userId, item.toDto(), quantity, 0L);
     	return resItem;
     }
 
@@ -46,7 +46,8 @@ public class ItemOrder {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ItemOrder itemOrder = (ItemOrder) o;
-        return Objects.equals(item, itemOrder.item);
+        return (Objects.equals(this.item.getId(), itemOrder.getItem().getId()) && Objects.equals(this.userId, itemOrder.getUserId()))
+                || Objects.equals(id, itemOrder.getId());
     }
 
     @Override

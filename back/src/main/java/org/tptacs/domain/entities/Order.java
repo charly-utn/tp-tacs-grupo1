@@ -59,7 +59,7 @@ public class Order {
 
     public List<ItemOrder> findItemsOrder(List<String> itemIds) {
         return this.getItems().stream()
-                .filter(i -> itemIds.contains(i.getItem().getId())).toList();
+                .filter(i -> itemIds.contains(i.getItemId())).toList();
     }
 
     public void updateItemOrder(ItemOrder itemOrder) {

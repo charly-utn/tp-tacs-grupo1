@@ -17,9 +17,9 @@ public class ItemOrderDto {
 	private Long quantity;
 	
 	@JsonCreator
-	public ItemOrderDto(String userId, ItemDto item, Long quantity, Long total) {
+	public ItemOrderDto(String id, String userId, ItemDto item, Long quantity, Long total) {
 		this.userId = userId;
-		this.id = UUID.randomUUID().toString();
+		this.id = id;
 		this.item = item;
 		this.quantity = quantity;
 		this.total = total;
