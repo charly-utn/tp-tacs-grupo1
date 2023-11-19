@@ -26,11 +26,14 @@ public class LoginUserEventHandler extends EventHandler<LoginUserEvent> {
             user.setJwt(response.getToken());
             bot.sendText(event.getUserId(), "Login exitoso - token: " + response.getToken());
             message = user.getLastStep().resetStep(event.getUserId()).getMessage();
+            bot.sendText(event.getUserId(), message);
         } catch (RestException e) {
             bot.sendText(event.getUserId(), "Error al iniciar sesión: " + e.getMessage());
-            message = user.getLastStep().logoutUser(event.getUserId()).getMessage();
+            bot.sendText(event.getUserId(), user.getLastStep().logoutUser(event.getUserId()).getMessage());
+        } catch (Exception e) {
+            bot.sendText(event.getUserId(), "Ocurrió un error inesperado al intentar iniciar sesión");
+            bot.sendText(event.getUserId(), user.getLastStep().logoutUser(event.getUserId()).getMessage());
         }
-        bot.sendText(event.getUserId(), message);
     }
 
     @Override
