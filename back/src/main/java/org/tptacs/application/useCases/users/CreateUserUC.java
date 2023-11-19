@@ -1,8 +1,10 @@
 package org.tptacs.application.useCases.users;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.tptacs.application.events.UserCreatedEvent;
 import org.tptacs.domain.entities.User;
 import org.tptacs.domain.exceptions.RegistrationException;
 import org.tptacs.infraestructure.repositories.interfaces.IUserRepository;
@@ -14,9 +16,10 @@ import java.util.UUID;
 @Service
 public class CreateUserUC {
     private final IUserRepository userRepository;
-
     @Autowired
     private PasswordEncoder encoder;
+    @Autowired
+    private ApplicationEventPublisher publisher;
 
     public CreateUserUC(IUserRepository userRepository) {
         this.userRepository = userRepository;
@@ -34,6 +37,10 @@ public class CreateUserUC {
                 encoder.encode(createUserRequest.getPassword()));
 
         this.userRepository.save(user);
+
+        var userCreatedEvent = new UserCreatedEvent(this);
+        this.publisher.publishEvent(userCreatedEvent);
+
         return new ResponseCreateUser(user.getId());
     }
 }
