@@ -11,6 +11,8 @@ import org.tptacs.infraestructure.repositories.interfaces.IItemsRepository;
 import org.tptacs.infraestructure.repositories.interfaces.IOrderRepository;
 import org.tptacs.presentation.requestModels.OrderRequest;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -27,10 +29,13 @@ public class CreateOrderUC {
     }
 
     public Order createOrder(OrderRequest orderRequest) {
-        var items = orderRequest.getItems().stream().map(ior -> {
-            var item = this.itemsRepository.get(ior.getId());
-            return new ItemOrder(item, ior.getQuantity());
-        }).collect(Collectors.toList());
+        var items = Collections.EMPTY_LIST;
+        if (orderRequest.getItems() != null) {
+            items = orderRequest.getItems().stream().map(ior -> {
+                var item = this.itemsRepository.get(ior.getId());
+                return new ItemOrder(item, ior.getQuantity());
+            }).collect(Collectors.toList());
+        }
 
         var order = new Order(UUID.randomUUID().toString(), orderRequest.getUserId(), orderRequest.getName(), items, OrderStatus.NEW);
         this.orderRepository.save(order);

@@ -20,5 +20,16 @@
             <artifactId>telegrambots</artifactId>
             <version>6.0.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.28</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.9.3</version> <!-- Versión más reciente al momento -->
+        </dependency>
     </dependencies>
 </project>

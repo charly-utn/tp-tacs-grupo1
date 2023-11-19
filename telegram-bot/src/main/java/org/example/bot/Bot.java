@@ -1,5 +1,10 @@
-package org.example;
+package org.example.bot;
 
+import org.example.entities.User;
+import org.example.exceptions.InvalidOptionException;
+import org.example.repositories.UserRepository;
+import org.example.steps.InitStep;
+import org.example.steps.LoginStep;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -20,12 +25,28 @@ public class Bot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         var msg = update.getMessage();
         var user = msg.getFrom();
-        sendText(user.getId(), msg.getText());
+        analyzeText(user.getId(), update);
 
         System.out.println(user.getFirstName() + " wrote " + msg.getText() );
     }
 
-    public void sendText(Long who, String what){
+    private void analyzeText(Long who, Update update){
+        var user = UserRepository.get(who);
+        if (user == null) {
+            user = new User(who);
+            user.addStep(new LoginStep());
+            UserRepository.saveOrUpdate(user);
+        }
+
+        try {
+            sendText(who, user.getLastStep().executeStep(update));
+        } catch (InvalidOptionException e) {
+            sendText(who, e.getMessage());
+        }
+
+    }
+
+    public void sendText(Long who, String what) {
         SendMessage sm = SendMessage.builder()
                 .chatId(who.toString())
                 .text(what).build();
