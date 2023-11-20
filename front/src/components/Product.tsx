@@ -24,13 +24,14 @@ const defaultItemOrder: ItemOrder = {
 export const Product = (itemOrder: ItemOrder = defaultItemOrder ) => {
 
   const [quantity, setQuantity] = useState(itemOrder.quantity);
-  const [total, setTtoal] = useState(itemOrder.total);
+  const [total, setTotal] = useState(itemOrder.total);
   const [debounceActive, setDebounceActive] = useState(false);
   const queryString = window.location.search;
   const orderId = new URLSearchParams(queryString).get('order_id');
 
   useEffect(() => {
       setQuantity(itemOrder.quantity)
+      setTotal(itemOrder.total)
   }, [itemOrder])
   
 
