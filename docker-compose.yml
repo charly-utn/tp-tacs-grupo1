@@ -13,41 +13,21 @@ services:
     ports:
       - 3000:80
     restart: always
-    depends_on:
-      - backend
     networks:
       - front-end
 
-  backend:
-    image: backend
-    container_name: back_container
-    build:
-      context: back
-    environment:
-      - JWT_SECRET=${JWT_SECRET}
-      - MONGO_HOST=${MONGO_HOST}
-      - MONGO_PORT=${MONGO_PORT}
-      - MONGO_USERNAME=${MONGO_USERNAME}
-      - MONGO_PASSWORD=${MONGO_PASSWORD}
-    ports:
-      - 8080:8080
-    restart: always
-    depends_on:
-      - db
-    networks:
-      - front-end
-      - back-end
+
 
   db:
     image: mongodb/mongodb-community-server
     container_name: db_container
     environment:
-      - MONGODB_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
-      - MONGODB_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+      - MONGODB_INITDB_ROOT_USERNAME=admin
+      - MONGODB_INITDB_ROOT_PASSWORD=12345
     ports:
-      - ${MONGO_PORT}:${MONGO_PORT}
+      - 27017:27017
     restart: always
-    hostname: ${MONGO_HOST}
+    hostname: mongo
     networks:
       - back-end
       - interface
@@ -56,13 +36,25 @@ services:
     image: mongo-express
     container_name: mongo_interface_container
     environment:
-      - ME_CONFIG_MONGODB_URL=mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}
+      - ME_CONFIG_MONGODB_URL=mongodb://admin:12345@mongo:27017
     ports:
       - 8081:8081
     depends_on:
       - db
     networks:
       - interface
+      
+      
+  redis:
+    image: redis:6.2-alpine
+    container_name: redis_container
+    ports:
+      - 6379:6379
+    restart: always
+    hostname: redis
+    networks:
+      - interface
+
 
 networks:
   back-end:

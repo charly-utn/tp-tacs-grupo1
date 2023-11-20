@@ -1,26 +1,23 @@
 package org.tptacs.application.useCases;
 
 import org.springframework.stereotype.Service;
-import org.tptacs.infraestructure.repositories.interfaces.IOrderRepository;
-import org.tptacs.infraestructure.repositories.interfaces.IUserRepository;
+import org.tptacs.infraestructure.repositories.interfaces.IAnalyticsRepository;
 
 @Service
 public class GetAnalyticsUC {
 	
-    private final IOrderRepository orderRepository;
-    private final IUserRepository userRepository;
+    private final IAnalyticsRepository analyticsRepository;
 
-	public GetAnalyticsUC(IOrderRepository orderRepository, IUserRepository userRepository) {
-		this.orderRepository = orderRepository;
-		this.userRepository = userRepository;
+	public GetAnalyticsUC(IAnalyticsRepository analyticsRepository) {
+		this.analyticsRepository = analyticsRepository;
 	}
 	
 	public Long countOrders() {
-		return orderRepository.count();
+		return analyticsRepository.countOrders();
 	}
 	
 	public Long countUsersUnique() {
-		return userRepository.countUserUnique();
+		return analyticsRepository.countUsers();
 	}
 
 	
