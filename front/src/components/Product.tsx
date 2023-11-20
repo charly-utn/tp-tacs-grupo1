@@ -17,12 +17,14 @@ const defaultProduct: Item = {
 
 const defaultItemOrder: ItemOrder = {
   item: defaultProduct,
-  quantity: 0
+  quantity: 0,
+  total: 0
 }
 
 export const Product = (itemOrder: ItemOrder = defaultItemOrder ) => {
 
   const [quantity, setQuantity] = useState(itemOrder.quantity);
+  const [total, setTtoal] = useState(itemOrder.total);
   const [debounceActive, setDebounceActive] = useState(false);
   const queryString = window.location.search;
   const orderId = new URLSearchParams(queryString).get('order_id');
@@ -111,6 +113,12 @@ export const Product = (itemOrder: ItemOrder = defaultItemOrder ) => {
                   /> 
               </div>
               <button onClick={handleAddProduct} className="btn btn-success btn-block p-3 m-4"> + </button>
+              <br />
+            
+            </div>
+            <div className="alert alert-primary">
+              <strong >Total: {total} </strong> 
+              <i title="Este valor representa el total de items agregados a este pedido, tanto los tuyos como los agregados por otros participantes del pedido" className="fas fa-circle-info"></i>  
             </div>
             </> 
             : 

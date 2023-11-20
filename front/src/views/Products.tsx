@@ -78,6 +78,7 @@ export const Products = () => {
                         // price={io.item.price}
                         // picture={io.item.picture}
                         quantity={io.quantity}
+                        total = {io.total}
                         />
                 ))
             }

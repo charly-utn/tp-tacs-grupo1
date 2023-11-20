@@ -102,7 +102,7 @@ public class OrderController extends BaseController {
 
     @DeleteMapping("/{orderId}/items/{itemId}")
     public ResponseEntity<Response> removeItem(@PathVariable("orderId") String orderID, @PathVariable("itemId") String itemID) {
-        removeItemFromOrderUC.removeItemFromOrder(orderID, itemID);
+        removeItemFromOrderUC.removeItemFromOrder(orderID, itemID, getUserFromJwt().getId());
 		return ResponseEntity.ok().body(new Response());
     }
 
