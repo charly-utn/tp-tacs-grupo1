@@ -13,10 +13,33 @@ services:
     ports:
       - 3000:80
     restart: always
+    depends_on:
+      - backend
     networks:
       - front-end
 
-
+  backend:
+    image: backend
+    container_name: back_container
+    build:
+      context: back
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
+      - MONGO_HOST=${MONGO_HOST}
+      - MONGO_PORT=${MONGO_PORT}
+      - MONGO_USERNAME=${MONGO_USERNAME}
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+    ports:
+      - 8080:8080
+    restart: always
+    depends_on:
+      - db
+      - redis
+    networks:
+      - front-end
+      - back-end
 
   db:
     image: mongodb/mongodb-community-server
@@ -49,9 +72,9 @@ services:
     image: redis:6.2-alpine
     container_name: redis_container
     ports:
-      - 6379:6379
+      - ${REDIS_PORT}:${REDIS_PORT}
     restart: always
-    hostname: redis
+    hostname: ${REDIS_HOST}
     networks:
       - interface
 
