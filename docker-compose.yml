@@ -45,12 +45,12 @@ services:
     image: mongodb/mongodb-community-server
     container_name: db_container
     environment:
-      - MONGODB_INITDB_ROOT_USERNAME=admin
-      - MONGODB_INITDB_ROOT_PASSWORD=12345
+      - MONGODB_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
+      - MONGODB_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
     ports:
-      - 27017:27017
+      - ${MONGO_PORT}:${MONGO_PORT}
     restart: always
-    hostname: mongo
+    hostname: ${MONGO_HOST}
     networks:
       - back-end
       - interface
@@ -59,7 +59,7 @@ services:
     image: mongo-express
     container_name: mongo_interface_container
     environment:
-      - ME_CONFIG_MONGODB_URL=mongodb://admin:12345@mongo:27017
+	- ME_CONFIG_MONGODB_URL=mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}
     ports:
       - 8081:8081
     depends_on:
