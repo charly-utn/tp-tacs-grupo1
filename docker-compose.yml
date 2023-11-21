@@ -29,11 +29,14 @@ services:
       - MONGO_PORT=${MONGO_PORT}
       - MONGO_USERNAME=${MONGO_USERNAME}
       - MONGO_PASSWORD=${MONGO_PASSWORD}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
     ports:
       - 8080:8080
     restart: always
     depends_on:
       - db
+      - redis
     networks:
       - front-end
       - back-end
@@ -56,13 +59,25 @@ services:
     image: mongo-express
     container_name: mongo_interface_container
     environment:
-      - ME_CONFIG_MONGODB_URL=mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}
+	- ME_CONFIG_MONGODB_URL=mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}
     ports:
       - 8081:8081
     depends_on:
       - db
     networks:
       - interface
+      
+      
+  redis:
+    image: redis:6.2-alpine
+    container_name: redis_container
+    ports:
+      - ${REDIS_PORT}:${REDIS_PORT}
+    restart: always
+    hostname: ${REDIS_HOST}
+    networks:
+      - interface
+
 
 networks:
   back-end:
