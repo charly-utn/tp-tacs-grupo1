@@ -28,12 +28,12 @@ public class CreateOrderUC {
         this.orderRepository = orderRepository;
     }
 
-    public Order createOrder(OrderRequest orderRequest) {
+    public Order createOrder(OrderRequest orderRequest, String userId) {
         var items = Collections.EMPTY_LIST;
         if (orderRequest.getItems() != null) {
             items = orderRequest.getItems().stream().map(ior -> {
                 var item = this.itemsRepository.get(ior.getId());
-                return new ItemOrder(item, ior.getQuantity());
+                return new ItemOrder(userId, item, ior.getQuantity());
             }).collect(Collectors.toList());
         }
 
