@@ -1,5 +1,6 @@
 package org.tptacs.presentation.controllers;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.List;
@@ -59,7 +60,7 @@ public class OrderControllerTest {
 
     @BeforeEach
     void setUp() {
-        Mockito.when(createOrderUC.createOrder(Mockito.any(OrderRequest.class)))
+        Mockito.when(createOrderUC.createOrder(any(OrderRequest.class), any()))
         	.thenReturn(new Order("123","1","OrderName",List.of(),OrderStatus.NEW)); 
         Mockito.when(baseController.getUserFromJwt())
         	.thenReturn(new User("1","userTest","email@email.com","UnPasswordMuySeguro1234")); 

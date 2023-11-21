@@ -51,15 +51,15 @@ public class Order {
 	}
 
 
-    public void removeItem(Item item){
-        var result = this.items.removeIf(io -> io.getItem().getId().equals(item.getId()));
+    public void removeItem(Item item, String userId){
+        var result = this.items.removeIf(io -> io.getItem().getId().equals(item.getId()) && io.getUserId().equals(userId));
         this.lastUpdate = LocalDateTime.now();
         if(!result) throw new ResourceNotFoundException(item.getId(), "item");
     }
 
     public List<ItemOrder> findItemsOrder(List<String> itemIds) {
         return this.getItems().stream()
-                .filter(i -> itemIds.contains(i.getItem().getId())).toList();
+                .filter(i -> itemIds.contains(i.getItemId())).toList();
     }
 
     public void updateItemOrder(ItemOrder itemOrder) {

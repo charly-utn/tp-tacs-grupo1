@@ -20,7 +20,7 @@ const OrderModal =  ({show, handleClose, productId} : {show: any, handleClose: a
   return (
 <Modal show={show} onHide={handleClose} centered>
   <Modal.Header closeButton>
-    <Modal.Title>Detalles del Producto</Modal.Title>
+    <Modal.Title>Detalles del Pedido</Modal.Title>
   </Modal.Header>
   <Modal.Body>
     <div className="container">
