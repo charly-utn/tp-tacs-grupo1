@@ -15,12 +15,12 @@ public class RemoveItemFromOrderUC {
         this.orderRepository = orderRepository;
     }
 
-    public void removeItemFromOrder(String orderId, String itemId) {
+    public void removeItemFromOrder(String orderId, String itemId, String userId) {
         var order = this.orderRepository.get(orderId);
 
         var item = this.itemsRepository.get(itemId);
 
-        order.removeItem(item);
+        order.removeItem(item, userId);
 
         this.orderRepository.update(order);
     }
