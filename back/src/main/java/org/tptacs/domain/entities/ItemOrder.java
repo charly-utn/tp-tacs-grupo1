@@ -2,6 +2,7 @@ package org.tptacs.domain.entities;
 
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.tptacs.presentation.dto.ItemOrderDto;
@@ -11,10 +12,14 @@ import lombok.Getter;
 
 @Getter
 public class ItemOrder {
+    private String id;
     private Item item;
     private Long quantity;
+    private String userId;
 
-    public ItemOrder(Item item, Long quantity) {
+    public ItemOrder(String userId, Item item, Long quantity) {
+        this.id = UUID.randomUUID().toString();
+        this.userId = userId;
         this.item = item;
         this.quantity = quantity;
     }
@@ -27,7 +32,7 @@ public class ItemOrder {
     }
     
     public ItemOrderDto toDto() {
-    	ItemOrderDto resItem = new ItemOrderDto(item.toDto(),quantity);
+    	ItemOrderDto resItem = new ItemOrderDto(id, userId, item.toDto(), quantity, 0L);
     	return resItem;
     }
 
@@ -41,11 +46,17 @@ public class ItemOrder {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ItemOrder itemOrder = (ItemOrder) o;
-        return Objects.equals(item, itemOrder.item);
+        return (Objects.equals(this.item.getId(), itemOrder.getItem().getId()) && Objects.equals(this.userId, itemOrder.getUserId()))
+                || Objects.equals(id, itemOrder.getId());
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(item);
+    }
+
+    @JsonIgnore
+    public String getItemId() {
+        return this.item.getId();
     }
 }
