@@ -31,6 +31,8 @@ services:
       - MONGO_PASSWORD=${MONGO_PASSWORD}
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
+      - REDIS_USER=${REDIS_USER}
+      - REDIS_PASS=${REDIS_PASS}
     ports:
       - 8080:8080
     restart: always

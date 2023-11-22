@@ -7,7 +7,9 @@ import org.springframework.stereotype.Repository;
 import org.tptacs.infraestructure.repositories.interfaces.IAnalyticsRepository;
 import org.tptacs.infraestructure.repositories.interfaces.IOrderRepository;
 import org.tptacs.infraestructure.repositories.interfaces.IUserRepository;
+import redis.clients.jedis.DefaultJedisClientConfig;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisClientConfig;
 
 @Repository
 public class AnalyticsRepository implements IAnalyticsRepository {
@@ -23,9 +25,16 @@ public class AnalyticsRepository implements IAnalyticsRepository {
     @Autowired
     public AnalyticsRepository(@Value("${redis.host}") String redisHost,
                                @Value("${redis.port}") int redisPort,
+                               @Value("${redis.user}") String redisUser,
+                               @Value("${redis.pass}") String redisPassword,
                                IOrderRepository orderRepository,
                                IUserRepository userRepository) {
-        jedis = new Jedis(redisHost, redisPort);
+        JedisClientConfig config = DefaultJedisClientConfig.builder()
+                .user(redisUser)
+                .password(redisPassword)
+                .build();
+        jedis = new Jedis(redisHost, redisPort, config);
+
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
         initializeCounters();
