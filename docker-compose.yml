@@ -59,14 +59,13 @@ services:
     image: mongo-express
     container_name: mongo_interface_container
     environment:
-	- ME_CONFIG_MONGODB_URL=mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}
+      - ME_CONFIG_MONGODB_URL=mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}
     ports:
       - 8081:8081
     depends_on:
       - db
     networks:
       - interface
-      
       
   redis:
     image: redis:6.2-alpine
@@ -76,7 +75,21 @@ services:
     restart: always
     hostname: ${REDIS_HOST}
     networks:
-      - interface
+      - back-end
+
+  boti:
+    image: boti
+    container_name: boti_container
+    build:
+      context: telegram-bot
+    environment:
+      - BOT_KEY=${BOT_KEY}
+    restart: always
+    depends_on:
+      - backend
+    network_mode: host
+#    networks:
+#      - back-end
 
 
 networks:

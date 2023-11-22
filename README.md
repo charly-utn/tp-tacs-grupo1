@@ -7,7 +7,12 @@
 docker run --rm --name mongo -p 27017:27017 -e MONGODB_INITDB_ROOT_USERNAME=${MONGO_USERNAME} -e MONGODB_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD} mongodb/mongodb-community-server
 ```
 
-2. Ejecución tanto de back como de front:
+2. Levantar Redis como base de datos:
+```bash
+docker run --rm --name redis_container -p 6379:6379 --hostname redis --network host redis:6.2-alpine
+```
+
+3. Ejecución tanto de back como de front:
 	1. Ir al proyecto correspondiente
 	```bash
 	cd front
@@ -19,7 +24,6 @@ docker run --rm --name mongo -p 27017:27017 -e MONGODB_INITDB_ROOT_USERNAME=${MO
 	```bash
 	docker build -t backend .
 	# or
-	docker build -t frontend .
 	docker build -t frontend --build-arg REACT_APP_API_URL=${REACT_APP_API_URL} .
 	```
 
@@ -30,7 +34,22 @@ docker run --rm --name mongo -p 27017:27017 -e MONGODB_INITDB_ROOT_USERNAME=${MO
 	docker run --rm -p 3000:80 --name front_container frontend
 	```
 
-3. (Opcional) Interface de Mongodb: Usuario y contraseña por default admin:pass
+4. Ejecutar el bot de Telegram
+	1. Ir al proyecto correspondiente
+	```bash
+	cd telegram-bot
+	```
+	2. Buildear la imagen
+	```bash
+	docker build -t boti .
+	```
+
+	3. Ejecutar el contenedor
+	```bash
+	docker run --rm --name boti_container -e BOT_KEY=${BOT_KEY} --network host boti
+	```
+
+5. (Opcional) Interface de Mongodb: Usuario y contraseña por default admin:pass
 ```bash
 docker run --rm --name mongo_interface -p 8081:8081 -e ME_CONFIG_MONGODB_URL=mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT} --network host mongo-express
 ```
