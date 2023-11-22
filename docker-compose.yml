@@ -7,9 +7,9 @@ services:
     build:
       context: front
       args:
-        - REACT_APP_API_URL=${REACT_APP_API_URL}
+        - REACT_APP_API_URL=${API_URL}
     #environment:
-      #- REACT_APP_API_URL=${REACT_APP_API_URL}
+      #- REACT_APP_API_URL=${API_URL}
     ports:
       - 3000:80
     restart: always
@@ -86,6 +86,7 @@ services:
       context: telegram-bot
     environment:
       - BOT_KEY=${BOT_KEY}
+      - API_URL=${API_URL}
     restart: always
     depends_on:
       - backend
