@@ -20,7 +20,7 @@ import org.example.exceptions.RestException;
 
 public class HttpClient {
     private OkHttpClient okHttpClient;
-    private String baseUrl="http://localhost:8080/api";
+    private String baseUrl= System.getenv("API_URL") + "/api"; //"http://localhost:8080/api";
     private MediaType mediaType;
     private ObjectMapper objectMapper;
     public HttpClient() {
